@@ -17,16 +17,11 @@ import java.io.OutputStream;
 @Slf4j
 public class GetImageServlet extends HttpServlet {
 
-    private DAO<Long, Image> imageDAO;
-
-    @Override
-    public void init() throws ServletException {
-        imageDAO=ImageDao.getInstance();
-    }
+    private final ImageDao imageDAO=ImageDao.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Image image = imageDAO.findById(Long.parseLong(req.getParameter("id"))).get();
+        Image image = imageDAO.findById(Long.parseLong(req.getParameter("id"))).orElse(null);
         resp.setContentType(image.getContentType());
         byte[] imageData = image.getBytes();
         resp.setContentLength(imageData.length);

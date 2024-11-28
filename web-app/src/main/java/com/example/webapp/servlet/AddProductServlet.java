@@ -6,7 +6,6 @@ import com.example.webapp.service.ProductService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.utils.JspHelper;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,24 +13,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet("/product/add")
-@MultipartConfig
 @Slf4j
 public class AddProductServlet extends HttpServlet {
 
-    private ProductService productService;
-
-    @Override
-    public void init() throws ServletException {
-        productService= ProductServiceImpl.getInstance();
-    }
+    private final ProductService productService=ProductServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,14 +31,15 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         Product product= Product.builder()
                 .title(req.getParameter("name"))
                 .description(req.getParameter("description"))
                 .coast(BigDecimal.valueOf(Double.parseDouble(req.getParameter("coast"))))
                 .amount(Integer.parseInt(req.getParameter("amount")))
+                .category(req.getParameter("category"))
                 .imageList(new ArrayList<>())
                 .build();
-
 
         log.info("Size of files {}", req.getParts().size());
         for (Part part : req.getParts()) {

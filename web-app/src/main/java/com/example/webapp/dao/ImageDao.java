@@ -9,12 +9,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.util.List;
 import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
-public class ImageDao implements DAO<Long,Image> {
+public class ImageDao {
 
     private final static SessionFactory sessionFactory =new Configuration().configure().buildSessionFactory();
 
@@ -23,12 +22,6 @@ public class ImageDao implements DAO<Long,Image> {
         return INSTANCE;
     }
 
-    @Override
-    public List<Image> findAll() {
-        return null;
-    }
-
-    @Override
     public Optional<Image> findById(Long id) {
         Session session=sessionFactory.openSession();
         session.beginTransaction();
@@ -37,18 +30,4 @@ public class ImageDao implements DAO<Long,Image> {
         return Optional.ofNullable(image);
     }
 
-    @Override
-    public void update(Image student) {
-
-    }
-
-    @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public void save(Image student) {
-
-    }
 }

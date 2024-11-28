@@ -17,22 +17,11 @@ import java.io.IOException;
 @WebServlet(value = "/")
 public class MainPageServlet extends HttpServlet {
 
-    private ProductService productService;
-
-    @Override
-    public void init() throws ServletException {
-        productService = ProductServiceImpl.getInstance();
-    }
-
+    private final ProductService productService=ProductServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("products",productService.findAll());
         req.getRequestDispatcher(JspHelper.getPath("index")).forward(req,resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
     }
 }

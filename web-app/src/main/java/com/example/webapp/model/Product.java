@@ -25,6 +25,7 @@ public class Product {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String description;
+    private String category;
     private int amount;
     private BigDecimal coast;
 

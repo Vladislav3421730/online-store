@@ -13,6 +13,7 @@
             align-items: center;
         }
         form {
+            height: auto;
             padding: 20px;
             margin: 20px;
             background-color: antiquewhite;
@@ -41,6 +42,11 @@
             font-size: 20px;
             color: white;
             cursor: pointer;
+            transition: all 0.2ms ease-in-out;
+        }
+        #plus-button:hover,
+        #minus-button:hover{
+            transform: scale(1.05);;
         }
     </style>
 </head>
@@ -50,6 +56,10 @@
     <form action="${pageContext.request.contextPath}/product/add" method="post" enctype="multipart/form-data">
         <label for="name" class="form-label">Введите название товара</label>
         <input class="form-control" type="text" id="name" name="name" placeholder="Название товара" required>
+
+        <label for="category" class="form-label">Введите категорию товара</label>
+        <input class="form-control" type="text" id="category" name="category" placeholder="Категория товара" required>
+
         <label for="description" class="form-label">Введите описание товара</label>
         <textarea class="form-control" id="description" name="description" required></textarea>
         <label for="amount" class="form-label">Введите доступное количество на складе</label>
@@ -62,8 +72,8 @@
                 <input type="file" accept="image/jpeg, image/png" id="file" name="file">
             </div>
             <div >
-                <button id="plus-button">+</button>
-                <button id="minus-button">-</button>
+                <button type="button" id="plus-button">+</button>
+                <button type="button" id="minus-button">-</button>
             </div>
         </div>
         <input type="submit" class="btn btn-primary mt-2" value="Добавить">
