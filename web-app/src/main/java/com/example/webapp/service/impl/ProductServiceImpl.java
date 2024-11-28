@@ -8,6 +8,8 @@ import com.example.webapp.service.ProductService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductServiceImpl implements ProductService {
 
@@ -23,6 +25,10 @@ public class ProductServiceImpl implements ProductService {
     public void save(Product product) {
         productDAO.save(product);
 
+    }
+    @Override
+    public List<Product> findAll(){
+        return productDAO.findAll();
     }
 
 

@@ -23,6 +23,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private int amount;
     private BigDecimal coast;

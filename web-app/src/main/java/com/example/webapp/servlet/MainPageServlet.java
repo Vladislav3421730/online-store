@@ -1,6 +1,8 @@
 package com.example.webapp.servlet;
 
 
+import com.example.webapp.service.ProductService;
+import com.example.webapp.service.impl.ProductServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,8 +17,17 @@ import java.io.IOException;
 @WebServlet(value = "/")
 public class MainPageServlet extends HttpServlet {
 
+    private ProductService productService;
+
+    @Override
+    public void init() throws ServletException {
+        productService = ProductServiceImpl.getInstance();
+    }
+
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("products",productService.findAll());
         req.getRequestDispatcher(JspHelper.getPath("index")).forward(req,resp);
     }
 

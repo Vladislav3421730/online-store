@@ -37,6 +37,8 @@
           <element id="library" level="project" name="Maven: org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.0" />
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.7.3" />
           <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.42.0" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:2.0.13" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-simple:2.0.7" />
         </element>
       </element>
       <element id="directory" name="META-INF">

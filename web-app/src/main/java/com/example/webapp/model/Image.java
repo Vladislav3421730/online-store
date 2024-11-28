@@ -18,7 +18,6 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long size;
     private String contentType;
     private byte[] bytes;
 

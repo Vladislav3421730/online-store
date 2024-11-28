@@ -12,17 +12,21 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/product/add")
 @MultipartConfig
+@Slf4j
 public class AddProductServlet extends HttpServlet {
 
-    private  ProductService productService;
+    private ProductService productService;
 
     @Override
     public void init() throws ServletException {
@@ -36,7 +40,6 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         Product product= Product.builder()
                 .title(req.getParameter("name"))
                 .description(req.getParameter("description"))
@@ -45,14 +48,15 @@ public class AddProductServlet extends HttpServlet {
                 .imageList(new ArrayList<>())
                 .build();
 
+
+        log.info("Size of files {}", req.getParts().size());
         for (Part part : req.getParts()) {
-            if (part.getName().equals("files") && part.getSize() > 0) {
+            if (part.getName().startsWith("file") && part.getSize() > 0) {
 
                 InputStream fileContent = part.getInputStream();
                 byte[] fileBytes = fileContent.readAllBytes();
                 Image image = Image.builder()
                         .contentType(part.getContentType())
-                        .size(part.getSize())
                         .bytes(fileBytes)
                         .build();
 
