@@ -32,9 +32,19 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "product")
     private List<Image> imageList=new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "product")
+    private List<Cart> carts=new ArrayList<>();
+
     public void addImageToList(Image image){
         imageList.add(image);
         image.setProduct(this);
     }
+
+    public void addCartToList(Cart cart){
+        carts.add(cart);
+        cart.setProduct(this);
+    }
+
+
 
 }

@@ -19,9 +19,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+@Slf4j
 @WebServlet("/product/add")
 @MultipartConfig
-@Slf4j
 public class AddProductServlet extends HttpServlet {
 
     private final ProductService productService=ProductServiceImpl.getInstance();

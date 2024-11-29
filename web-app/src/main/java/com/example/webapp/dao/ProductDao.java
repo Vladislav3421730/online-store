@@ -59,7 +59,6 @@ public class ProductDao implements DAO<Long, Product> {
         List<Predicate> predicates = new ArrayList<>();
         if(productFilterDTO.getCategory()!=null &&
                 !productFilterDTO.getCategory().isEmpty() && !productFilterDTO.getCategory().isBlank()){
-            log.info("Сработало добавление категории");
             predicates.add(cb.like(cb.lower(root.get("category")),"%"+productFilterDTO.getCategory().toLowerCase()+"%"));
         }
         if(productFilterDTO.getMinPrice()!=null){
