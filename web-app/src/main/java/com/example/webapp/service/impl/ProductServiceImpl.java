@@ -1,7 +1,6 @@
 package com.example.webapp.service.impl;
 
 
-import com.example.webapp.dao.DAO;
 import com.example.webapp.dao.ProductDao;
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;
@@ -9,8 +8,8 @@ import com.example.webapp.service.ProductService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductServiceImpl implements ProductService {
@@ -20,10 +19,11 @@ public class ProductServiceImpl implements ProductService {
         return INSTANCE;
     }
 
-    private final DAO<Long,Product> productDAO= ProductDao.getInstance();
+    private final ProductDao productDAO= ProductDao.getInstance();
 
 
     @Override
+    @Transactional
     public void save(Product product) {
         productDAO.save(product);
 
@@ -39,15 +39,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllBySearch(String word) {
-        return findAll().stream()
-                .filter(x->x.getTitle().toLowerCase().contains(word.toLowerCase()))
-                .toList();
+    public List<Product> findAllBySearch(String title) {
+        return productDAO.findAllByTitle(title);
     }
 
     @Override
     public List<Product> findAllByFilter(ProductFilterDTO productFilterDTO) {
-    return null;
+        return productDAO.findAllByFilter(productFilterDTO);
+
     }
 
 

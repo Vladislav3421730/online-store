@@ -6,6 +6,7 @@ import com.example.webapp.service.ProductService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.utils.JspHelper;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @WebServlet("/product/add")
+@MultipartConfig
 @Slf4j
 public class AddProductServlet extends HttpServlet {
 

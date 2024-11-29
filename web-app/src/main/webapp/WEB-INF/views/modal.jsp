@@ -28,22 +28,22 @@
             <div class="modal-body">
                 <form action="${pageContext.request.contextPath}/product/filter" method="get">
                     <label for="category" class="form-label">Категория</label><br>
-                    <select id="category" name="select-category">
+                    <select id="category" name="category">
                         <option selected>Выберите категорию</option>
-                        <option name="toys">Игрушки</option>
-                        <option name="manClothes">Мужская одежда</option>
-                        <option name="womanClothes">Женская одежда</option>
-                        <option name="accessories">Для дома</option>
-                        <option name="shoes">Обувь</option>
-                        <option name="tools">Инструменты</option>
-                        <option name="technic">Техника</option>
+                        <option>Игрушки</option>
+                        <option>Мужская одежда</option>
+                        <option>Женская одежда</option>
+                        <option>Для дома</option>
+                        <option>Обувь</option>
+                        <option>Инструменты</option>
+                        <option>Техника</option>
                     </select><br>
                     <label for="sort" class="form-label mt-2">Сортировать по:</label><br>
                     <select id="sort" name="sort">
                         <option selected>Выберите сортировку</option>
-                        <option name="cheap">Сначала подороже</option>
-                        <option name="expensive">Сначала подороже</option>
-                        <option name="alphabet">По алфавиту</option>
+                        <option value="cheap">Сначала подороже</option>
+                        <option value="expensive">Сначала подешевле</option>
+                        <option value="alphabet">По алфавиту</option>
                     </select><br>
                     <div class="d-flex align-items-center mt-2">
                         <div class="mt-2" style="margin-right: 10px">
@@ -55,15 +55,25 @@
                             <input type="number" step="0.1" id="maxPrice" name="maxPrice" placeholder="10000"><br>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Применить фильтры</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
-                <button type="submit" class="btn btn-primary">Применить фильтры</button>
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    const options = document.querySelectorAll('#category option');
+    options.forEach(option => {
+        if(option.hasAttribute('selected')) {
+            option.value='';
+        }
+        else {
+            option.value = option.textContent;
+        }
+    });
+</script>
 </body>
 </html>

@@ -64,8 +64,10 @@
                                         <div class="card-body">
                                             <h5 class="card-title">${product.getCoast()}</h5>
                                             <p class="card-text">${product.getTitle()}</p>
-                                            <p class="card-text">Осталось: ${product.getAmount()}</p>
+                                            ${product.getCategory()}<br>
+                                            Осталось: ${product.getAmount()}
                                         </div>
+
                                     </div>
 
                                 </div>

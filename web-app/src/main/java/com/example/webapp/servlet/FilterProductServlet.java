@@ -9,21 +9,29 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @WebServlet("/product/filter")
+@Slf4j
 public class FilterProductServlet extends HttpServlet {
 
     private final ProductService productService= ProductServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ProductFilterDTO productFilterDTO=new ProductFilterDTO(
-                req.getParameter("select-category"),
-                req.getParameter("sort"),
-                Double.parseDouble(req.getParameter("minPrice")),
-                Double.parseDouble(req.getParameter("maxPrice"))
-        );
+        ProductFilterDTO productFilterDTO=new ProductFilterDTO();
+        productFilterDTO.setCategory(req.getParameter("category"));
+        productFilterDTO.setSort(req.getParameter("sort"));
+        if(req.getParameter("minPrice")!=null && !req.getParameter("minPrice").isBlank()) {
+            productFilterDTO.setMinPrice(new BigDecimal(req.getParameter("minPrice")));
+        }
+        if(req.getParameter("maxPrice")!=null && !req.getParameter("maxPrice").isBlank()) {
+            productFilterDTO.setMaxPrice(new BigDecimal(req.getParameter("maxPrice")));
+        }
+        log.info("productFilterDTO: {}",productFilterDTO);
         req.setAttribute("products",productService.findAllByFilter(productFilterDTO));
         req.getRequestDispatcher(JspHelper.getPath("index")).forward(req,resp);
     }
