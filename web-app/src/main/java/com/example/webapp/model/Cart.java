@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "cart_of_goods")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,16 +17,18 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private int amount;
+
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
-
-    private int amount;
 
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-
-
+    public Cart(Product product) {
+        this.amount=1;
+        this.product = product;
+    }
 }

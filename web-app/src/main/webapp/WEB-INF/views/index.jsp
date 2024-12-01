@@ -9,9 +9,11 @@
             width: 7rem;
             height: 16rem;
         }
+
         .card {
             transition: all 0.3s ease-in-out;
         }
+
         .card:hover {
             transform: scale(1.05);
         }
@@ -48,7 +50,7 @@
                         <div class="row">
                             <c:forEach var="product" items="${requestScope.products}">
                                 <div class="col-lg-3 col-md-6">
-                                    <div class="card mt-2" style="width: 17rem;height: 26rem">
+                                    <div class="card mt-2" style="width: 17.5rem;height: 26rem">
                                         <a href="${pageContext.request.contextPath}/product/get?id=${product.getId()}">
                                             <c:choose>
                                                 <c:when test="${product.getImageList().isEmpty()}">
@@ -62,12 +64,14 @@
                                             </c:choose>
                                         </a>
                                         <div class="card-body">
-                                            <h5 class="card-title">${product.getCoast()}</h5>
-                                            <p class="card-text">${product.getTitle()}</p>
-                                            ${product.getCategory()}<br>
-                                            Осталось: ${product.getAmount()}
+                                            <strong>${product.getCoast()}</strong><br>
+                                            ${product.getTitle()}<br>
+                                            Осталось: ${product.getAmount()}<br>
+                                            <form action="${pageContext.request.contextPath}/user/cart/add" method="POST">
+                                                <input type="hidden" name="id" value="${product.getId()}">
+                                                <button type="submit" class="btn btn-primary w-100 mt-2 btn-block">В корзину</button>
+                                            </form>
                                         </div>
-
                                     </div>
 
                                 </div>
@@ -79,9 +83,9 @@
             </div>
             <div class="col-lg-1 col-mg-0"></div>
         </div>
-        <button class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath}/product/add'">
-            Добавить товар
-        </button>
+        <%--        <button class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath}/product/add'">--%>
+        <%--            Добавить товар--%>
+        <%--        </button>--%>
     </section>
 </div>
 </body>

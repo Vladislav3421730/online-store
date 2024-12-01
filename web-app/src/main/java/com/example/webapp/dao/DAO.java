@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface DAO<K,E> {
      List<E> findAll();
      Optional<E> findById(K id);
-     void update(E object);
+     E update(E object);
      void delete(K id);
      void save(E object);
 

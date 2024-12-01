@@ -2,6 +2,7 @@ package com.example.webapp.model;
 
 import com.example.webapp.model.enums.Role;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,9 @@ import java.util.*;
 
 
 @Entity
+@Table(name = "users")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -21,10 +24,8 @@ public class User {
 
     private String username;
     private String password;
+    @Column(unique = true)
     private String email;
-    @Transient
-    private String confirmPassword;
-
     private boolean isBun;
 
     @PrePersist
@@ -32,22 +33,19 @@ public class User {
         isBun=false;
     }
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    Set<Role> roleSet=new HashSet<>();
-
-
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
-    private List<Cart> carts=new ArrayList<>();
+    private Set<Role> roleSet=new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
-    private List<Address> addresses=new ArrayList<>();
+    private List<Cart>  carts =new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
-    private List<Order> orders=new ArrayList<>();
 
+    public void addRole(Role role){
+        roleSet.add(role);
+    }
     public boolean isAdmin(){
         return roleSet.contains(Role.ROLE_ADMIN);
     }
@@ -55,14 +53,9 @@ public class User {
         return roleSet.contains(Role.ROLE_MANAGER);
     }
 
-    private void addCartToCarts(Cart cart){
+    public void addCartToList(Cart cart){
         carts.add(cart);
         cart.setUser(this);
-    }
-
-    public void addAddressToAddresses(Address address){
-        addresses.add(address);
-        address.setUser(this);
     }
 
 }

@@ -21,7 +21,6 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductDao productDAO= ProductDao.getInstance();
 
-
     @Override
     @Transactional
     public void save(Product product) {

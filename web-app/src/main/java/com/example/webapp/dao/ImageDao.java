@@ -12,7 +12,6 @@ import org.hibernate.cfg.Configuration;
 import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Slf4j
 public class ImageDao {
 
     private final static SessionFactory sessionFactory =new Configuration().configure().buildSessionFactory();

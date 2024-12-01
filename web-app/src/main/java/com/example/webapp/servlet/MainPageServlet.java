@@ -14,7 +14,7 @@ import com.example.webapp.utils.JspHelper;
 import java.io.IOException;
 
 
-@WebServlet(value = "/")
+@WebServlet("/")
 public class MainPageServlet extends HttpServlet {
 
     private final ProductService productService=ProductServiceImpl.getInstance();

@@ -60,7 +60,7 @@
             </c:choose>
             <h4>${requestScope.product.getCoast()}</h4>
             <h5>${requestScope.product.getTitle()}</h5>
-            <p class="card-text">Категория :${requestScope.product.getCategory()}<br></p>
+            <p class="card-text">Категория: ${requestScope.product.getCategory()}<br></p>
             <p class="text-justify">${requestScope.product.getDescription()}</p>
             <p class="card-text">Осталось: ${requestScope.product.getAmount()}</p>
         </div>
