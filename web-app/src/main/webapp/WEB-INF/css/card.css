@@ -1,0 +1,12 @@
+img {
+    width: 7rem;
+    height: 16rem;
+}
+
+.card {
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}

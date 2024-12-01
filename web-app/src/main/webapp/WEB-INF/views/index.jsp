@@ -5,18 +5,7 @@
 <head>
     <title>Main page</title>
     <style>
-        img {
-            width: 7rem;
-            height: 16rem;
-        }
-
-        .card {
-            transition: all 0.3s ease-in-out;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-        }
+        <%@include file="/WEB-INF/css/card.css"%>
     </style>
 </head>
 <body>
@@ -50,7 +39,7 @@
                         <div class="row">
                             <c:forEach var="product" items="${requestScope.products}">
                                 <div class="col-lg-3 col-md-6">
-                                    <div class="card mt-2" style="width: 17.5rem;height: 26rem">
+                                    <div class="card mt-2 mb-2" style="width: 17.5rem;height: 26.5rem">
                                         <a href="${pageContext.request.contextPath}/product/get?id=${product.getId()}">
                                             <c:choose>
                                                 <c:when test="${product.getImageList().isEmpty()}">
@@ -65,11 +54,15 @@
                                         </a>
                                         <div class="card-body">
                                             <strong>${product.getCoast()}</strong><br>
-                                            ${product.getTitle()}<br>
+                                                ${product.getTitle()}<br>
+                                                ${product.getCategory()}<br>
                                             Осталось: ${product.getAmount()}<br>
-                                            <form action="${pageContext.request.contextPath}/user/cart/add" method="POST">
+                                            <form action="${pageContext.request.contextPath}/user/cart/add"
+                                                  method="POST">
                                                 <input type="hidden" name="id" value="${product.getId()}">
-                                                <button type="submit" class="btn btn-primary w-100 mt-2 btn-block">В корзину</button>
+                                                <button type="submit" class="btn btn-primary w-100 mt-1 btn-block">В
+                                                    корзину
+                                                </button>
                                             </form>
                                         </div>
                                     </div>

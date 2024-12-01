@@ -10,11 +10,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Optional;
 
 @WebServlet("/login")
+@Slf4j
 public class LoginServlet extends HttpServlet {
 
     private final UserService userService = UserServiceImpl.getInstance();
@@ -33,15 +35,19 @@ public class LoginServlet extends HttpServlet {
 
         Optional<User> user = userService.findByEmail(email);
         if (user.isEmpty() || !BCrypt.verifyer().verify(password.toCharArray(), user.get().getPassword()).verified) {
+            log.error("User authorization error {} {}, incorrect email or password",
+                    user.get().getUsername(),user.get().getPassword());
             req.setAttribute("error","Неверный email или пароль");
             req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
             return;
         }
         if(user.get().isBun()){
+            log.error("The user {}  has been banned",user.get().getEmail());
             req.setAttribute("error","Вы были забанены");
             req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
             return;
         }
+        log.info("Authorization completed successfully {}",user.get().getEmail());
         req.getSession().setAttribute("user",user.get());
         resp.sendRedirect(req.getContextPath()+ "/");
 

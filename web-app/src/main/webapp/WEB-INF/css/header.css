@@ -1,0 +1,48 @@
+.onlineShopHeaderTitle {
+    color: white;
+    font-size: 20px;
+    font-family: Arial;
+    text-align: center;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: orange;
+    padding: 2px;
+    padding-inline: 5px;
+    margin: 2px;
+    background-color: orange;
+}
+
+.image {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    background-color: #343a40;
+}
+
+.profileImage {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    background-color: white;
+    padding: 0;
+    border-style: solid;
+    border-color: white;
+    border-radius: 50%;
+}
+
+.circle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background-color: blue;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}

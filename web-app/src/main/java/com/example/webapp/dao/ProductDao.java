@@ -55,23 +55,24 @@ public class ProductDao implements DAO<Long, Product> {
         CriteriaQuery<Product> query=cb.createQuery(Product.class);
         Root<Product> root=query.from(Product.class);
         List<Predicate> predicates = new ArrayList<>();
-        if (productFilterDTO.getCategory() != null &&
-                !productFilterDTO.getCategory().isEmpty() && !productFilterDTO.getCategory().isBlank()) {
-            predicates.add(cb.like(
-                    cb.lower(cb.literal("%" + productFilterDTO.getCategory().toLowerCase() + "%")),
-                    cb.lower(root.get("category"))
-            ));
+        if(productFilterDTO.getCategory()!=null &&
+                !productFilterDTO.getCategory().isEmpty() && !productFilterDTO.getCategory().isBlank()){
+            log.info("filter category {} was added to predicates",productFilterDTO.getCategory());
+            predicates.add(cb.like(cb.lower(root.get("category")),"%"+productFilterDTO.getCategory().toLowerCase()+"%"));
         }
         if(productFilterDTO.getMinPrice()!=null){
+            log.info("filter minPrice {} was added to predicates",productFilterDTO.getMinPrice());
             predicates.add(cb.greaterThanOrEqualTo(root.get("coast"),productFilterDTO.getMinPrice()));
         }
         if(productFilterDTO.getMaxPrice()!=null){
+            log.info("filter maxPrice {} was added to predicates",productFilterDTO.getMaxPrice());
             predicates.add(cb.lessThanOrEqualTo(root.get("coast"),productFilterDTO.getMaxPrice()));
         }
         log.info("size {}",predicates.size());
         if (!predicates.isEmpty()) {
             query.where(predicates.toArray(new Predicate[predicates.size()-1]));
         }
+
         switch (productFilterDTO.getSort()){
             case "cheap"->query.orderBy(cb.desc(root.get("coast")));
             case "expensive"->query.orderBy(cb.asc(root.get("coast")));

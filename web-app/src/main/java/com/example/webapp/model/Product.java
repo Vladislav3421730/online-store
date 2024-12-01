@@ -29,7 +29,7 @@ public class Product {
     private int amount;
     private BigDecimal coast;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "product",orphanRemoval = true)
     private List<Image> imageList=new ArrayList<>();
 
     public void addImageToList(Image image){

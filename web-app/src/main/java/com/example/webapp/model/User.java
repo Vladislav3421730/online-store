@@ -39,7 +39,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<Role> roleSet=new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user",orphanRemoval = true)
     private List<Cart>  carts =new ArrayList<>();
 
 

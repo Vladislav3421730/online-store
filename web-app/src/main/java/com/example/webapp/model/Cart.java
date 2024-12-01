@@ -19,7 +19,7 @@ public class Cart {
 
     private int amount;
 
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
 

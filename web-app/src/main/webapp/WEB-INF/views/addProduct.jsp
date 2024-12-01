@@ -6,48 +6,8 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
           crossorigin="anonymous">
     <style>
-        .add-product {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        form {
-            height: auto;
-            padding: 20px;
-            margin: 20px;
-            background-color: antiquewhite;
-            border: 0px solid black;
-            border-radius: 20px;
-        }
-        #file-input {
-            display: flex;
-            justify-content: space-between;
-        }
-        #file-window{
-            display: flex;
-            flex-direction: column;
-        }
-        #plus-button,#minus-button{
-            width: 25px;
-            height: 25px;
-            padding: 2px;
-            margin: 3px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 0px solid black;
-            border-radius: 6px;
-            background-color: black;
-            font-size: 20px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.2ms ease-in-out;
-        }
-        #plus-button:hover,
-        #minus-button:hover{
-            transform: scale(1.05);;
-        }
+        <%@include file="/WEB-INF/css/addProducts.css"%>
+        <%@include file="/WEB-INF/css/buttons.css"%>
     </style>
 </head>
 <body>
@@ -81,24 +41,6 @@
 </div>
 </body>
 <script>
-
-    const fileWindow = document.getElementById("file-window")
-    console.log("length "+ fileWindow.children.length)
-    document.getElementById("plus-button").addEventListener('click',function (){
-        const newFileInput = document.createElement('input');
-        newFileInput.style.paddingTop="5px"
-        newFileInput.type = "file";
-        newFileInput.accept = "image/jpeg, image/png";
-        newFileInput.name = "file"+ fileWindow.children.length;
-        newFileInput.id="file"+ fileWindow.children.length;
-        console.log("add element "+newFileInput.name,)
-        fileWindow.appendChild(newFileInput);
-        console.log("length "+ fileWindow.children.length)
-    })
-    document.getElementById("minus-button").addEventListener('click',function (){
-        fileWindow.removeChild(fileWindow.lastElementChild)
-
-    })
-
+    <%@include file="/WEB-INF/script/addProduct.js"%>
 </script>
 </html>

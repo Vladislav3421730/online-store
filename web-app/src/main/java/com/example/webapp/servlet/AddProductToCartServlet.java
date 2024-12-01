@@ -25,6 +25,7 @@ public class AddProductToCartServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         Product product = productService.findById(Long.parseLong(req.getParameter("id")));
         User user = (User) req.getSession().getAttribute("user");
 
@@ -35,6 +36,7 @@ public class AddProductToCartServlet extends HttpServlet {
                 .isPresent();
 
         if (!isInCartList) {
+            log.info("a new item {} has been added to the user's {} cart",product.getTitle(),user.getEmail());
             Cart cart = new Cart(product);
             user.addCartToList(cart);
         }

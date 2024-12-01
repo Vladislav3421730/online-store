@@ -8,54 +8,7 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
           crossorigin="anonymous">
     <style>
-        .onlineShopHeaderTitle {
-            color: white;
-            font-size: 20px;
-            font-family: Arial;
-            text-align: center;
-            border-style: solid;
-            border-width: 2px;
-            border-radius: 5px;
-            border-color: orange;
-            padding: 2px;
-            padding-inline: 5px;
-            margin: 2px;
-            background-color: orange;
-        }
-
-        .image {
-            width: 60px;
-            height: 60px;
-            margin-left: 10px;
-            background-color: #343a40;
-        }
-
-        .profileImage {
-            width: 50px;
-            height: 50px;
-            margin-left: 10px;
-            background-color: white;
-            padding: 0;
-            border-style: solid;
-            border-color: white;
-            border-radius: 50%;
-        }
-
-        .circle {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 20px;
-            height: 20px;
-            background-color: blue;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-        }
+        <%@include file="/WEB-INF/css/header.css"%>
     </style>
 </head>
 <body>
@@ -71,13 +24,15 @@
                 <c:otherwise>
                     <div>
                         <div style="position: relative; display: inline-block;">
-                            <img class="image"
-                                 src="https://png.klev.club/uploads/posts/2024-04/png-klev-club-z0k5-p-korzina-belaya-png-9.png">
-                            <c:choose>
-                                <c:when test="${!sessionScope.user.getCarts().isEmpty()}">
-                                    <div class="circle">${sessionScope.user.getCarts().size()}</div>
-                                </c:when>
-                            </c:choose>
+                            <a href="${pageContext.request.contextPath}/user/cart">
+                                <img class="image"
+                                     src="https://png.klev.club/uploads/posts/2024-04/png-klev-club-z0k5-p-korzina-belaya-png-9.png">
+                                <c:choose>
+                                    <c:when test="${!sessionScope.user.getCarts().isEmpty()}">
+                                        <div class="circle">${sessionScope.user.getCarts().size()}</div>
+                                    </c:when>
+                                </c:choose>
+                            </a>
                         </div>
                         <img class="profileImage"
                              src="https://cdn.icon-icons.com/icons2/1993/PNG/512/account_avatar_face_man_people_profile_user_icon_123197.png">
