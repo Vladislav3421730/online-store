@@ -21,7 +21,16 @@ public class GetImageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Image image = imageDAO.findById(Long.parseLong(req.getParameter("id"))).orElse(null);
+        long imageId;
+        try {
+            log.info("Received request to fetch image. Query parameter: id={}", req.getParameter("id"));
+            imageId = Long.parseLong(req.getParameter("id"));
+        } catch (NumberFormatException e) {
+            log.error("Invalid image ID parameter: {}", req.getParameter("id"), e);
+            throw new RuntimeException("Invalid image ID parameter: " + req.getParameter("id"), e);
+        }
+        Image image = imageDAO.findById(imageId)
+                .orElseThrow(()-> new RuntimeException("Image with ID " + imageId + " not found"));
         resp.setContentType(image.getContentType());
         byte[] imageData = image.getBytes();
         resp.setContentLength(imageData.length);

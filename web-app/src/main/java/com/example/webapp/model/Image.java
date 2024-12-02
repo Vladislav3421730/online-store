@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Data
@@ -18,7 +19,10 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank(message = "ContentType must be not empty")
     private String contentType;
+    @NotBlank(message = "image's bytes must be not empty")
     private byte[] bytes;
 
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)

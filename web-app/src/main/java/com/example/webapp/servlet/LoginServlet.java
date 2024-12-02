@@ -30,26 +30,30 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-
         req.setAttribute("email", email);
 
+        if (email.isBlank() || password.length() < 6) {
+            req.setAttribute("error", "Введите логин и пароль корректно");
+            req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
+            return;
+        }
         Optional<User> user = userService.findByEmail(email);
         if (user.isEmpty() || !BCrypt.verifyer().verify(password.toCharArray(), user.get().getPassword()).verified) {
             log.error("User authorization error {} {}, incorrect email or password",
-                    user.get().getUsername(),user.get().getPassword());
-            req.setAttribute("error","Неверный email или пароль");
+                    user.get().getUsername(), user.get().getPassword());
+            req.setAttribute("error", "Неверный email или пароль");
             req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
             return;
         }
-        if(user.get().isBun()){
-            log.error("The user {}  has been banned",user.get().getEmail());
-            req.setAttribute("error","Вы были забанены");
+        if (user.get().isBun()) {
+            log.error("The user {}  has been banned", user.get().getEmail());
+            req.setAttribute("error", "Вы были забанены");
             req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
             return;
         }
-        log.info("Authorization completed successfully {}",user.get().getEmail());
-        req.getSession().setAttribute("user",user.get());
-        resp.sendRedirect(req.getContextPath()+ "/");
+        log.info("Authorization completed successfully {}", user.get().getEmail());
+        req.getSession().setAttribute("user", user.get());
+        resp.sendRedirect(req.getContextPath() + "/");
 
     }
 }

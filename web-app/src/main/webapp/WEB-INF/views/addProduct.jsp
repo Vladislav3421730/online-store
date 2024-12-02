@@ -15,17 +15,17 @@
 <div class="add-product">
     <form action="${pageContext.request.contextPath}/product/add" method="post" enctype="multipart/form-data">
         <label for="name" class="form-label">Введите название товара</label>
-        <input class="form-control" type="text" id="name" name="name" placeholder="Название товара" required>
+        <input class="form-control" type="text" id="name" minlength="3" name="name" placeholder="Название товара" required>
 
         <label for="category" class="form-label">Введите категорию товара</label>
-        <input class="form-control" type="text" id="category" name="category" placeholder="Категория товара" required>
+        <input class="form-control" type="text" id="category" minlength="3" name="category" placeholder="Категория товара" required>
 
         <label for="description" class="form-label">Введите описание товара</label>
-        <textarea class="form-control" id="description" name="description" required></textarea>
+        <textarea class="form-control" id="description" minlength="10" name="description" required></textarea>
         <label for="amount" class="form-label">Введите доступное количество на складе</label>
-        <input class="form-control" id="amount" type="number" placeholder="Количество на складе" step="1" name="amount" required>
+        <input class="form-control" id="amount" type="number" min="20" placeholder="Количество на складе" step="1" name="amount" required>
         <label for="coast" class="form-label">Введите цену товара</label>
-        <input type="number" class="form-control" id="coast" placeholder="Цена товара" name="coast" step="0.01" required>
+        <input type="number" class="form-control" id="coast" min="0.01" placeholder="Цена товара" name="coast" step="0.01" required>
         <label for="file-input" class="form-label">Вставьте картинки, если хотите добавить больше нажмите +</label>
         <div id="file-input">
             <div id="file-window">

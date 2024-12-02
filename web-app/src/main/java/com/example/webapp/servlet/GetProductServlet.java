@@ -9,18 +9,28 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
 @WebServlet("/product/get")
+@Slf4j
 public class GetProductServlet extends HttpServlet {
 
-    private final ProductService productService= ProductServiceImpl.getInstance();
+    private final ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Product product=productService.findById(Long.parseLong(req.getParameter("id")));
-        req.setAttribute("product",product);
-        req.getRequestDispatcher(JspHelper.getPath("product")).forward(req,resp);
+        long productId;
+        try {
+            log.info("Received request to fetch product. Query parameter: id={}", req.getParameter("id"));
+            productId = Long.parseLong(req.getParameter("id"));
+        } catch (NumberFormatException e) {
+            log.error("Invalid product ID parameter: {}", req.getParameter("id"), e);
+            throw new RuntimeException("Invalid product ID parameter: " + req.getParameter("id"), e);
+        }
+        Product product = productService.findById(productId);
+        req.setAttribute("product", product);
+        req.getRequestDispatcher(JspHelper.getPath("product")).forward(req, resp);
     }
 }

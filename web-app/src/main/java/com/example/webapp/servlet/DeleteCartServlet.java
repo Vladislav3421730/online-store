@@ -19,16 +19,28 @@ import java.util.List;
 @Slf4j
 public class DeleteCartServlet extends HttpServlet {
 
-    private final UserService userService= UserServiceImpl.getInstance();
+    private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
+        int index;
+        try {
+            index = Integer.parseInt(req.getParameter("index"));
+        } catch (NumberFormatException e) {
+            log.error("Invalid index parameter: {}",req.getParameter("index"));
+            throw new RuntimeException("Invalid index parameter: " + req.getParameter("index"), e);
+        }
         List<Cart> cartAfterRemoving = user.getCarts();
-        cartAfterRemoving.remove(Integer.parseInt(req.getParameter("index")));
+        if (index < 0 || index >= cartAfterRemoving.size()) {
+            log.error("Index out of bounds {}",index);
+            throw new RuntimeException("Index out of bounds: " + index);
+        }
+        cartAfterRemoving.remove(index);
         user.setCarts(cartAfterRemoving);
-        log.info("The product has been removed from the user's {} cart",user.getEmail());
-        req.getSession().setAttribute("user",userService.update(user));
-        req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req,resp);
+        log.info("The product has been removed from the user's {} cart", user.getEmail());
+        req.getSession().setAttribute("user", userService.update(user));
+        req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
     }
+
 }
