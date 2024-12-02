@@ -4,18 +4,8 @@
 <head>
     <title>Product ${requestScope.product.getTitle()}</title>
     <style>
-        .carousel img {
-            width: 800px;
-            height: 400px;
-            object-fit: cover;
-            margin: 0 auto;
-        }
-        .carousel {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        <%@include file="/WEB-INF/css/corousel.css"%>
     </style>
-
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -25,7 +15,8 @@
         <div class="col-lg-10 col-mg-12">
             <c:choose>
                 <c:when test="${!requestScope.product.getImageList().isEmpty()}">
-                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="4000">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel"
+                         data-interval="4000">
                         <ol class="carousel-indicators">
                             <c:forEach var="image" items="${requestScope.product.getImageList()}" varStatus="status">
                                 <li data-target="#carouselExampleIndicators" data-slide-to="${status.index}"

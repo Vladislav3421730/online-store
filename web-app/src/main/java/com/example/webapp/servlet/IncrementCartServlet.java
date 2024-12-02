@@ -24,7 +24,16 @@ public class IncrementCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
-        int index = Integer.parseInt(req.getParameter("index"));
+        int index;
+        try {
+            log.info("Received request to update cart. Query parameter: index={}", req.getParameter("index"));
+            index = Integer.parseInt(req.getParameter("index"));
+        } catch (NumberFormatException e) {
+            log.error("Invalid cart index parameter: {}", req.getParameter("index"), e);
+            req.setAttribute("error", "Ошибка: неверный индекс товара в корзине.");
+            req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
+            return;
+        }
         List<Cart> userCarts = user.getCarts();
         Cart cart = userCarts.get(index);
         if (cart.getAmount() + 1 > cart.getProduct().getAmount()) {

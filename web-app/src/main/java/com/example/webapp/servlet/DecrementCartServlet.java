@@ -24,20 +24,30 @@ public class DecrementCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
-        int index = Integer.parseInt(req.getParameter("index"));
+        int index;
+        try {
+            index = Integer.parseInt(req.getParameter("index"));
+        } catch (NumberFormatException e) {
+            log.error("Invalid index parameter {}",req.getParameter("index"));
+            throw new RuntimeException("Invalid index parameter: " + req.getParameter("index"), e);
+        }
         List<Cart> userCarts = user.getCarts();
+        if (index < 0 || index >= userCarts.size()) {
+            log.error("Index out of bounds: {}",index);
+            throw new RuntimeException("Index out of bounds: " + index);
+        }
         Cart cart = userCarts.get(index);
         if (cart.getAmount() == 1) {
             userCarts.remove(index);
-            log.info("The product has been removed from the user's {} cart",user.getEmail());
+            log.info("The product has been removed from the user's {} cart", user.getEmail());
         } else {
-            log.info("The quantity of good {} was reduced by one and now {}",cart.getProduct().getTitle(),user.getEmail());
             cart.setAmount(cart.getAmount() - 1);
             userCarts.set(index, cart);
+            log.info("The quantity of good {} was reduced by one and now {}", cart.getProduct().getTitle(), user.getEmail());
         }
         user.setCarts(userCarts);
         userService.update(user);
         req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
-
     }
+
 }

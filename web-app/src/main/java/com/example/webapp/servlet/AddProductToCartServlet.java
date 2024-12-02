@@ -26,7 +26,15 @@ public class AddProductToCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Product product = productService.findById(Long.parseLong(req.getParameter("id")));
+        String idParam = req.getParameter("id");
+        Product product;
+        try {
+            long productId = Long.parseLong(idParam);
+            product = productService.findById(productId);
+        } catch (NumberFormatException e) {
+            log.error("Failed to parse in Long product id {}",idParam);
+            throw new RuntimeException("Invalid product ID: " + idParam, e);
+        }
         User user = (User) req.getSession().getAttribute("user");
 
         boolean isInCartList = user.getCarts().stream()

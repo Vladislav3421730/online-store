@@ -7,6 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 
@@ -22,9 +26,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Size(min = 5,message = "Username length must be more or equal than 5")
+    @NotBlank
     private String username;
+    @Size(min = 6,message = "Password length must be more or equal than 6 ")
+    @NotBlank
     private String password;
     @Column(unique = true)
+    @Email(message = "Filed email must contains @")
     private String email;
     private boolean isBun;
 
