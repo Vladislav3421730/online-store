@@ -41,8 +41,8 @@
                     <label for="sort" class="form-label mt-2">Сортировать по:</label><br>
                     <select id="sort" name="sort">
                         <option selected>Выберите сортировку</option>
-                        <option value="cheap">Сначала подороже</option>
-                        <option value="expensive">Сначала подешевле</option>
+                        <option value="expensive">Сначала подороже</option>
+                        <option value="cheap">Сначала подешевле</option>
                         <option value="alphabet">По алфавиту</option>
                     </select><br>
                     <div class="d-flex align-items-center mt-2">
@@ -55,6 +55,7 @@
                             <input type="number" step="0.1" id="maxPrice" name="maxPrice" placeholder="10000"><br>
                         </div>
                     </div>
+                    <input type="hidden" name="search-filter" id="search-filter">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
                         <button type="submit" class="btn btn-primary">Применить фильтры</button>

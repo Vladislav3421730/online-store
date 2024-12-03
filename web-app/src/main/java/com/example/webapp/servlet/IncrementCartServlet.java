@@ -47,7 +47,7 @@ public class IncrementCartServlet extends HttpServlet {
         userCarts.set(index, cart);
         log.info("The quantity of the product {} has been increased by 1 " +
                 "{}",cart.getProduct().getTitle(),cart.getAmount());
-        userService.update(user);
-        req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
+        req.getSession().setAttribute("user",userService.update(user));
+        resp.sendRedirect(req.getContextPath()+"/user/cart");
     }
 }

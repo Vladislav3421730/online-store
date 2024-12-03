@@ -25,6 +25,7 @@ public class FilterProductServlet extends HttpServlet {
         ProductFilterDTO productFilterDTO=new ProductFilterDTO();
         productFilterDTO.setCategory(req.getParameter("category"));
         productFilterDTO.setSort(req.getParameter("sort"));
+        productFilterDTO.setTitle(req.getParameter("search-filter"));
         if(req.getParameter("minPrice")!=null && !req.getParameter("minPrice").isBlank()) {
             productFilterDTO.setMinPrice(new BigDecimal(req.getParameter("minPrice")));
         }
@@ -33,6 +34,7 @@ public class FilterProductServlet extends HttpServlet {
         }
         log.info("productFilterDTO: {}",productFilterDTO);
         req.setAttribute("products",productService.findAllByFilter(productFilterDTO));
+        req.setAttribute("search",productFilterDTO.getTitle());
         req.getRequestDispatcher(JspHelper.getPath("index")).forward(req,resp);
     }
 }

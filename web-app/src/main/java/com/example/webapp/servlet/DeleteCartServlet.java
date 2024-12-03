@@ -40,7 +40,7 @@ public class DeleteCartServlet extends HttpServlet {
         user.setCarts(cartAfterRemoving);
         log.info("The product has been removed from the user's {} cart", user.getEmail());
         req.getSession().setAttribute("user", userService.update(user));
-        req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
+        resp.sendRedirect(req.getContextPath()+"/user/cart");
     }
 
 }

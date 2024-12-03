@@ -1,3 +1,9 @@
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
 .onlineShopHeaderTitle {
     color: white;
     font-size: 20px;
@@ -12,7 +18,9 @@
     margin: 2px;
     background-color: orange;
 }
-
+.onlineShopHeaderTitle:hover{
+    transform: scale(1.05);
+}
 .image {
     width: 50px;
     height: 50px;
@@ -30,7 +38,6 @@
     border-color: white;
     border-radius: 50%;
 }
-
 .circle {
     position: absolute;
     top: 10px;

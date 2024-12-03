@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -19,6 +20,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Min(value = 1,message = "cart's must must be more or equal than 1")
     private int amount;
 
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)

@@ -1,7 +1,12 @@
 package com.example.webapp.servlet;
 
-import com.example.webapp.model.Cart;
+import com.example.webapp.model.Order;
+import com.example.webapp.model.Product;
 import com.example.webapp.model.User;
+import com.example.webapp.service.ProductService;
+import com.example.webapp.service.UserService;
+import com.example.webapp.service.impl.ProductServiceImpl;
+import com.example.webapp.service.impl.UserServiceImpl;
 import com.example.webapp.utils.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import com.example.webapp.mapper.OderItemCartMapper;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -17,6 +23,9 @@ import java.math.BigDecimal;
 @Slf4j
 public class CartServlet extends HttpServlet {
 
+    private final UserService userService = UserServiceImpl.getInstance();
+    private final ProductService productService = ProductServiceImpl.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
@@ -24,7 +33,7 @@ public class CartServlet extends HttpServlet {
             BigDecimal totalCoast = user.getCarts().stream()
                     .map(x -> x.getProduct().getCoast().multiply(BigDecimal.valueOf(x.getAmount())))
                     .reduce(BigDecimal::add).get();
-            log.info("The sum of the prices of all items in the basket {}",totalCoast);
+            log.info("The sum of the prices of all items in the basket {}", totalCoast);
             req.setAttribute("totalCoast", totalCoast);
         }
         req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
@@ -33,6 +42,29 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
+        BigDecimal totalPrice = null;
+        try {
+            totalPrice = BigDecimal.valueOf(Double.parseDouble(req.getParameter("totalCoast")));
+        } catch (NumberFormatException e) {
+            log.error("Invalid totalPrice parameter: " + req.getParameter("totalCoast"), e);
+            req.setAttribute("error", "Ошикбка, неверное значение суммы заказа");
+            req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
+            return;
+        }
+        Order order = new Order(totalPrice);
+        order.setOrderItems(user.getCarts().stream()
+                .map(x -> {
+                    Product product = x.getProduct();
+                    product.setAmount(x.getProduct().getAmount() - x.getAmount());
+                    productService.update(product);
+                    return OderItemCartMapper.map(x, order);
+                })
+                .toList());
 
+        user.getCarts().clear();
+        user.addOrderToList(order);
+        req.getSession().setAttribute("user", userService.update(user));
+        req.setAttribute("success", "Заказ был успешно оформлен");
+        req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
     }
 }

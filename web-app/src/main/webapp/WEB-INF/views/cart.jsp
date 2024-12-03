@@ -17,6 +17,7 @@
             <div class="col-lg-10 col-mg-12">
                 <a class="btn btn-success mb-1 mt-1" href="${pageContext.request.contextPath}/">На главную</a>
                 <p style="color: red">${requestScope.error}</p>
+                <p style="color: green">${requestScope.success}</p>
                 <c:choose>
                     <c:when test="${sessionScope.user.getCarts().isEmpty()}">
                         <h3>Ваша корзина пуста</h3>
@@ -24,7 +25,7 @@
                     <c:otherwise>
                         <div class="row">
                             <c:forEach var="cart" items="${sessionScope.user.getCarts()}" varStatus="status">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-3 col-md-6">
                                     <div class="card mt-2 mb-2" style="width: 17.5rem;height: 29rem">
                                         <a href="${pageContext.request.contextPath}/product/get?id=${cart.getProduct().getId()}">
                                             <c:choose>
@@ -65,6 +66,7 @@
                         </div>
                         <form class="mt-2 d-flex" action="${pageContext.request.contextPath}/user/cart"
                               method="post" style="justify-content: flex-end">
+                            <input type="hidden" name="totalCoast" value="${requestScope.totalCoast}"/>
                             <input type="submit" class="btn btn-primary" value="Оформить заказ ${requestScope.totalCoast}"/>
                         </form>
                     </c:otherwise>

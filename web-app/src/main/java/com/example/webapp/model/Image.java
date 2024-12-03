@@ -21,6 +21,7 @@ public class Image {
     private Long id;
 
     @NotBlank(message = "ContentType must be not empty")
+    @Column(name = "content_type")
     private String contentType;
     @NotBlank(message = "image's bytes must be not empty")
     private byte[] bytes;

@@ -15,7 +15,9 @@
 <header>
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid">
-            <p class="onlineShopHeaderTitle">OnlineShop</p>
+            <a href="${pageContext.request.contextPath}/">
+                <p class="onlineShopHeaderTitle">OnlineShop</p>
+            </a>
             <c:choose>
                 <c:when test="${sessionScope.user==null}">
                     <input type="button" class="btn btn-success" value="Войти"
@@ -34,11 +36,12 @@
                                 </c:choose>
                             </a>
                         </div>
-                        <img class="profileImage"
-                             src="https://cdn.icon-icons.com/icons2/1993/PNG/512/account_avatar_face_man_people_profile_user_icon_123197.png">
+                        <a href="${pageContext.request.contextPath}/user/account">
+                            <img class="profileImage"
+                                 src="https://cdn.icon-icons.com/icons2/1993/PNG/512/account_avatar_face_man_people_profile_user_icon_123197.png">
+                        </a>
                     </div>
                 </c:otherwise>
-
             </c:choose>
         </div>
     </nav>

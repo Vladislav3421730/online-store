@@ -19,15 +19,14 @@
                 <div class="d-flex align-items-center">
                     <form action="${pageContext.request.contextPath}/product/search" method="get" class="w-100  mr-3">
                         <div class="input-group mb-3">
-                            <input value="${requestScope.search}" type="text" class="form-control" placeholder="Найти"
+                            <input value="${requestScope.search}" type="text" class="form-control" id="search" placeholder="Найти"
                                    name="search"/>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit">Поиск</button>
                             </div>
                         </div>
                     </form>
-                    <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 17px"
-                            data-toggle="modal" data-target="#modal">
+                    <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 17px" data-toggle="modal" data-target="#modal">
                         Применить фильтры
                     </button>
                 </div>
@@ -82,4 +81,13 @@
     </section>
 </div>
 </body>
+<script>
+    const searchFilter = document.getElementById("search-filter")
+    const search = document.getElementById("search")
+    console.log("Значения "+searchFilter.value+" "+ search.value)
+    if (search && search.value.trim() !== "") {
+        searchFilter.value = search.value
+        console.log("Значение searchFilter"+searchFilter.value)
+    }
+</script>
 </html>

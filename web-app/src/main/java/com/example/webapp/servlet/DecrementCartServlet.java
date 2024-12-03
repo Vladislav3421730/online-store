@@ -46,8 +46,8 @@ public class DecrementCartServlet extends HttpServlet {
             log.info("The quantity of good {} was reduced by one and now {}", cart.getProduct().getTitle(), user.getEmail());
         }
         user.setCarts(userCarts);
-        userService.update(user);
-        req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
+        req.getSession().setAttribute("user",userService.update(user));
+        resp.sendRedirect(req.getContextPath()+"/user/cart");
     }
 
 }
