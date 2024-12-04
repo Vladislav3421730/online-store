@@ -2,6 +2,7 @@ package com.example.webapp.dao;
 
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;
+import com.example.webapp.utils.PredicateFormationAssistant;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +42,9 @@ public class ProductDao implements DAO<Long, Product> {
     public List<Product> findAllByTitle(String title){
         Session session=sessionFactory.openSession();
         session.beginTransaction();
-        List<Product> products=session.createQuery("from Product p where p.title=:title", Product.class)
-                .setParameter("title",title)
+        List<Product> products = session.createQuery(
+                "from Product p where lower(p.title) like lower(:title)", Product.class)
+                .setParameter("title", "%" + title.toLowerCase() + "%")
                 .getResultList();
         session.getTransaction().commit();
         return products;
@@ -54,28 +56,14 @@ public class ProductDao implements DAO<Long, Product> {
         CriteriaBuilder cb=session.getCriteriaBuilder();
         CriteriaQuery<Product> query=cb.createQuery(Product.class);
         Root<Product> root=query.from(Product.class);
-        List<Predicate> predicates = new ArrayList<>();
-        if(productFilterDTO.getCategory()!=null &&
-                !productFilterDTO.getCategory().isEmpty() && !productFilterDTO.getCategory().isBlank()){
-            log.info("filter category {} was added to predicates",productFilterDTO.getCategory());
-            predicates.add(cb.like(cb.lower(root.get("category")),"%"+productFilterDTO.getCategory().toLowerCase()+"%"));
-        }
-        if(productFilterDTO.getMinPrice()!=null){
-            log.info("filter minPrice {} was added to predicates",productFilterDTO.getMinPrice());
-            predicates.add(cb.greaterThanOrEqualTo(root.get("coast"),productFilterDTO.getMinPrice()));
-        }
-        if(productFilterDTO.getMaxPrice()!=null){
-            log.info("filter maxPrice {} was added to predicates",productFilterDTO.getMaxPrice());
-            predicates.add(cb.lessThanOrEqualTo(root.get("coast"),productFilterDTO.getMaxPrice()));
-        }
+        List<Predicate> predicates = PredicateFormationAssistant.createFromDto(productFilterDTO,cb,root);
         log.info("size {}",predicates.size());
         if (!predicates.isEmpty()) {
             query.where(predicates.toArray(new Predicate[predicates.size()-1]));
         }
-
         switch (productFilterDTO.getSort()){
-            case "cheap"->query.orderBy(cb.desc(root.get("coast")));
-            case "expensive"->query.orderBy(cb.asc(root.get("coast")));
+            case "cheap"->query.orderBy(cb.asc(root.get("coast")));
+            case "expensive"->query.orderBy(cb.desc(root.get("coast")));
             case "alphabet"->query.orderBy(cb.asc(root.get("title")));
         }
 

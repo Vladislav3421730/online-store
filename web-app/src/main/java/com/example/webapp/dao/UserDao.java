@@ -42,7 +42,7 @@ public class UserDao implements DAO<Long, User> {
     public User update(User user) {
         Session session=sessionFactory.getCurrentSession();
         session.beginTransaction();
-        User updatedUser= (User) session.merge(user);
+        User updatedUser = (User) session.merge(user);
         session.getTransaction().commit();
         return updatedUser;
     }

@@ -1,6 +1,6 @@
 package com.example.webapp.servlet;
 
-import com.example.webapp.dao.DAO;
+
 import com.example.webapp.dao.ImageDao;
 import com.example.webapp.model.Image;
 import jakarta.servlet.ServletException;

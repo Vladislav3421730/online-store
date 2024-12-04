@@ -4,7 +4,6 @@ import com.example.webapp.model.Cart;
 import com.example.webapp.model.User;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.UserServiceImpl;
-import com.example.webapp.utils.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -46,8 +45,8 @@ public class DecrementCartServlet extends HttpServlet {
             log.info("The quantity of good {} was reduced by one and now {}", cart.getProduct().getTitle(), user.getEmail());
         }
         user.setCarts(userCarts);
-        userService.update(user);
-        req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
+        req.getSession().setAttribute("user",userService.update(user));
+        resp.sendRedirect(req.getContextPath()+"/user/cart");
     }
 
 }

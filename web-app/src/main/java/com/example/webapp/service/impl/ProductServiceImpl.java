@@ -14,12 +14,13 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductServiceImpl implements ProductService {
 
-    private static final ProductServiceImpl INSTANCE=new ProductServiceImpl();
-    public static ProductServiceImpl getInstance(){
+    private static final ProductServiceImpl INSTANCE = new ProductServiceImpl();
+
+    public static ProductServiceImpl getInstance() {
         return INSTANCE;
     }
 
-    private final ProductDao productDAO= ProductDao.getInstance();
+    private final ProductDao productDAO = ProductDao.getInstance();
 
     @Override
     @Transactional
@@ -27,8 +28,9 @@ public class ProductServiceImpl implements ProductService {
         productDAO.save(product);
 
     }
+
     @Override
-    public List<Product> findAll(){
+    public List<Product> findAll() {
         return productDAO.findAll();
     }
 
@@ -46,6 +48,11 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllByFilter(ProductFilterDTO productFilterDTO) {
         return productDAO.findAllByFilter(productFilterDTO);
 
+    }
+
+    @Override
+    public Product update(Product product) {
+        return productDAO.update(product);
     }
 
 

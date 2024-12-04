@@ -10,7 +10,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<jsp:include page="modal.jsp"/>
+<jsp:include page="modalFilter.jsp"/>
 <div class="container-fluid mt-4">
     <section>
         <div class="row">
@@ -19,7 +19,7 @@
                 <div class="d-flex align-items-center">
                     <form action="${pageContext.request.contextPath}/product/search" method="get" class="w-100  mr-3">
                         <div class="input-group mb-3">
-                            <input value="${requestScope.search}" type="text" class="form-control" placeholder="Найти"
+                            <input value="${requestScope.search}" type="text" class="form-control" id="search" placeholder="Найти"
                                    name="search"/>
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit">Поиск</button>
@@ -82,4 +82,11 @@
     </section>
 </div>
 </body>
+<script>
+    const searchFilter = document.getElementById("search-filter")
+    const search = document.getElementById("search")
+    if (search && search.value.trim() !== "") {
+        searchFilter.value = search.value
+    }
+</script>
 </html>

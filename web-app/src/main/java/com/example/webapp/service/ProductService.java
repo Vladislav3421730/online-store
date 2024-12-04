@@ -13,5 +13,6 @@ public interface ProductService {
     Product findById(Long id);
     List<Product> findAllBySearch(String word);
     List<Product> findAllByFilter(ProductFilterDTO productFilterDTO);
+    Product update(Product product);
 
 }

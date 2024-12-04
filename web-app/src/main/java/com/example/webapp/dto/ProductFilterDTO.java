@@ -16,4 +16,5 @@ public class ProductFilterDTO{
     private String category;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
+    private String title;
 }

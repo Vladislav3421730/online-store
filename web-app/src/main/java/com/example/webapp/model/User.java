@@ -5,14 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
-
 
 @Entity
 @Table(name = "users")
@@ -35,6 +32,7 @@ public class User {
     @Column(unique = true)
     @Email(message = "Filed email must contains @")
     private String email;
+    @Column(name = "is_bun")
     private boolean isBun;
 
     @PrePersist
@@ -51,6 +49,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user",orphanRemoval = true)
     private List<Cart>  carts =new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
 
     public void addRole(Role role){
         roleSet.add(role);
@@ -65,6 +65,11 @@ public class User {
     public void addCartToList(Cart cart){
         carts.add(cart);
         cart.setUser(this);
+    }
+
+    public void addOrderToList(Order order){
+        orders.add(order);
+        order.setUser(this);
     }
 
 }
