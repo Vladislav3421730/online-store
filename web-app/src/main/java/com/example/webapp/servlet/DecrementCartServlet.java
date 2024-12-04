@@ -4,7 +4,6 @@ import com.example.webapp.model.Cart;
 import com.example.webapp.model.User;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.UserServiceImpl;
-import com.example.webapp.utils.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

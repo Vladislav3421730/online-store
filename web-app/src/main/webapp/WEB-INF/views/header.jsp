@@ -25,6 +25,18 @@
                 </c:when>
                 <c:otherwise>
                     <div>
+                        <c:choose>
+                            <c:when test="${sessionScope.user.isAdmin()}">
+                                <input type="button" class="btn btn-danger" value="Панель админа"
+                                       onclick="window.location.href='${pageContext.request.contextPath}/admin/panel'">
+                            </c:when>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${sessionScope.user.isManager()}">
+                                <input type="button" class="btn btn-primary" value="Панель менеджера"
+                                       onclick="window.location.href='${pageContext.request.contextPath}/manager/panel'">
+                            </c:when>
+                        </c:choose>
                         <div style="position: relative; display: inline-block;">
                             <a href="${pageContext.request.contextPath}/user/cart">
                                 <img class="image"

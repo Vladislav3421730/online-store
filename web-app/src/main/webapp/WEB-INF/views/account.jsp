@@ -16,6 +16,8 @@
         <div class="col-lg-10 col-mg-12">
             <h2>Электронная почта: ${sessionScope.user.getEmail()}</h2>
             <h3>Логин: ${sessionScope.user.getUsername()}</h3>
+            <input type="button" class="btn btn-danger mt-1 mb-2" value="Выйти из аккаунта"
+                   onclick="window.location.href='${pageContext.request.contextPath}/logout'">
             <c:choose>
                 <c:when test="${sessionScope.user.getOrders().isEmpty()}">
                     <h4>Ваш список заказов на данный момент пуст</h4>
