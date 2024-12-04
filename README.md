@@ -7,7 +7,7 @@
     + AddProductServlet ("/product/add" [GET],"/product/add" [POST]), addProduct.jsp
 2. Вывод всех товаров на экран (использована grid вёрстка для вывода карточек товаров)
     + MainPageServlet ("/" [GET]),index.jsp, modalFilter.jsp
-3. Посик товара по названию
+3. Поиск товара по названию
     + SearchProductServlet ("/product/search" [GET]),index.jsp, modalFilter.jsp
 4. Фильтрация товаров по категиории, минимальной и максимальной цене, сортировка (фильтры и сортировка представлены модальным окном)
     + FilterProductServlet ("/product/filter" [GET]),index.jsp, modalFilter.jsp
