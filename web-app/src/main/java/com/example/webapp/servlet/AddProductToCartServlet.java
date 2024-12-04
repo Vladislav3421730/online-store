@@ -35,6 +35,10 @@ public class AddProductToCartServlet extends HttpServlet {
             log.error("Failed to parse in Long product id {}",idParam);
             throw new RuntimeException("Invalid product ID: " + idParam, e);
         }
+        if(product.getAmount()==0){
+            log.info("The quantity of goods {} is zero",product.getTitle());
+            return;
+        }
         User user = (User) req.getSession().getAttribute("user");
 
         boolean isInCartList = user.getCarts().stream()

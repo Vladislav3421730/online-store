@@ -1,12 +1,10 @@
 package com.example.webapp.servlet;
 
 import com.example.webapp.model.Order;
-import com.example.webapp.model.Product;
 import com.example.webapp.model.User;
-import com.example.webapp.service.ProductService;
 import com.example.webapp.service.UserService;
-import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.service.impl.UserServiceImpl;
+import com.example.webapp.utils.AddressFormationAssistant;
 import com.example.webapp.utils.JspHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,10 +22,10 @@ import java.math.BigDecimal;
 public class CartServlet extends HttpServlet {
 
     private final UserService userService = UserServiceImpl.getInstance();
-    private final ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         User user = (User) req.getSession().getAttribute("user");
         if (!user.getCarts().isEmpty()) {
             BigDecimal totalCoast = user.getCarts().stream()
@@ -36,6 +34,7 @@ public class CartServlet extends HttpServlet {
             log.info("The sum of the prices of all items in the basket {}", totalCoast);
             req.setAttribute("totalCoast", totalCoast);
         }
+        AddressFormationAssistant.updateAddresses(req);
         req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
     }
 
@@ -52,19 +51,18 @@ public class CartServlet extends HttpServlet {
             return;
         }
         Order order = new Order(totalPrice);
+        order.setAddress(AddressFormationAssistant.formAddress(req));
         order.setOrderItems(user.getCarts().stream()
-                .map(x -> {
-                    Product product = x.getProduct();
-                    product.setAmount(x.getProduct().getAmount() - x.getAmount());
-                    productService.update(product);
-                    return OderItemCartMapper.map(x, order);
-                })
-                .toList());
+                        .map(x->OderItemCartMapper.map(x,order))
+                        .toList());
 
         user.getCarts().clear();
         user.addOrderToList(order);
         req.getSession().setAttribute("user", userService.update(user));
+        AddressFormationAssistant.updateAddresses(req);
         req.setAttribute("success", "Заказ был успешно оформлен");
         req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
     }
+
+
 }

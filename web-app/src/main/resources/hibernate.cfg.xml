@@ -19,5 +19,6 @@
         <mapping class="com.example.webapp.model.Cart"/>
         <mapping class="com.example.webapp.model.Order"/>
         <mapping class="com.example.webapp.model.OrderItem"/>
+        <mapping class="com.example.webapp.model.Address"/>
     </session-factory>
 </hibernate-configuration>

@@ -10,7 +10,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<jsp:include page="modal.jsp"/>
+<jsp:include page="modalFilter.jsp"/>
 <div class="container-fluid mt-4">
     <section>
         <div class="row">
@@ -26,7 +26,8 @@
                             </div>
                         </div>
                     </form>
-                    <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 17px" data-toggle="modal" data-target="#modal">
+                    <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 17px"
+                            data-toggle="modal" data-target="#modal">
                         Применить фильтры
                     </button>
                 </div>
@@ -84,10 +85,8 @@
 <script>
     const searchFilter = document.getElementById("search-filter")
     const search = document.getElementById("search")
-    console.log("Значения "+searchFilter.value+" "+ search.value)
     if (search && search.value.trim() !== "") {
         searchFilter.value = search.value
-        console.log("Значение searchFilter"+searchFilter.value)
     }
 </script>
 </html>

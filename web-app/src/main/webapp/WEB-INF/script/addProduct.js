@@ -1,5 +1,4 @@
 const fileWindow = document.getElementById("file-window")
-console.log("length "+ fileWindow.children.length)
 document.getElementById("plus-button").addEventListener('click',function (){
     const newFileInput = document.createElement('input');
     newFileInput.style.paddingTop="5px"

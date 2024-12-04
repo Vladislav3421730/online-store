@@ -29,6 +29,7 @@
                             <strong>Общая сумма заказа ${order.getTotalPrice()}</strong><br>
                             <p>Время заказа: <fmt:formatDate value="${order.getCreatedAtAsDate()}"
                                                              pattern="yyyy-MM-dd HH:mm"/></p>
+                            <p>Адресс доставки: ${order.getAddress().getRegion()}, ${order.getAddress().getTown()}, ${order.getAddress().getExactAddress()}</p>
                             <div class="row">
                                 <c:forEach var="orderItem" items="${order.getOrderItems()}">
                                     <div class="col-lg-3 col-md-6">
