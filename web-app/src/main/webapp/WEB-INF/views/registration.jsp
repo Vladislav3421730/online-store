@@ -24,13 +24,18 @@
                                    placeholder="Введите адрес электронной почты" required>
                         </div>
                         <div class="form-group mb-2">
+                            <label for="phone">Номер телефона</label>
+                            <input type="text" value="${requestScope.email}" class="form-control mt-1" name="phone" id="phone"
+                                   placeholder="Номер телефона (+375XXXXXXXXX)" pattern="\+375[0-9]{9}">
+                        </div>
+                        <div class="form-group mb-2">
                             <label for="register-password">Пароль</label>
                             <input type="password" value="${requestScope.password}" class="form-control mt-1" minlength="6" name="password"
                                    id="register-password" placeholder="Введите пароль" required>
                         </div>
                         <div class="form-group mb-2">
                             <label for="confirmPassword">Подтвердите пароль</label>
-                            <input type="password" class="form-control mt-1" minlength="6" name="confirm-password"
+                            <input type="password" class="form-control mt-1" minlength="6" name="confirmPassword"
                                    id="confirmPassword" placeholder="Подтвердите пароль" required>
                             <p style="color: red" id="passwordNotTheSame"></p>
                         </div>

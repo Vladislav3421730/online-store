@@ -1,6 +1,7 @@
 package com.example.webapp.dao;
 
 import com.example.webapp.model.User;
+import com.example.webapp.model.enums.Role;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
@@ -23,7 +24,15 @@ public class UserDao implements DAO<Long, User> {
 
     @Override
     public List<User> findAll() {
-        return null;
+        Session session= sessionFactory.openSession();
+        session.beginTransaction();
+        List<User> users = session.createQuery(
+                        "SELECT u FROM User u WHERE :adminRole not in elements(u.roleSet) order by u.id", User.class)
+                .setMaxResults(50)
+                .setParameter("adminRole", Role.ROLE_ADMIN)
+                .getResultList();
+        session.getTransaction().commit();
+        return users;
     }
 
     @Override

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.*;
 
@@ -34,6 +35,11 @@ public class User {
     private String email;
     @Column(name = "is_bun")
     private boolean isBun;
+
+    @Column(name = "phone_number")
+    @Pattern(regexp = "^[+]375[0-9]{9}$",message = "Phone number must be in format +375445716964")
+    private String phoneNumber;
+
 
     @PrePersist
     private void init(){

@@ -7,8 +7,11 @@ import com.example.webapp.service.UserService;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
 import javax.transaction.Transactional;
+import javax.validation.*;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -21,10 +24,19 @@ public class UserServiceImpl implements UserService {
     }
 
     private final UserDao userDao= UserDao.getInstance();
+    private final ValidatorFactory factory = Validation.byDefaultProvider()
+            .configure()
+            .messageInterpolator(new ParameterMessageInterpolator())
+            .buildValidatorFactory();
+    private final Validator validator = factory.getValidator();
 
     @Override
     @Transactional
-    public void save(User user) {
+    public void save(@Valid User user) {
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         user.setPassword(BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray()));
         user.setRoleSet(Set.of(Role.ROLE_USER));
         userDao.save(user);
@@ -42,7 +54,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User update(User user) {
+    public User update(@Valid User user) {
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         return userDao.update(user);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userDao.findAll();
     }
 }

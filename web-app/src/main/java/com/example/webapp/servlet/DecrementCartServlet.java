@@ -4,6 +4,7 @@ import com.example.webapp.model.Cart;
 import com.example.webapp.model.User;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.UserServiceImpl;
+import com.example.webapp.validator.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,13 +24,8 @@ public class DecrementCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
-        int index;
-        try {
-            index = Integer.parseInt(req.getParameter("index"));
-        } catch (NumberFormatException e) {
-            log.error("Invalid index parameter {}",req.getParameter("index"));
-            throw new RuntimeException("Invalid index parameter: " + req.getParameter("index"), e);
-        }
+
+        int index = Validator.validateInt(req.getParameter("index"));
         List<Cart> userCarts = user.getCarts();
         if (index < 0 || index >= userCarts.size()) {
             log.error("Index out of bounds: {}",index);

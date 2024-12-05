@@ -16,6 +16,7 @@
         <div class="col-lg-10 col-mg-12">
             <h2>Электронная почта: ${sessionScope.user.getEmail()}</h2>
             <h3>Логин: ${sessionScope.user.getUsername()}</h3>
+            <h3>Номер телефона: ${sessionScope.user.getPhoneNumber()}</h3>
             <input type="button" class="btn btn-danger mt-1 mb-2" value="Выйти из аккаунта"
                    onclick="window.location.href='${pageContext.request.contextPath}/logout'">
             <c:choose>

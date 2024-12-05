@@ -7,9 +7,12 @@ import com.example.webapp.model.Product;
 import com.example.webapp.service.ProductService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
 import javax.transaction.Transactional;
+import javax.validation.*;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductServiceImpl implements ProductService {
@@ -21,10 +24,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private final ProductDao productDAO = ProductDao.getInstance();
+    private final ValidatorFactory factory = Validation.byDefaultProvider()
+            .configure()
+            .messageInterpolator(new ParameterMessageInterpolator())
+            .buildValidatorFactory();
+    private final Validator validator = factory.getValidator();
 
     @Override
     @Transactional
-    public void save(Product product) {
+    public void save(@Valid Product product) {
+        Set<ConstraintViolation<Product>> violations = validator.validate(product);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         productDAO.save(product);
 
     }
@@ -51,7 +63,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(Product product) {
+    public Product update(@Valid Product product) {
+        Set<ConstraintViolation<Product>> violations = validator.validate(product);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         return productDAO.update(product);
     }
 

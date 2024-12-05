@@ -7,6 +7,7 @@ import com.example.webapp.service.ProductService;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.service.impl.UserServiceImpl;
+import com.example.webapp.validator.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -26,15 +27,8 @@ public class AddProductToCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String idParam = req.getParameter("id");
-        Product product;
-        try {
-            long productId = Long.parseLong(idParam);
-            product = productService.findById(productId);
-        } catch (NumberFormatException e) {
-            log.error("Failed to parse in Long product id {}",idParam);
-            throw new RuntimeException("Invalid product ID: " + idParam, e);
-        }
+        Product product=productService.findById(Validator
+                .validateLong(req.getParameter("id")));
         if(product.getAmount()==0){
             log.info("The quantity of goods {} is zero",product.getTitle());
             return;
@@ -46,7 +40,6 @@ public class AddProductToCartServlet extends HttpServlet {
                 .peek(cart -> cart.setAmount(cart.getAmount() + 1))
                 .findFirst()
                 .isPresent();
-
         if (!isInCartList) {
             log.info("a new item {} has been added to the user's {} cart",product.getTitle(),user.getEmail());
             Cart cart = new Cart(product);

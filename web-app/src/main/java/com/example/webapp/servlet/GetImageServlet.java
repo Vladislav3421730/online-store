@@ -3,6 +3,7 @@ package com.example.webapp.servlet;
 
 import com.example.webapp.dao.ImageDao;
 import com.example.webapp.model.Image;
+import com.example.webapp.validator.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,14 +22,8 @@ public class GetImageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long imageId;
-        try {
-            log.info("Received request to fetch image. Query parameter: id={}", req.getParameter("id"));
-            imageId = Long.parseLong(req.getParameter("id"));
-        } catch (NumberFormatException e) {
-            log.error("Invalid image ID parameter: {}", req.getParameter("id"), e);
-            throw new RuntimeException("Invalid image ID parameter: " + req.getParameter("id"), e);
-        }
+
+        long imageId = Validator.validateLong(req.getParameter("id"));
         Image image = imageDAO.findById(imageId)
                 .orElseThrow(()-> new RuntimeException("Image with ID " + imageId + " not found"));
         resp.setContentType(image.getContentType());

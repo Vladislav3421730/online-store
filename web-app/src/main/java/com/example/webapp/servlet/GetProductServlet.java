@@ -4,6 +4,7 @@ import com.example.webapp.model.Product;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.utils.JspHelper;
+import com.example.webapp.validator.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,14 +22,7 @@ public class GetProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long productId;
-        try {
-            log.info("Received request to fetch product. Query parameter: id={}", req.getParameter("id"));
-            productId = Long.parseLong(req.getParameter("id"));
-        } catch (NumberFormatException e) {
-            log.error("Invalid product ID parameter: {}", req.getParameter("id"), e);
-            throw new RuntimeException("Invalid product ID parameter: " + req.getParameter("id"), e);
-        }
+        long productId = Validator.validateLong(req.getParameter("id"));
         Product product = productService.findById(productId);
         req.setAttribute("product", product);
         req.getRequestDispatcher(JspHelper.getPath("product")).forward(req, resp);

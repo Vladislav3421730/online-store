@@ -26,9 +26,16 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         String username = req.getParameter("username");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        String phone = req.getParameter("phone");
+        String confirmPassword = req.getParameter("confirmPassword");
+
+        req.setAttribute("username", username);
+        req.setAttribute("email", email);
+        req.setAttribute("password", password);
 
         if (username.length() < 5 || email.isEmpty() || password.length() < 6) {
             log.error("the fields were not very well filled " +
@@ -38,13 +45,14 @@ public class RegistrationServlet extends HttpServlet {
             return;
         }
         if (userService.findByEmail(email).isPresent()) {
-
-            req.setAttribute("username", username);
-            req.setAttribute("email", email);
-            req.setAttribute("password", password);
-
             log.error("user with email {} already exists", email);
             req.setAttribute("error", "Пользователь с таким email уже существует, выберите другой");
+            req.getRequestDispatcher(JspHelper.getPath("registration")).forward(req, resp);
+            return;
+        }
+        if(!password.equals(confirmPassword)) {
+            log.error("password and confirmPassword are not the same {}, {}",password,confirmPassword);
+            req.setAttribute("error", "Пароли должны совпадать");
             req.getRequestDispatcher(JspHelper.getPath("registration")).forward(req, resp);
             return;
         }
@@ -52,6 +60,7 @@ public class RegistrationServlet extends HttpServlet {
                 .username(username)
                 .email(email)
                 .password(password)
+                .phoneNumber(phone)
                 .build();
         userService.save(user);
         resp.sendRedirect(req.getContextPath() + "/login");
