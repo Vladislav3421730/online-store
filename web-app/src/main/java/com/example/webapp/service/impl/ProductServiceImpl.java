@@ -1,13 +1,14 @@
 package com.example.webapp.service.impl;
 
 
-import com.example.webapp.dao.ProductDao;
+import com.example.webapp.exception.ProductNotFoundException;
+import com.example.webapp.repository.impl.ProductRepositoryImpl;
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;
 import com.example.webapp.service.ProductService;
+import com.example.webapp.utils.HibernateValidatorUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
 import javax.transaction.Transactional;
 import javax.validation.*;
@@ -23,52 +24,51 @@ public class ProductServiceImpl implements ProductService {
         return INSTANCE;
     }
 
-    private final ProductDao productDAO = ProductDao.getInstance();
-    private final ValidatorFactory factory = Validation.byDefaultProvider()
-            .configure()
-            .messageInterpolator(new ParameterMessageInterpolator())
-            .buildValidatorFactory();
-    private final Validator validator = factory.getValidator();
+    private final ProductRepositoryImpl productRepository = ProductRepositoryImpl.getInstance();
 
     @Override
     @Transactional
     public void save(@Valid Product product) {
-        Set<ConstraintViolation<Product>> violations = validator.validate(product);
+        Set<ConstraintViolation<Product>> violations = HibernateValidatorUtil.getValidator().validate(product);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
-        productDAO.save(product);
-
+        productRepository.save(product);
     }
 
     @Override
     public List<Product> findAll() {
-        return productDAO.findAll();
+        return productRepository.findAll();
     }
 
     @Override
     public Product findById(Long id) {
-        return productDAO.findById(id).orElse(null);
+        return productRepository.findById(id).orElseThrow(()->
+                new ProductNotFoundException("Product with id "+id+" was not found"));
     }
 
     @Override
     public List<Product> findAllBySearch(String title) {
-        return productDAO.findAllByTitle(title);
+        return productRepository.findAllByTitle(title);
     }
 
     @Override
     public List<Product> findAllByFilter(ProductFilterDTO productFilterDTO) {
-        return productDAO.findAllByFilter(productFilterDTO);
-
+        return productRepository.findAllByFilter(productFilterDTO);
     }
 
     @Override
     public Product update(@Valid Product product) {
-        Set<ConstraintViolation<Product>> violations = validator.validate(product);
+        Set<ConstraintViolation<Product>> violations = HibernateValidatorUtil.getValidator().validate(product);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
-        return productDAO.update(product);
+        return productRepository.update(product);
+    }
+
+    @Override
+    public void delete(Long id) {
+        productRepository.delete(id);
     }
 
 

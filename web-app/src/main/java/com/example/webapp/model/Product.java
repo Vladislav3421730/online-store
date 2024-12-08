@@ -37,12 +37,13 @@ public class Product {
     @Size(min = 3,message = "category's size must more or equal than 3")
     @NotBlank
     private String category;
-    @Min(value = 20,message = "amount must be more or equal than 20")
+    @Min(value = 1,message = "amount must be more or equal than 1")
     private int amount;
     @DecimalMin(value = "0.01", message = "Cost must be greater than or equal to 10.3")
     private BigDecimal coast;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "product",orphanRemoval = true)
+    @OrderBy("id ASC")
     private List<Image> imageList=new ArrayList<>();
 
     public void addImageToList(Image image){

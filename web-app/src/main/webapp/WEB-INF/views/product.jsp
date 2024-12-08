@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <title>Product ${requestScope.product.getTitle()}</title>
@@ -54,6 +55,12 @@
             <p class="card-text">Категория: ${requestScope.product.getCategory()}<br></p>
             <p class="text-justify">${requestScope.product.getDescription()}</p>
             <p class="card-text">Осталось: ${requestScope.product.getAmount()}</p>
+            <form action="${pageContext.request.contextPath}/user/cart/add" method="POST">
+                <input type="hidden" name="id" value="${requestScope.product.getId()}">
+                <button type="submit" class="btn btn-primary mt-2">В
+                    корзину
+                </button>
+            </form>
         </div>
         <div class="col-lg-1 col-mg-0"></div>
     </div>

@@ -30,14 +30,15 @@ public class User {
     @Size(min = 6,message = "Password length must be more or equal than 6 ")
     @NotBlank
     private String password;
+
     @Column(unique = true)
     @Email(message = "Filed email must contains @")
     private String email;
     @Column(name = "is_bun")
     private boolean isBun;
 
-    @Column(name = "phone_number")
-    @Pattern(regexp = "^[+]375[0-9]{9}$",message = "Phone number must be in format +375445716964")
+    @Column(name = "phone_number",unique = true)
+    @Pattern(regexp = "^[+]375[0-9]{9}$",message = "Phone number must be in format +375XXXXXXXXX")
     private String phoneNumber;
 
 

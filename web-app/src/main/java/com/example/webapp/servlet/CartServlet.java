@@ -6,7 +6,7 @@ import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.UserServiceImpl;
 import com.example.webapp.utils.AddressFormationAssistant;
 import com.example.webapp.utils.JspHelper;
-import com.example.webapp.validator.Validator;
+import com.example.webapp.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -43,16 +43,11 @@ public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
         BigDecimal totalPrice = BigDecimal.valueOf(Validator.validateDouble(req.getParameter("totalCoast")));
+
         Order order = new Order(totalPrice);
         order.setAddress(AddressFormationAssistant.formAddress(req));
 
-        order.setOrderItems(user.getCarts().stream()
-                .map(x -> OderItemCartMapper.map(x, order))
-                .toList());
-
-        user.getCarts().clear();
-        user.addOrderToList(order);
-        req.getSession().setAttribute("user", userService.update(user));
+        req.getSession().setAttribute("user", userService.makeOrder(user,order));
         req.setAttribute("success", "Заказ был успешно оформлен");
         req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
     }

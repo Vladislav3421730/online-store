@@ -1,9 +1,8 @@
 package com.example.webapp.servlet;
 
-
-import com.example.webapp.dao.ImageDao;
 import com.example.webapp.model.Image;
-import com.example.webapp.validator.Validator;
+import com.example.webapp.service.impl.ImageServiceImpl;
+import com.example.webapp.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,14 +17,13 @@ import java.io.OutputStream;
 @Slf4j
 public class GetImageServlet extends HttpServlet {
 
-    private final ImageDao imageDAO=ImageDao.getInstance();
+    private final ImageServiceImpl imageService = ImageServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         long imageId = Validator.validateLong(req.getParameter("id"));
-        Image image = imageDAO.findById(imageId)
-                .orElseThrow(()-> new RuntimeException("Image with ID " + imageId + " not found"));
+        Image image = imageService.findById(imageId);
         resp.setContentType(image.getContentType());
         byte[] imageData = image.getBytes();
         resp.setContentLength(imageData.length);

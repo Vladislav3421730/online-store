@@ -1,4 +1,4 @@
-package com.example.webapp.validator;
+package com.example.webapp.utils;
 
 
 import lombok.experimental.UtilityClass;

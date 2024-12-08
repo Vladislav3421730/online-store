@@ -1,13 +1,12 @@
 package com.example.webapp.servlet;
 
-import com.example.webapp.model.Cart;
 import com.example.webapp.model.Product;
 import com.example.webapp.model.User;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.service.impl.UserServiceImpl;
-import com.example.webapp.validator.Validator;
+import com.example.webapp.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -31,21 +30,12 @@ public class AddProductToCartServlet extends HttpServlet {
                 .validateLong(req.getParameter("id")));
         if(product.getAmount()==0){
             log.info("The quantity of goods {} is zero",product.getTitle());
+            req.setAttribute("error","Попробуйте в другой раз, когда товар будет на складе");
+            resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
         User user = (User) req.getSession().getAttribute("user");
-
-        boolean isInCartList = user.getCarts().stream()
-                .filter(cart -> cart.getProduct().getId().equals(product.getId()))
-                .peek(cart -> cart.setAmount(cart.getAmount() + 1))
-                .findFirst()
-                .isPresent();
-        if (!isInCartList) {
-            log.info("a new item {} has been added to the user's {} cart",product.getTitle(),user.getEmail());
-            Cart cart = new Cart(product);
-            user.addCartToList(cart);
-        }
-        req.getSession().setAttribute("user", userService.update(user));
+        req.getSession().setAttribute("user", userService.addProductToCart(user,product));
         resp.sendRedirect(req.getContextPath() + "/");
     }
 }

@@ -5,6 +5,7 @@ import com.example.webapp.model.Product;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.utils.JspHelper;
+import com.example.webapp.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,7 +21,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @Slf4j
-@WebServlet("/product/add")
+@WebServlet("/manager/product/add")
 @MultipartConfig
 public class AddProductServlet extends HttpServlet {
 
@@ -37,8 +38,8 @@ public class AddProductServlet extends HttpServlet {
         Product product= Product.builder()
                 .title(req.getParameter("name"))
                 .description(req.getParameter("description"))
-                .coast(BigDecimal.valueOf(Double.parseDouble(req.getParameter("coast"))))
-                .amount(Integer.parseInt(req.getParameter("amount")))
+                .coast(BigDecimal.valueOf( Validator.validateDouble(req.getParameter("coast"))))
+                .amount(Validator.validateInt(req.getParameter("amount")))
                 .category(req.getParameter("category"))
                 .imageList(new ArrayList<>())
                 .build();
@@ -58,6 +59,6 @@ public class AddProductServlet extends HttpServlet {
             }
         }
         productService.save(product);
-        resp.sendRedirect(req.getContextPath()+ "/");
+        resp.sendRedirect(req.getContextPath()+ "/manager/products");
     }
 }
