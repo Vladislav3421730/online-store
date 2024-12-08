@@ -13,7 +13,7 @@
 <body>
 <%@ include file="header.jsp" %>
 <div class="add-product">
-    <form action="${pageContext.request.contextPath}/product/add" method="post" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/manager/product/add" method="post" enctype="multipart/form-data">
         <label for="name" class="form-label">Введите название товара</label>
         <input class="form-control" type="text" id="name" minlength="3" name="name" placeholder="Название товара" required>
 
@@ -29,14 +29,14 @@
         <label for="file-input" class="form-label">Вставьте картинки, если хотите добавить больше нажмите +</label>
         <div id="file-input">
             <div id="file-window">
-                <input type="file" accept="image/jpeg, image/png" id="file" name="file">
+                <input type="file" accept="image/jpeg, image/png" id="file" name="file1">
             </div>
             <div >
                 <button type="button" id="plus-button">+</button>
                 <button type="button" id="minus-button">-</button>
             </div>
         </div>
-        <input type="submit" class="btn btn-primary mt-2" value="Добавить">
+        <input type="submit" class="btn btn-primary mt-4" value="Добавить">
     </form>
 </div>
 </body>

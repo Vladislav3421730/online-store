@@ -16,6 +16,7 @@
         <div class="row">
             <div class="col-lg-1 col-mg-0"></div>
             <div class="col-lg-10 col-mg-12">
+                <p class="mt-2 mb-2" >${requestScope.error}</p>
                 <div class="d-flex align-items-center">
                     <form action="${pageContext.request.contextPath}/product/search" method="get" class="w-100  mr-3">
                         <div class="input-group mb-3">
@@ -76,11 +77,6 @@
             </div>
             <div class="col-lg-1 col-mg-0"></div>
         </div>
-        <%--        <button class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath}/product/add'">--%>
-        <%--            Добавить товар--%>
-        <%--        </button>--%>
-    </section>
-</div>
 </body>
 <script>
     const searchFilter = document.getElementById("search-filter")

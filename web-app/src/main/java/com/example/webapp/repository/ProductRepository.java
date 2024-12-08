@@ -1,19 +1,25 @@
-package com.example.webapp.service;
+package com.example.webapp.repository;
 
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;
 
 
 import java.util.List;
+import java.util.Optional;
 
-public interface ProductService {
+public interface ProductRepository {
 
-    void save(Product product);
     List<Product> findAll();
-    Product findById(Long id);
-    List<Product> findAllBySearch(String word);
+
+    List<Product> findAllByTitle(String title);
+
     List<Product> findAllByFilter(ProductFilterDTO productFilterDTO);
+
+    Optional<Product> findById(Long id);
+
     Product update(Product product);
+
     void delete(Long id);
 
+    void save(Product product);
 }

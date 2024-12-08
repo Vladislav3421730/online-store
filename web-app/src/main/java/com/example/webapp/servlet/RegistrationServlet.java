@@ -50,6 +50,12 @@ public class RegistrationServlet extends HttpServlet {
             req.getRequestDispatcher(JspHelper.getPath("registration")).forward(req, resp);
             return;
         }
+        if (userService.findByPhoneNumber(phone).isPresent()) {
+            log.error("user with phone number {} already exists", phone);
+            req.setAttribute("error", "Пользователь с таким номером телефона уже существует, выберите другой");
+            req.getRequestDispatcher(JspHelper.getPath("registration")).forward(req, resp);
+            return;
+        }
         if(!password.equals(confirmPassword)) {
             log.error("password and confirmPassword are not the same {}, {}",password,confirmPassword);
             req.setAttribute("error", "Пароли должны совпадать");

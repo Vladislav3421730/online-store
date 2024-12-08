@@ -8,6 +8,7 @@
             border: 1px solid black;
             border-radius: 5px;
             padding: 3px;
+            width: 100%;
         }
     </style>
 </head>

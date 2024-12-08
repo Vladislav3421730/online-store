@@ -9,6 +9,11 @@
           crossorigin="anonymous">
     <style>
         <%@include file="/WEB-INF/css/header.css"%>
+        .button-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -24,17 +29,32 @@
                            onclick="window.location.href='${pageContext.request.contextPath}/login'">
                 </c:when>
                 <c:otherwise>
-                    <div>
+                    <div class="d-flex">
                         <c:choose>
                             <c:when test="${sessionScope.user.isAdmin()}">
-                                <input type="button" class="btn btn-danger" value="Панель админа"
-                                       onclick="window.location.href='${pageContext.request.contextPath}/admin/panel'">
+                                <div class="button-container">
+                                    <input type="button" class="btn btn-danger" value="Панель админа"
+                                           onclick="window.location.href='${pageContext.request.contextPath}/admin/panel'">
+                                </div>
                             </c:when>
                         </c:choose>
                         <c:choose>
                             <c:when test="${sessionScope.user.isManager()}">
-                                <input type="button" class="btn btn-primary" value="Панель менеджера"
-                                       onclick="window.location.href='${pageContext.request.contextPath}/manager/panel'">
+                                <div class="button-container">
+                                    <div class="dropdown mx-2">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                            Панель менеджера
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item"
+                                               href="${pageContext.request.contextPath}/manager/orders">Заказы</a>
+                                            <a class="dropdown-item"
+                                               href="${pageContext.request.contextPath}/manager/products">Продукты</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </c:when>
                         </c:choose>
                         <div style="position: relative; display: inline-block;">

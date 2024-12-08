@@ -3,7 +3,7 @@ package com.example.webapp.servlet;
 import com.example.webapp.model.User;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.UserServiceImpl;
-import com.example.webapp.validator.Validator;
+import com.example.webapp.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,8 +24,7 @@ public class BunUserServlet extends HttpServlet {
         User user = userService.findById(Validator
                 .validateLong(req.getParameter("userId")));
         log.info("{} {}", user.isBun() ? "ban user" : "unban",user.getEmail());
-        user.setBun(!user.isBun());
-        userService.update(user);
+        userService.bun(user);
         resp.sendRedirect(req.getContextPath()+"/admin/panel");
     }
 }
