@@ -1,7 +1,6 @@
 package com.example.webapp.repository.impl;
 
 import com.example.webapp.dto.ProductFilterDTO;
-import com.example.webapp.model.Image;
 import com.example.webapp.model.Product;
 import com.example.webapp.repository.ProductRepository;
 import com.example.webapp.utils.HibernateUtils;
@@ -10,9 +9,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -69,7 +65,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Optional<Product> findById(Long id) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        return Optional.of(session.get(Product.class, id));
+        return Optional.ofNullable(session.get(Product.class, id));
     }
 
 

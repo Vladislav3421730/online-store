@@ -6,6 +6,7 @@
     <title>Product ${requestScope.product.getTitle()}</title>
     <style>
         <%@include file="/WEB-INF/css/corousel.css"%>
+
     </style>
 </head>
 <body>

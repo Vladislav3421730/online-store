@@ -20,7 +20,7 @@ public class ImageRepositoryImpl implements ImageRepository {
     @Override
     public Optional<Image> findById(Long id) {
         Session session= HibernateUtils.getSessionFactory().openSession();
-        return Optional.of(session.get(Image.class,id));
+        return Optional.ofNullable(session.get(Image.class,id));
     }
 
 }

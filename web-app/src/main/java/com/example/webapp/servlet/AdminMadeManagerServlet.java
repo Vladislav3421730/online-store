@@ -15,19 +15,19 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-@WebServlet("/admin/bun")
+@WebServlet("/admin/role/manager")
 @Slf4j
-public class BunUserServlet extends HttpServlet {
+public class AdminMadeManagerServlet extends HttpServlet {
 
+    private final UserService userService = UserServiceImpl.getInstance();
     private final AdminService adminService = AdminServiceImpl.getInstance();
-    private final UserServiceImpl userService = UserServiceImpl.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = userService.findById(Validator
                 .validateLong(req.getParameter("userId")));
-        log.info("{} {}", user.isBun() ? "ban user" : "unban",user.getEmail());
-        adminService.bun(user);
+        log.info("Attempting to change ROLE_MANAGER for user with ID: {}", user.getId());
+        adminService.madeManager(user);
         resp.sendRedirect(req.getContextPath()+"/admin/panel");
     }
 }

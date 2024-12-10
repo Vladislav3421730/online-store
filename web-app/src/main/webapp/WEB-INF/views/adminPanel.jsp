@@ -30,6 +30,7 @@
                     <th scope="col">email</th>
                     <th scope="col">username</th>
                     <th scope="col">Забанить</th>
+                    <th scope="col">Менеджер</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,6 +50,19 @@
                                     </c:when>
                                     <c:otherwise>
                                         <input type="submit" class="btn btn-danger" value="Забанить">
+                                    </c:otherwise>
+                                </c:choose>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="${pageContext.request.contextPath}/admin/role/manager" method="post">
+                                <input type="hidden" name="userId" value="${user.getId()}">
+                                <c:choose>
+                                    <c:when test="${user.isManager()}">
+                                        <input type="submit" class="btn btn-danger" value="Лишить роли">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="submit" class="btn btn-success" value="Сделать менеджером">
                                     </c:otherwise>
                                 </c:choose>
                             </form>

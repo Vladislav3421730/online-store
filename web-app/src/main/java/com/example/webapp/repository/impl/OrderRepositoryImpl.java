@@ -1,7 +1,6 @@
 package com.example.webapp.repository.impl;
 
 import com.example.webapp.model.Order;
-import com.example.webapp.model.Product;
 import com.example.webapp.repository.OrderRepository;
 import com.example.webapp.utils.HibernateUtils;
 import lombok.AccessLevel;
@@ -26,9 +25,18 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public List<Order> findAllByUserEmail(String email) {
+        return HibernateUtils.getSessionFactory().openSession()
+                .createQuery("from Order o where lower(o.user.email)=:email" +
+                        " order by o.createdAt desc ", Order.class)
+                .setParameter("email",email.toLowerCase())
+                .getResultList();
+    }
+
+    @Override
     public Optional<Order> findById(Long id) {
         Order order = HibernateUtils.getSessionFactory().openSession().
                 get(Order.class, id);
-        return Optional.of(order);
+        return Optional.ofNullable(order);
     }
 }

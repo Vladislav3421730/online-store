@@ -12,11 +12,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 @WebServlet("/manager/order")
-public class ViewOrder extends HttpServlet {
+public class ManagerViewOrder extends HttpServlet {
 
     private final OrderService orderService = OrderServiceImpl.getInstance();
 
@@ -25,7 +24,7 @@ public class ViewOrder extends HttpServlet {
         long orderId = Validator.validateLong(req.getParameter("orderId"));
         Optional<Order> order = orderService.findById(orderId);
         if(order.isEmpty()){
-            req.setAttribute("error","Заказ "+orderId +" не был найден");
+            req.setAttribute("error","Order "+orderId +" was not found");
             req.setAttribute("orders",orderService.findAll());
             req.getRequestDispatcher(JspHelper.getPath("managerOrders")).forward(req,resp);
         }

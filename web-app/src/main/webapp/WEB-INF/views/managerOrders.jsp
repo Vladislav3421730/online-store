@@ -9,10 +9,19 @@
 <jsp:include page="header.jsp"/>
 <div class="container mt-4">
     <c:choose>
-        <c:when test="${requestScope.users.isEmpty()}">
-            <h3>Пользователей не найдено</h3>
+        <c:when test="${requestScope.orders.isEmpty()}">
+            <h3>Заказов не найдено</h3>
         </c:when>
         <c:otherwise>
+            <form action="${pageContext.request.contextPath}/manager/order/search" method="get" class="w-100  mr-3">
+                <div class="input-group mb-3">
+                    <input value="${requestScope.search}" type="text" class="form-control" id="search" placeholder="Найти"
+                           name="search"/>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Поиск</button>
+                    </div>
+                </div>
+            </form>
             <table class="table table-striped">
                 <thead>
                 <tr>

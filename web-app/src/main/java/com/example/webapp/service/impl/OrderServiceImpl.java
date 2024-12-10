@@ -29,4 +29,9 @@ public class OrderServiceImpl implements OrderService {
     public Optional<Order> findById(Long id) {
         return orderRepository.findById(id);
     }
+
+    @Override
+    public List<Order> findAllByUserEmail(String email) {
+        return orderRepository.findAllByUserEmail(email);
+    }
 }
