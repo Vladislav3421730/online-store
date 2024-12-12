@@ -6,6 +6,7 @@ import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.UserServiceImpl;
 import com.example.webapp.utils.AddressFormationAssistant;
 import com.example.webapp.utils.JspHelper;
+import com.example.webapp.utils.OrderPayingValidator;
 import com.example.webapp.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,7 +14,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import com.example.webapp.mapper.OderItemCartMapper;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -43,6 +43,13 @@ public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
         BigDecimal totalPrice = BigDecimal.valueOf(Validator.validateDouble(req.getParameter("totalCoast")));
+
+        if(!OrderPayingValidator.validateOrderCoast(totalPrice)){
+            req.setAttribute("error", "Оплата не прошла");
+            req.setAttribute("totalCoast", totalPrice);
+            req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
+            return;
+        }
 
         Order order = new Order(totalPrice);
         order.setAddress(AddressFormationAssistant.formAddress(req));

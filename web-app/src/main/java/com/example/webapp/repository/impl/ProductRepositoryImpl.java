@@ -9,6 +9,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -22,19 +25,19 @@ import java.util.Optional;
 public class ProductRepositoryImpl implements ProductRepository {
 
     private static final ProductRepositoryImpl INSTANCE = new ProductRepositoryImpl();
-
     public static ProductRepositoryImpl getInstance() {
         return INSTANCE;
     }
 
     @Override
     public List<Product> findAll() {
-        return HibernateUtils.getSessionFactory()
+        return  HibernateUtils.getSessionFactory()
                 .openSession()
                 .createQuery("from Product p", Product.class)
                 .getResultList();
     }
 
+    @Override
     public List<Product> findAllByTitle(String title) {
         return HibernateUtils.getSessionFactory()
                 .openSession()
@@ -44,6 +47,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .getResultList();
     }
 
+    @Override
     public List<Product> findAllByFilter(ProductFilterDTO productFilterDTO) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -71,12 +75,11 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     @Transactional
-    public Product update(Product product) {
+    public void update(Product product) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Product productDB = (Product) session.merge(product);
+        session.merge(product);
         session.getTransaction().commit();
-        return productDB;
     }
 
     @Override
@@ -92,7 +95,6 @@ public class ProductRepositoryImpl implements ProductRepository {
             Product mergedProduct = (Product) session.merge(product);
             session.delete(mergedProduct);
         }
-
         session.getTransaction().commit();
         session.close();
     }

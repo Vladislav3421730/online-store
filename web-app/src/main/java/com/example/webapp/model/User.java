@@ -59,9 +59,6 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
-    public void addRole(Role role){
-        roleSet.add(role);
-    }
     public boolean isAdmin(){
         return roleSet.contains(Role.ROLE_ADMIN);
     }

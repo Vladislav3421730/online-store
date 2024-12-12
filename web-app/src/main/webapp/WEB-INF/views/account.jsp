@@ -6,6 +6,7 @@
     <title>account ${sessionScope.user.getUsername()}</title>
     <style>
         <%@include file="/WEB-INF/css/card.css"%>
+        <%@include file="/WEB-INF/css/status.css"%>
     </style>
 </head>
 <body>
@@ -28,11 +29,17 @@
                     <c:forEach var="order" items="${sessionScope.user.getOrders()}">
                         <div class="mt-4">
                             <hr>
-                            <strong>Номер заказа ${order.getId()}</strong><br>
+                            <div class="orderInfo">
+                                <strong>Номер заказа ${order.getId()}</strong>
+                                <div class="${order.getStatus().getDisplayName() == 'доставлен' ? 'delivered mx-2' : 'status mx-2'}">
+                                        ${order.getStatus().getDisplayName()}
+                                </div>
+                            </div>
                             <strong>Общая сумма заказа ${order.getTotalPrice()}</strong><br>
                             <p>Время заказа: <fmt:formatDate value="${order.getCreatedAtAsDate()}"
                                                              pattern="yyyy-MM-dd HH:mm"/></p>
-                            <p>Адресс доставки: ${order.getAddress().getRegion()}, ${order.getAddress().getTown()}, ${order.getAddress().getExactAddress()}</p>
+                            <p>Адресс
+                                доставки: ${order.getAddress().getRegion()}, ${order.getAddress().getTown()}, ${order.getAddress().getExactAddress()}</p>
                             <div class="row">
                                 <c:forEach var="orderItem" items="${order.getOrderItems()}">
                                     <div class="col-lg-3 col-md-6">

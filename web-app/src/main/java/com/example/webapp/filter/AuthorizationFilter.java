@@ -20,6 +20,10 @@ public class AuthorizationFilter extends HttpFilter {
             res.sendRedirect(req.getContextPath()+"/login");
             return;
         }
+        if(user.getRoleSet().isEmpty()) {
+            res.sendError(HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource.");
+            return;
+        }
         chain.doFilter(req,res);
     }
 }

@@ -35,6 +35,7 @@ public class RegistrationServlet extends HttpServlet {
         req.setAttribute("username", username);
         req.setAttribute("email", email);
         req.setAttribute("password", password);
+        req.setAttribute("phone",phone);
 
         if (username.length() < 5 || email.isEmpty() || password.length() < 6) {
             log.error("the fields were not very well filled " +

@@ -5,7 +5,9 @@ import com.example.webapp.repository.OrderRepository;
 import com.example.webapp.utils.HibernateUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.Session;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +40,14 @@ public class OrderRepositoryImpl implements OrderRepository {
         Order order = HibernateUtils.getSessionFactory().openSession().
                 get(Order.class, id);
         return Optional.ofNullable(order);
+    }
+
+    @Override
+    @Transactional
+    public void update(Order order) {
+        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.merge(order);
+        session.getTransaction().commit();
     }
 }

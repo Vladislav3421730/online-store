@@ -10,7 +10,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<jsp:include page="modalFilter.jsp"/>
+<jsp:include page="modal/modalFilter.jsp"/>
 <div class="container-fluid mt-4">
     <section>
         <div class="row">

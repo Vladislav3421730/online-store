@@ -25,7 +25,7 @@
                         </div>
                         <div class="form-group mb-2">
                             <label for="phone">Номер телефона</label>
-                            <input type="text" value="${requestScope.email}" class="form-control mt-1" name="phone" id="phone"
+                            <input type="text" value="${requestScope.phone}" class="form-control mt-1" name="phone" id="phone"
                                    placeholder="Номер телефона (+375XXXXXXXXX)" pattern="\+375[0-9]{9}">
                         </div>
                         <div class="form-group mb-2">

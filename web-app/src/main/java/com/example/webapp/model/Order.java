@@ -1,8 +1,10 @@
 package com.example.webapp.model;
 
+import com.example.webapp.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
@@ -41,6 +43,9 @@ public class Order {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -50,6 +55,7 @@ public class Order {
 
     @PrePersist
     void init(){
+        status = Status.ACCEPTED;
         createdAt = LocalDateTime.now();
     }
 

@@ -9,8 +9,8 @@ public interface OrderRepository {
 
     List<Order> findAll();
     List<Order> findAllByUserEmail(String email);
-
     Optional<Order> findById(Long id);
+    void update(Order order);
 
 
 
