@@ -33,7 +33,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public List<Product> findAll() {
         return  HibernateUtils.getSessionFactory()
                 .openSession()
-                .createQuery("from Product p", Product.class)
+                .createQuery("from Product p order by p.id", Product.class)
                 .getResultList();
     }
 
