@@ -60,7 +60,7 @@ public class Order {
     }
 
     public Date getCreatedAtAsDate() {
-        return Date.from(createdAt.atZone(ZoneId.of()).toInstant());
+        return Date.from(createdAt.atZone(ZoneId.systemDefault()).toInstant());
     }
 
 }
