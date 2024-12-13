@@ -64,7 +64,7 @@ localhost:8080
 15. Бан и отмена бана со стороны админа, поиск пользователей
     + BunUserServlet ("/admin/bun" [POST]), adminPanel.jsp
     + UserSearchservlet ("/admin/search", [GET]), adminPanel.jsp
-16  Администратор может назначить пользователю роль Менеджер и удалить её
+16. Администратор может назначить пользователю роль Менеджер и удалить её
     + AdminMadeManagerServlet ("/admin/role/manager"), adminPanel.jsp
 17. Переход на страницу менеджера для заказов
     + ManangerViewsOrders ("/manager/orders", [GET]), managerOrders.jsp
