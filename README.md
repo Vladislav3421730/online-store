@@ -5,7 +5,11 @@ git clone https://github.com/Vladislav3421730/online-store
 ```
 Затем нужно перейти в папку с проектом web-app (можно открыть в любом редакторе кода, можно через терминал)
 ```bash
-cd web-app
+cd online-store/web-app
+```
+Затем нужно создать папку для data/postgres для корретного считывания данных с БД
+```bash
+mkdir -p data\postgres\pg_tblspc
 ```
 Затем запустить команду докера. Нужно, чтобы Docker был установлен локально на вашем компьютере
 ```bash
