@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
         Optional<User> user = userService.findByEmail(email);
         if (user.isEmpty() || !BCrypt.verifyer().verify(password.toCharArray(), user.get().getPassword()).verified) {
             log.error("User authorization error {} {}, incorrect email or password",
-                    user.get().getUsername(), user.get().getPassword());
+                    email, password);
             req.setAttribute("error", "Неверный email или пароль");
             req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
             return;

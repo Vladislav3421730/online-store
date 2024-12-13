@@ -1,7 +1,6 @@
 package com.example.webapp.repository.impl;
 
 import com.example.webapp.dto.ProductFilterDTO;
-import com.example.webapp.model.Image;
 import com.example.webapp.model.Product;
 import com.example.webapp.repository.ProductRepository;
 import com.example.webapp.utils.HibernateUtils;
@@ -26,19 +25,19 @@ import java.util.Optional;
 public class ProductRepositoryImpl implements ProductRepository {
 
     private static final ProductRepositoryImpl INSTANCE = new ProductRepositoryImpl();
-
     public static ProductRepositoryImpl getInstance() {
         return INSTANCE;
     }
 
     @Override
     public List<Product> findAll() {
-        return HibernateUtils.getSessionFactory()
+        return  HibernateUtils.getSessionFactory()
                 .openSession()
-                .createQuery("from Product p", Product.class)
+                .createQuery("from Product p order by p.id", Product.class)
                 .getResultList();
     }
 
+    @Override
     public List<Product> findAllByTitle(String title) {
         return HibernateUtils.getSessionFactory()
                 .openSession()
@@ -48,6 +47,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .getResultList();
     }
 
+    @Override
     public List<Product> findAllByFilter(ProductFilterDTO productFilterDTO) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -69,18 +69,17 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Optional<Product> findById(Long id) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        return Optional.of(session.get(Product.class, id));
+        return Optional.ofNullable(session.get(Product.class, id));
     }
 
 
     @Override
     @Transactional
-    public Product update(Product product) {
+    public void update(Product product) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Product productDB = (Product) session.merge(product);
+        session.merge(product);
         session.getTransaction().commit();
-        return productDB;
     }
 
     @Override
@@ -96,7 +95,6 @@ public class ProductRepositoryImpl implements ProductRepository {
             Product mergedProduct = (Product) session.merge(product);
             session.delete(mergedProduct);
         }
-
         session.getTransaction().commit();
         session.close();
     }

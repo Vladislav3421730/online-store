@@ -20,7 +20,7 @@ public class ManagerFilter extends HttpFilter {
             res.sendRedirect(req.getContextPath()+"/login");
             return;
         }
-        else if(!user.isManager()) {
+       if(!user.isManager()) {
             res.sendError(HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource.");
             return;
         }

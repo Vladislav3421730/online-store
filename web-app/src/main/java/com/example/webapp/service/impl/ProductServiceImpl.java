@@ -58,12 +58,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(@Valid Product product) {
+    public void update(@Valid Product product) {
         Set<ConstraintViolation<Product>> violations = HibernateValidatorUtil.getValidator().validate(product);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
-        return productRepository.update(product);
+        productRepository.update(product);
     }
 
     @Override

@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/manager/orders")
-public class ViewOrders extends HttpServlet {
+public class ManagerViewOrders extends HttpServlet {
 
     private final OrderService orderService = OrderServiceImpl.getInstance();
 

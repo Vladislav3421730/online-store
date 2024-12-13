@@ -6,23 +6,39 @@
     <title>Order ${requestScope.order.getId()} </title>
     <style>
         <%@include file="/WEB-INF/css/card.css"%>
+        <%@include file="/WEB-INF/css/status.css"%>
     </style>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+<jsp:include page="modal/modalStatus.jsp"/>
 <div class="container">
     <div class="mt-4">
+        <div class="d-flex">
+            <button type="button" class="btn btn-success mb-1 mt-1"
+                    data-toggle="modal" data-target="#modal">
+                Изменить стуатус
+            </button>
+            <input type="button" class="btn btn-primary mx-3" value="Таблица с заказами"
+                   onclick="window.location.href='${pageContext.request.contextPath}/manager/orders'">
+        </div>
         <hr>
+        <br>
         <strong>email: ${requestScope.order.getUser().getEmail()}</strong><br>
         <strong>Имя: ${requestScope.order.getUser().getUsername()}</strong><br>
-        <strong>Имя: ${requestScope.order.getUser().getPhoneNumber()}</strong><br>
-        <strong>Номер заказа ${requestScope.order.getId()}</strong><br>
+        <strong>Телевон: ${requestScope.order.getUser().getPhoneNumber()}</strong><br>
+        <div class="orderInfo">
+            <strong>Номер заказа ${requestScope.order.getId()}</strong>
+            <div class="${requestScope.order.getStatus().getDisplayName() == 'доставлен' ? 'delivered mx-2' : 'status mx-2'}">
+                ${requestScope.order.getStatus().getDisplayName()}
+            </div>
+        </div>
         <strong>Общая сумма заказа ${requestScope.order.getTotalPrice()}</strong><br>
         <p>Время заказа: <fmt:formatDate value="${requestScope.order.getCreatedAtAsDate()}"
                                          pattern="yyyy-MM-dd HH:mm"/></p>
         <p>Адресс
             доставки: ${requestScope.order.getAddress().getRegion()}, ${requestScope.order.getAddress().getTown()},
-          ${requestScope.order.getAddress().getExactAddress()}</p>
+            ${requestScope.order.getAddress().getExactAddress()}</p>
         <div class="row">
             <c:forEach var="orderItem" items="${requestScope.order.getOrderItems()}">
                 <div class="col-lg-3 col-md-6">
@@ -52,4 +68,7 @@
     </div>
 </div>
 </body>
+<script>
+    <%@include file="/WEB-INF/script/viewStatusInSelect.js"%>
+</script>
 </html>

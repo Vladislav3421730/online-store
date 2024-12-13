@@ -48,11 +48,11 @@
                     <div class="d-flex align-items-center mt-2">
                         <div class="mt-2" style="margin-right: 10px">
                             <label for="minPrice" class="form-label">Минимальная цена:</label><br>
-                            <input type="number" step="0.1" id="minPrice" name="minPrice" placeholder="0">
+                            <input type="number" step="0.1" min="0.01" id="minPrice" name="minPrice" placeholder="0">
                         </div>
                         <div class="mt-2">
                             <label for="maxPrice" class="form-label">Максимальная цена:</label>
-                            <input type="number" step="0.1" id="maxPrice" name="maxPrice" placeholder="10000"><br>
+                            <input type="number" step="0.1" id="maxPrice" min="0.01" name="maxPrice" placeholder="10000"><br>
                         </div>
                     </div>
                     <input type="hidden" name="search-filter" id="search-filter">

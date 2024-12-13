@@ -95,14 +95,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void bun(User user) {
-        log.info("{} {}", user.isBun() ? "ban user" : "unban",user.getEmail());
-        user.setBun(!user.isBun());
-        update(user);
-    }
-
-    @Override
-    @Transactional
     public User makeOrder(User user, Order order) {
         order.setOrderItems(user.getCarts().stream()
                 .map(x -> OderItemCartMapper.map(x, order))

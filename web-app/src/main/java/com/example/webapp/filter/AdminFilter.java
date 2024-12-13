@@ -20,7 +20,7 @@ public class AdminFilter extends HttpFilter {
             res.sendRedirect(req.getContextPath()+"/login");
             return;
         }
-        else if(!user.isAdmin()) {
+       if(!user.isAdmin()) {
             res.sendError(HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource.");
             return;
         }

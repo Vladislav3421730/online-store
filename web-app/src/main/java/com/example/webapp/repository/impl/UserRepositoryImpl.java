@@ -63,10 +63,10 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findByEmail(String email) {
         User user = HibernateUtils.getSessionFactory()
                 .openSession()
-                .createQuery("FROM User u WHERE u.email = :email", User.class)
+                .createQuery("FROM User u WHERE  u.email = :email", User.class)
                 .setParameter("email", email)
                 .uniqueResult();
-        return Optional.of(user);
+        return Optional.ofNullable(user);
     }
 
     @Override
@@ -76,6 +76,6 @@ public class UserRepositoryImpl implements UserRepository {
                 .createQuery("FROM User u WHERE u.phoneNumber = :number", User.class)
                 .setParameter("number", number)
                 .uniqueResult();
-        return Optional.of(user);
+        return Optional.ofNullable(user);
     }
 }

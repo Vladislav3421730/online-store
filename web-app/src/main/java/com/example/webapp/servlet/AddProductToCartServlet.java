@@ -30,7 +30,6 @@ public class AddProductToCartServlet extends HttpServlet {
                 .validateLong(req.getParameter("id")));
         if(product.getAmount()==0){
             log.info("The quantity of goods {} is zero",product.getTitle());
-            req.setAttribute("error","Попробуйте в другой раз, когда товар будет на складе");
             resp.sendRedirect(req.getContextPath() + "/");
             return;
         }

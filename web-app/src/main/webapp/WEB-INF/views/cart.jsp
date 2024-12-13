@@ -10,15 +10,15 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<jsp:include page="modalOrder.jsp"/>
+<jsp:include page="modal/modalOrder.jsp"/>
 <div class="container-fluid mt-4">
     <section>
         <div class="row">
             <div class="col-lg-1 col-mg-0"></div>
             <div class="col-lg-10 col-mg-12">
                 <a class="btn btn-success mb-1 mt-1" href="${pageContext.request.contextPath}/">На главную</a>
-                <p style="color: red">${requestScope.error}</p>
-                <p style="color: green">${requestScope.success}</p>
+                <h4 style="color: red">${requestScope.error}</h4>
+                <h4 style="color: green">${requestScope.success}</h4>
                 <c:choose>
                     <c:when test="${sessionScope.user.getCarts().isEmpty()}">
                         <h3>Ваша корзина пуста</h3>

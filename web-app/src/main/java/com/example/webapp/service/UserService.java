@@ -16,7 +16,6 @@ public interface UserService {
     User update(User user);
     List<User> findAll();
     User addProductToCart(User user, Product product);
-    void bun(User user);
     User makeOrder(User user, Order order);
 
 }
