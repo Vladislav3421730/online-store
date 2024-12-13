@@ -21,7 +21,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgresdata:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
 
 volumes:
   postgresdata:
+    driver: local
