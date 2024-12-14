@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @WebServlet("/user/cart/increment")
@@ -31,12 +32,14 @@ public class IncrementCartServlet extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         int index = Validator.validateInt(req.getParameter("index"));
         List<Cart> userCarts = user.getCarts();
-        if(!cartService.incrementAmountOfCartInBasket(userCarts,index)){
+        if (!cartService.incrementAmountOfCartInBasket(userCarts, index)) {
+            BigDecimal totalPrice = BigDecimal.valueOf(Validator.validateDouble(req.getParameter("totalCoast")));
+            req.setAttribute("totalCoast", totalPrice);
             req.setAttribute("error", "Ошибка, вы не можете указать количество товара большее, чем есть на складе");
             req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
             return;
         }
-        req.getSession().setAttribute("user",userService.update(user));
-        resp.sendRedirect(req.getContextPath()+"/user/cart");
+        req.getSession().setAttribute("user", userService.update(user));
+        resp.sendRedirect(req.getContextPath() + "/user/cart");
     }
 }

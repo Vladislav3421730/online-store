@@ -52,6 +52,7 @@
                                                     ${cart.getAmount()}
                                                 <form action="${pageContext.request.contextPath}/user/cart/increment?index=${status.index}"
                                                       method="post">
+                                                    <input type="hidden" name="totalCoast" value="${requestScope.totalCoast}">
                                                     <button type="submit" id="plus-button">+</button>
                                                 </form>
                                             </div>

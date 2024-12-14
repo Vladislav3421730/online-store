@@ -9,7 +9,7 @@ cd online-store/web-app
 ```
 Затем нужно создать папку для data/postgres для корректного считывания данных с БД
 ```bash
-mkdir -p data\postgres\pg_tblspc
+mkdir data\postgres\pg_tblspc
 ```
 Затем запустить команду докера. Нужно, чтобы Docker был установлен локально на вашем компьютере
 ```bash
