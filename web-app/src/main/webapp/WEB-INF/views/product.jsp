@@ -55,7 +55,16 @@
             <h5>${requestScope.product.getTitle()}</h5>
             <p class="card-text">Категория: ${requestScope.product.getCategory()}<br></p>
             <p class="text-justify">${requestScope.product.getDescription()}</p>
-            <p class="card-text">Осталось: ${requestScope.product.getAmount()}</p>
+            <p class="card-text">
+                <c:choose>
+                    <c:when test="${requestScope.product.getAmount()==0}">
+                        Нет на складе
+                    </c:when>
+                    <c:otherwise>
+                        Осталось: ${requestScope.product.getAmount()}
+                    </c:otherwise>
+                </c:choose>
+            </p>
             <form action="${pageContext.request.contextPath}/user/cart/add" method="POST">
                 <input type="hidden" name="id" value="${requestScope.product.getId()}">
                 <button type="submit" class="btn btn-primary mt-2">В

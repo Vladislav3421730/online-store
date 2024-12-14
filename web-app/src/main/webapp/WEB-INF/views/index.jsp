@@ -57,7 +57,14 @@
                                             <strong>${product.getCoast()}</strong><br>
                                                 ${product.getTitle()}<br>
                                                 ${product.getCategory()}<br>
-                                            Осталось: ${product.getAmount()}<br>
+                                            <c:choose>
+                                                <c:when test="${product.getAmount()==0}">
+                                                    Нет на складе
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Осталось: ${product.getAmount()}<br>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <form action="${pageContext.request.contextPath}/user/cart/add"
                                                   method="POST">
                                                 <input type="hidden" name="id" value="${product.getId()}">
