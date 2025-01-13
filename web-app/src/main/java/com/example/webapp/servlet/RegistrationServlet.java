@@ -1,5 +1,6 @@
 package com.example.webapp.servlet;
 
+import com.example.webapp.dto.RegisterUserDto;
 import com.example.webapp.model.User;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.UserServiceImpl;
@@ -62,13 +63,13 @@ public class RegistrationServlet extends HttpServlet {
             req.getRequestDispatcher(JspHelper.getPath("registration")).forward(req, resp);
             return;
         }
-        User user = User.builder()
+        RegisterUserDto registerUserDto = RegisterUserDto.builder()
                 .username(username)
                 .email(email)
                 .password(password)
                 .phoneNumber(phone)
                 .build();
-        userService.save(user);
+        userService.save(registerUserDto);
         resp.sendRedirect(req.getContextPath() + "/login");
     }
 }

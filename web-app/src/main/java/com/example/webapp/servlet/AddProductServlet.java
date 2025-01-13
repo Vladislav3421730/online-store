@@ -1,7 +1,7 @@
 package com.example.webapp.servlet;
 
-import com.example.webapp.model.Image;
-import com.example.webapp.model.Product;
+import com.example.webapp.dto.CreateImageDto;
+import com.example.webapp.dto.CreateProductDto;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.utils.JspHelper;
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @WebServlet("/manager/product/add")
@@ -35,30 +36,30 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Product product = Product.builder()
+        CreateProductDto productDTO = CreateProductDto.builder()
                 .title(req.getParameter("name"))
                 .description(req.getParameter("description"))
                 .coast(BigDecimal.valueOf(Validator.validateDouble(req.getParameter("coast"))))
                 .amount(Validator.validateInt(req.getParameter("amount")))
                 .category(req.getParameter("category"))
-                .imageList(new ArrayList<>())
                 .build();
 
         log.info("Size of files {}", req.getParts().size());
+        List<CreateImageDto> imageDTOList = new ArrayList<>();
         for (Part part : req.getParts()) {
             if (part.getName().startsWith("file") && part.getSize() > 0) {
 
                 InputStream fileContent = part.getInputStream();
                 byte[] fileBytes = fileContent.readAllBytes();
-                Image image = Image.builder()
+                CreateImageDto imageDTO = CreateImageDto.builder()
                         .contentType(part.getContentType())
                         .bytes(fileBytes)
                         .build();
-
-                product.addImageToList(image);
+                imageDTOList.add(imageDTO);
             }
         }
-        productService.save(product);
+        productDTO.setImageList(imageDTOList);
+        productService.save(productDTO);
         resp.sendRedirect(req.getContextPath() + "/manager/products");
     }
 }

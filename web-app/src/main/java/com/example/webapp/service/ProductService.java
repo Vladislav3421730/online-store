@@ -1,5 +1,7 @@
 package com.example.webapp.service;
 
+import com.example.webapp.dto.CreateProductDto;
+import com.example.webapp.dto.ProductDto;
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;
 
@@ -8,11 +10,11 @@ import java.util.List;
 
 public interface ProductService {
 
-    void save(Product product);
-    List<Product> findAll();
-    Product findById(Long id);
-    List<Product> findAllBySearch(String word);
-    List<Product> findAllByFilter(ProductFilterDTO productFilterDTO);
+    void save(CreateProductDto createProductDTO);
+    List<ProductDto> findAll();
+    ProductDto findById(Long id);
+    List<ProductDto> findAllBySearch(String word);
+    List<ProductDto> findAllByFilter(ProductFilterDTO productFilterDTO);
     void update(Product product);
     void delete(Long id);
 

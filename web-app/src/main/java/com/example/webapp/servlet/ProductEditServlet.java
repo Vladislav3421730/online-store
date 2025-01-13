@@ -37,40 +37,40 @@ public class ProductEditServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Product product = productService.findById(Validator.validateLong(req.getParameter("id")));
-        product.setTitle(req.getParameter("name"));
-        product.setDescription((req.getParameter("description")));
-        product.setCoast(BigDecimal.valueOf(Validator.validateDouble(req.getParameter("coast"))));
-        product.setAmount(Validator.validateInt(req.getParameter("amount")));
-        product.setCategory(req.getParameter("category"));
+//        Product product = productService.findById(Validator.validateLong(req.getParameter("id")));
+//        product.setTitle(req.getParameter("name"));
+//        product.setDescription((req.getParameter("description")));
+//        product.setCoast(BigDecimal.valueOf(Validator.validateDouble(req.getParameter("coast"))));
+//        product.setAmount(Validator.validateInt(req.getParameter("amount")));
+//        product.setCategory(req.getParameter("category"));
 
-        List<Image> existingImages = product.getImageList();
-
-        log.info("Size of files {}", req.getParts().size());
-        for (Part part : req.getParts()) {
-            if (part.getName().startsWith("file")) {
-                String partName = part.getName();
-                int fileIndex = Validator.validateInt(partName.substring(4));
-                //check if file was entered
-                if (part.getSize() > 0) {
-                    InputStream fileContent = part.getInputStream();
-                    byte[] fileBytes = fileContent.readAllBytes();
-
-                    if (fileIndex <= existingImages.size()) {
-                        Image existingImage = existingImages.get(fileIndex - 1);
-                        existingImage.setContentType(part.getContentType());
-                        existingImage.setBytes(fileBytes);
-                    } else {
-                        Image newImage = Image.builder()
-                                .contentType(part.getContentType())
-                                .bytes(fileBytes)
-                                .build();
-                        product.addImageToList(newImage);
-                    }
-                }
-            }
-        }
-        productService.update(product);
+//        List<Image> existingImages = product.getImageList();
+//
+//        log.info("Size of files {}", req.getParts().size());
+//        for (Part part : req.getParts()) {
+//            if (part.getName().startsWith("file")) {
+//                String partName = part.getName();
+//                int fileIndex = Validator.validateInt(partName.substring(4));
+//                //check if file was entered
+//                if (part.getSize() > 0) {
+//                    InputStream fileContent = part.getInputStream();
+//                    byte[] fileBytes = fileContent.readAllBytes();
+//
+//                    if (fileIndex <= existingImages.size()) {
+//                        Image existingImage = existingImages.get(fileIndex - 1);
+//                        existingImage.setContentType(part.getContentType());
+//                        existingImage.setBytes(fileBytes);
+//                    } else {
+//                        Image newImage = Image.builder()
+//                                .contentType(part.getContentType())
+//                                .bytes(fileBytes)
+//                                .build();
+//                        product.addImageToList(newImage);
+//                    }
+//                }
+//            }
+//        }
+//        productService.update(product);
         resp.sendRedirect(req.getContextPath() + "/manager/products");
     }
 }

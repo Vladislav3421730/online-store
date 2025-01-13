@@ -1,5 +1,6 @@
 package com.example.webapp.servlet;
 
+import com.example.webapp.dto.ProductDto;
 import com.example.webapp.model.Product;
 import com.example.webapp.model.User;
 import com.example.webapp.service.ProductService;
@@ -26,15 +27,15 @@ public class AddProductToCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Product product=productService.findById(Validator
+        ProductDto product = productService.findById(Validator
                 .validateLong(req.getParameter("id")));
         if(product.getAmount()==0){
             log.info("The quantity of goods {} is zero",product.getTitle());
             resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
-        User user = (User) req.getSession().getAttribute("user");
-        req.getSession().setAttribute("user", userService.addProductToCart(user,product));
+//        User user = (User) req.getSession().getAttribute("user");
+//        req.getSession().setAttribute("user", userService.addProductToCart(user,product));
         resp.sendRedirect(req.getContextPath() + "/");
     }
 }

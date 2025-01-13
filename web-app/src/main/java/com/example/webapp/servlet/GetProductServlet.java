@@ -1,6 +1,6 @@
 package com.example.webapp.servlet;
 
-import com.example.webapp.model.Product;
+import com.example.webapp.dto.ProductDto;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.utils.JspHelper;
@@ -23,7 +23,7 @@ public class GetProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long productId = Validator.validateLong(req.getParameter("id"));
-        Product product = productService.findById(productId);
+        ProductDto product = productService.findById(productId);
         req.setAttribute("product", product);
         req.getRequestDispatcher(JspHelper.getPath("product")).forward(req, resp);
     }

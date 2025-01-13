@@ -1,55 +1,46 @@
-package com.example.webapp.repository.impl;
+package com.example.webapp.dao.impl;
 
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;
-import com.example.webapp.repository.ProductRepository;
+import com.example.webapp.dao.AbstractHibernateDao;
+import com.example.webapp.dao.ProductDao;
 import com.example.webapp.utils.HibernateUtils;
 import com.example.webapp.utils.PredicateFormationAssistant;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+
 @Slf4j
-public class ProductRepositoryImpl implements ProductRepository {
+public class ProductDaoImpl extends AbstractHibernateDao<Product> implements ProductDao {
 
-    private static final ProductRepositoryImpl INSTANCE = new ProductRepositoryImpl();
-    public static ProductRepositoryImpl getInstance() {
+    private static final ProductDaoImpl INSTANCE = new ProductDaoImpl();
+    public static ProductDaoImpl getInstance() {
         return INSTANCE;
     }
 
-    @Override
-    public List<Product> findAll() {
-        return  HibernateUtils.getSessionFactory()
-                .openSession()
-                .createQuery("from Product p order by p.id ASC", Product.class)
-                .getResultList();
+    private ProductDaoImpl(){
+        super(Product.class);
     }
 
     @Override
     public List<Product> findAllByTitle(String title) {
-        return HibernateUtils.getSessionFactory()
-                .openSession()
-                .createQuery(
-                        "from Product p where lower(p.title) like lower(:title)", Product.class)
-                .setParameter("title", "%" + title.toLowerCase() + "%")
-                .getResultList();
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery(
+                            "from Product p where lower(p.title) like lower(:title)", Product.class)
+                    .setParameter("title", "%" + title.toLowerCase() + "%")
+                    .getResultList();
+        }
     }
 
     @Override
     public List<Product> findAllByFilter(ProductFilterDTO productFilterDTO) {
-        Session session = HibernateUtils.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
@@ -67,21 +58,6 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public Optional<Product> findById(Long id) {
-        Session session = HibernateUtils.getSessionFactory().openSession();
-        return Optional.ofNullable(session.get(Product.class, id));
-    }
-
-
-    @Override
-    public void update(Product product) {
-        Session session = HibernateUtils.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.merge(product);
-        session.getTransaction().commit();
-    }
-
-    @Override
     public void delete(Long id) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         session.beginTransaction();
@@ -95,14 +71,5 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         session.getTransaction().commit();
         session.close();
-    }
-
-
-    @Override
-    public void save(Product product) {
-        Session session = HibernateUtils.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.save(product);
-        session.getTransaction().commit();
     }
 }

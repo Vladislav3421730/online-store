@@ -32,7 +32,7 @@ public class DeleteCartServlet extends HttpServlet {
         List<Cart> cartAfterRemoving = user.getCarts();
         cartService.deleteCartFromBasket(cartAfterRemoving,index);
 
-        req.getSession().setAttribute("user", userService.update(user));
+       // req.getSession().setAttribute("user", userService.update(user));
         resp.sendRedirect(req.getContextPath()+"/user/cart");
     }
 

@@ -39,7 +39,7 @@ public class IncrementCartServlet extends HttpServlet {
             req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
             return;
         }
-        req.getSession().setAttribute("user", userService.update(user));
+       // req.getSession().setAttribute("user", userService.update(user));
         resp.sendRedirect(req.getContextPath() + "/user/cart");
     }
 }

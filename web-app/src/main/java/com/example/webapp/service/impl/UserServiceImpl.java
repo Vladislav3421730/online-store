@@ -1,12 +1,15 @@
 package com.example.webapp.service.impl;
 
+import com.example.webapp.dto.RegisterUserDto;
 import com.example.webapp.exception.UserNotFoundException;
 import com.example.webapp.mapper.OderItemCartMapper;
+import com.example.webapp.mapper.UserMapper;
+import com.example.webapp.mapper.UserMapperImpl;
 import com.example.webapp.model.Cart;
 import com.example.webapp.model.Order;
 import com.example.webapp.model.Product;
-import com.example.webapp.repository.UserRepository;
-import com.example.webapp.repository.impl.UserRepositoryImpl;
+import com.example.webapp.dao.UserDao;
+import com.example.webapp.dao.impl.UserDaoImpl;
 import com.example.webapp.model.User;
 import com.example.webapp.model.enums.Role;
 import com.example.webapp.service.UserService;
@@ -31,54 +34,57 @@ public class UserServiceImpl implements UserService {
         return INSTANCE;
     }
 
-    private final UserRepository userRepository = UserRepositoryImpl.getInstance();
+    private final UserDaoImpl userDao = UserDaoImpl.getInstance();
+    private final UserMapper userMapper = new UserMapperImpl();
+
 
     @Override
     @Transactional
-    public void save(@Valid User user) {
+    public void save(RegisterUserDto registerUserDto) {
+        User user = userMapper.toEntity(registerUserDto);
         Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
         user.setPassword(BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray()));
         user.setRoleSet(Set.of(Role.ROLE_USER));
-        userRepository.save(user);
+        userDao.save(user);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userDao.findByEmail(email);
     }
 
     @Override
     public Optional<User> findByPhoneNumber(String number) {
-        return userRepository.findByPhoneNumber(number);
+        return userDao.findByPhoneNumber(number);
     }
 
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(()->
+        return userDao.findById(id).orElseThrow(()->
                 new UserNotFoundException("User with id "+id+" was not found"));
     }
 
     @Override
     @Transactional
-    public User update(@Valid User user) {
+    public void update(@Valid User user) {
         Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
-        return userRepository.update(user);
+        update(user);
     }
 
     @Override
     public List<User> findAll() {
-        return userRepository.findAll();
+        return userDao.findAll();
     }
 
     @Override
     @Transactional
-    public User addProductToCart(User user, Product product) {
+    public void addProductToCart(User user, Product product) {
         boolean isInCartList = user.getCarts().stream()
                 .filter(cart -> cart.getProduct().getId().equals(product.getId()))
                 .peek(cart -> cart.setAmount(cart.getAmount() + 1))
@@ -89,18 +95,18 @@ public class UserServiceImpl implements UserService {
             Cart cart = new Cart(product);
             user.addCartToList(cart);
         }
-        return update(user);
+        update(user);
     }
 
     @Override
     @Transactional
-    public User makeOrder(User user, Order order) {
+    public void makeOrder(User user, Order order) {
         order.setOrderItems(user.getCarts().stream()
                 .map(cart -> OderItemCartMapper.map(cart, order))
                 .toList());
         user.getCarts().clear();
         user.addOrderToList(order);
-        return update(user);
+        update(user);
     }
 
 }

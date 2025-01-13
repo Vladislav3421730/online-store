@@ -51,10 +51,10 @@ public class CartServlet extends HttpServlet {
             return;
         }
 
-        Order order = new Order(totalPrice);
-        order.setAddress(AddressFormationAssistant.formAddress(req));
+//        Order order = new Order(totalPrice);
+//        order.setAddress(AddressFormationAssistant.formAddress(req));
 
-        req.getSession().setAttribute("user", userService.makeOrder(user,order));
+      //  req.getSession().setAttribute("user", userService.makeOrder(user,order));
         req.setAttribute("success", "Заказ был успешно оформлен");
         req.getRequestDispatcher(JspHelper.getPath("cart")).forward(req, resp);
     }

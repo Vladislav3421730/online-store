@@ -33,7 +33,7 @@ public class DecrementCartServlet extends HttpServlet {
         List<Cart> userCarts = user.getCarts();
         cartService.decrementAmountOfCartInBasket(userCarts,index);
 
-        req.getSession().setAttribute("user",userService.update(user));
+      //  req.getSession().setAttribute("user",userService.update(user));
         resp.sendRedirect(req.getContextPath()+"/user/cart");
     }
 

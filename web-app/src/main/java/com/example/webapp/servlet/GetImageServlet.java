@@ -1,6 +1,6 @@
 package com.example.webapp.servlet;
 
-import com.example.webapp.model.Image;
+import com.example.webapp.dto.ImageDto;
 import com.example.webapp.service.impl.ImageServiceImpl;
 import com.example.webapp.utils.Validator;
 import jakarta.servlet.ServletException;
@@ -23,7 +23,7 @@ public class GetImageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         long imageId = Validator.validateLong(req.getParameter("id"));
-        Image image = imageService.findById(imageId);
+        ImageDto image = imageService.findById(imageId);
         resp.setContentType(image.getContentType());
         byte[] imageData = image.getBytes();
         resp.setContentLength(imageData.length);

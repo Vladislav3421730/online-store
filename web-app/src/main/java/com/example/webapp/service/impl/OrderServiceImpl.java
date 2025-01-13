@@ -2,8 +2,8 @@ package com.example.webapp.service.impl;
 
 import com.example.webapp.exception.OrderNotFoundException;
 import com.example.webapp.model.Order;
-import com.example.webapp.repository.OrderRepository;
-import com.example.webapp.repository.impl.OrderRepositoryImpl;
+import com.example.webapp.dao.OrderDao;
+import com.example.webapp.dao.impl.OrderDaoImpl;
 import com.example.webapp.service.OrderService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -19,26 +19,26 @@ public class OrderServiceImpl implements OrderService {
         return INSTANCE;
     }
 
-    private final OrderRepository orderRepository = OrderRepositoryImpl.getInstance();
+    private final OrderDaoImpl orderDao = OrderDaoImpl.getInstance();
 
     @Override
     public List<Order> findAll() {
-        return orderRepository.findAll();
+        return orderDao.findAll();
     }
 
     @Override
     public Order findById(Long id) {
-        return orderRepository.findById(id).orElseThrow(
+        return orderDao.findById(id).orElseThrow(
                 () -> new OrderNotFoundException("Order with id " + id + " not found"));
     }
 
     @Override
     public List<Order> findAllByUserEmail(String email) {
-        return orderRepository.findAllByUserEmail(email);
+        return orderDao.findAllByUserEmail(email);
     }
 
     @Override
     public void update(Order order) {
-        orderRepository.update(order);
+        orderDao.update(order);
     }
 }
