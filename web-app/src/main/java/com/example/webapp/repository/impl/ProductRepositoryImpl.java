@@ -74,7 +74,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 
     @Override
-    @Transactional
     public void update(Product product) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -83,7 +82,6 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         session.beginTransaction();
@@ -101,7 +99,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 
     @Override
-    @Transactional
     public void save(Product product) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         session.beginTransaction();

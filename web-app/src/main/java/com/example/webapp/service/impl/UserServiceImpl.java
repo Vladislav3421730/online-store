@@ -65,7 +65,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User update(@Valid User user) {
         Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
-        violations.removeIf(violation -> violation.getPropertyPath().toString().equals("amount"));
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
@@ -97,7 +96,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User makeOrder(User user, Order order) {
         order.setOrderItems(user.getCarts().stream()
-                .map(x -> OderItemCartMapper.map(x, order))
+                .map(cart -> OderItemCartMapper.map(cart, order))
                 .toList());
         user.getCarts().clear();
         user.addOrderToList(order);

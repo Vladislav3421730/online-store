@@ -42,7 +42,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @Transactional
     public User update(User user) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -52,7 +51,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @Transactional
     public void save(User user) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         session.beginTransaction();

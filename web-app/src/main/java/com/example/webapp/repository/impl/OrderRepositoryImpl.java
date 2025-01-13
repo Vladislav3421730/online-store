@@ -43,7 +43,6 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    @Transactional
     public void update(Order order) {
         Session session = HibernateUtils.getSessionFactory().getCurrentSession();
         session.beginTransaction();

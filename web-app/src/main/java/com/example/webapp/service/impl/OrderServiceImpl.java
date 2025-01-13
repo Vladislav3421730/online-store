@@ -14,7 +14,8 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private static final OrderServiceImpl INSTANCE = new OrderServiceImpl();
-    public static OrderServiceImpl getInstance(){
+
+    public static OrderServiceImpl getInstance() {
         return INSTANCE;
     }
 

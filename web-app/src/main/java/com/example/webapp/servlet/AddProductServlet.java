@@ -25,20 +25,20 @@ import java.util.ArrayList;
 @MultipartConfig
 public class AddProductServlet extends HttpServlet {
 
-    private final ProductService productService=ProductServiceImpl.getInstance();
+    private final ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(JspHelper.getPath("addProduct")).forward(req,resp);
+        req.getRequestDispatcher(JspHelper.getPath("addProduct")).forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Product product= Product.builder()
+        Product product = Product.builder()
                 .title(req.getParameter("name"))
                 .description(req.getParameter("description"))
-                .coast(BigDecimal.valueOf( Validator.validateDouble(req.getParameter("coast"))))
+                .coast(BigDecimal.valueOf(Validator.validateDouble(req.getParameter("coast"))))
                 .amount(Validator.validateInt(req.getParameter("amount")))
                 .category(req.getParameter("category"))
                 .imageList(new ArrayList<>())
@@ -59,6 +59,6 @@ public class AddProductServlet extends HttpServlet {
             }
         }
         productService.save(product);
-        resp.sendRedirect(req.getContextPath()+ "/manager/products");
+        resp.sendRedirect(req.getContextPath() + "/manager/products");
     }
 }
