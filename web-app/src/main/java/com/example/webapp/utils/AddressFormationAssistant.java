@@ -1,6 +1,8 @@
 package com.example.webapp.utils;
 
 import com.example.webapp.dto.AddressDto;
+import com.example.webapp.dto.OrderDto;
+import com.example.webapp.dto.UserDto;
 import com.example.webapp.mapper.AddressMapper;
 import com.example.webapp.mapper.AddressMapperImpl;
 import com.example.webapp.model.Address;
@@ -42,9 +44,9 @@ public class AddressFormationAssistant {
     }
 
     public void updateAddresses(HttpServletRequest request){
-        User user = (User) request.getSession().getAttribute("user");
-        List<Address> addresses = user.getOrders().stream()
-                .map(Order::getAddress)
+        UserDto user = (UserDto) request.getSession().getAttribute("user");
+        List<AddressDto> addresses = user.getOrders().stream()
+                .map(OrderDto::getAddress)
                 .distinct()
                 .toList();
         log.info("All user delivery addresses {}",addresses);

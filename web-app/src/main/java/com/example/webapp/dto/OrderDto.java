@@ -1,25 +1,22 @@
 package com.example.webapp.dto;
 
-import com.example.webapp.model.Address;
-import com.example.webapp.model.OrderItem;
-import com.example.webapp.model.User;
+import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
 public class OrderDto {
 
     private Long id;
     private LocalDateTime createdAt;
     private BigDecimal totalPrice;
-    private Address address;
-
+    private AddressDto address;
+    private Long userId;
     private String status;
-
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private List<OrderItemDto> orderItems;
 
     public OrderDto(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;

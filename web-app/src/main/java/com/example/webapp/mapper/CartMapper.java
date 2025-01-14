@@ -19,7 +19,12 @@ public interface CartMapper {
     ProductMapper productMapper = Mappers.getMapper(ProductMapper.class);
 
     @Mapping(source = "product",target = "product")
-    CartDto cartToCartDto(Cart cart);
+    @Mapping(source = "user",target = "userId")
+    CartDto toDto(Cart cart);
+
+    @Mapping(target = "product", ignore = true)
+    @Mapping(source = "userId",target = "user")
+    Cart toEntity(CartDto cartDto);
 
     default List<Long> mapImageListToIds(List<Image> images) {
         if (images == null) {
@@ -29,4 +34,13 @@ public interface CartMapper {
                 .map(Image::getId)
                 .collect(Collectors.toList());
     }
+
+    default Long mapUserToCartDtoFromCart(User user){
+        return user.getId();
+    }
+
+    default User mapUserToCartFromCartDto(Long value){
+        return User.builder().id(value).build();
+    }
+
 }

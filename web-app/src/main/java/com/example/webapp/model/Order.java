@@ -39,7 +39,7 @@ public class Order {
     @NotNull(message = "Order cannot be made without user")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -49,18 +49,9 @@ public class Order {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    public Order(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     @PrePersist
     void init(){
         status = Status.ACCEPTED;
         createdAt = LocalDateTime.now();
     }
-
-    public Date getCreatedAtAsDate() {
-        return Date.from(createdAt.atZone(ZoneId.systemDefault()).toInstant());
-    }
-
 }

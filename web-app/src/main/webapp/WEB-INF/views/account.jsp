@@ -31,8 +31,8 @@
                             <hr>
                             <div class="orderInfo">
                                 <strong>Номер заказа ${order.getId()}</strong>
-                                <div class="${order.getStatus().getDisplayName() == 'доставлен' ? 'delivered mx-2' : 'status mx-2'}">
-                                        ${order.getStatus().getDisplayName()}
+                                <div class="${order.getStatus() == 'доставлен' ? 'delivered mx-2' : 'status mx-2'}">
+                                        ${order.getStatus()}
                                 </div>
                             </div>
                             <strong>Общая сумма заказа ${order.getTotalPrice()}</strong><br>

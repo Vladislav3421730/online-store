@@ -16,13 +16,18 @@ import java.util.stream.Collectors;
 public interface ProductMapper {
 
     @Mapping(source = "imageList", target = "imageList")
-    Product toEntity(CreateProductDto dto);
+    Product toNewEntity(CreateProductDto dto);
 
     @Mapping(source = "imageList", target = "imageList")
     ProductDto toDTO(Product product);
 
+    @Mapping(source = "imageList", target = "imageList")
+    Product toEntity(ProductDto productDto);
+
     Image toEntity(CreateImageDto createImageDTO);
     List<Image> toImageList(List<CreateImageDto> createImageDtos);
+    List<Image> toImageListFromProductDto(List<Long> values);
+    Image toImageFromProductDto(Long value);
 
     default List<Long> mapImageListToIds(List<Image> images) {
         if (images == null) {

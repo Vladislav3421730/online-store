@@ -22,7 +22,9 @@ public class GetProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         long productId = Validator.validateLong(req.getParameter("id"));
+
         ProductDto product = productService.findById(productId);
         req.setAttribute("product", product);
         req.getRequestDispatcher(JspHelper.getPath("product")).forward(req, resp);

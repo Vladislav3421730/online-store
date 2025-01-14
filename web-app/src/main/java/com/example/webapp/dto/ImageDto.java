@@ -9,4 +9,5 @@ public class ImageDto {
     private Long id;
     private String contentType;
     private byte[] bytes;
+    private Long productId;
 }

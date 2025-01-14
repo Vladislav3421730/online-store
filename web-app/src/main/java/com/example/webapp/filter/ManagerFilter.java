@@ -1,5 +1,6 @@
 package com.example.webapp.filter;
 
+import com.example.webapp.dto.UserDto;
 import com.example.webapp.model.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,7 +16,7 @@ public class ManagerFilter extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        User user = (User) req.getSession().getAttribute("user");
+        UserDto user = (UserDto) req.getSession().getAttribute("user");
         if(user==null){
             res.sendRedirect(req.getContextPath()+"/login");
             return;

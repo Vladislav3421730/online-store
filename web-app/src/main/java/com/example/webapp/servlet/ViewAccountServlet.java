@@ -1,5 +1,7 @@
 package com.example.webapp.servlet;
 
+import com.example.webapp.dto.OrderDto;
+import com.example.webapp.dto.UserDto;
 import com.example.webapp.model.Order;
 import com.example.webapp.model.User;
 import com.example.webapp.utils.JspHelper;
@@ -17,8 +19,8 @@ public class ViewAccountServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute("user");
-        user.getOrders().sort(Comparator.comparing(Order::getCreatedAt).reversed());
+        UserDto user = (UserDto) req.getSession().getAttribute("user");
+        user.getOrders().sort(Comparator.comparing(OrderDto::getCreatedAt).reversed());
         req.getRequestDispatcher(JspHelper.getPath("account")).forward(req,resp);
     }
 }

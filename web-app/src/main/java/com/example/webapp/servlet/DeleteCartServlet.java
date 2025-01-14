@@ -1,7 +1,7 @@
 package com.example.webapp.servlet;
 
-import com.example.webapp.model.Cart;
-import com.example.webapp.model.User;
+import com.example.webapp.dto.CartDto;
+import com.example.webapp.dto.UserDto;
 import com.example.webapp.service.CartService;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.CartServiceImpl;
@@ -26,13 +26,12 @@ public class DeleteCartServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute("user");
+        UserDto user = (UserDto) req.getSession().getAttribute("user");
         int index = Validator.validateInt(req.getParameter("index"));
 
-        List<Cart> cartAfterRemoving = user.getCarts();
+        List<CartDto> cartAfterRemoving = user.getCarts();
         cartService.deleteCartFromBasket(cartAfterRemoving,index);
 
-       // req.getSession().setAttribute("user", userService.update(user));
         resp.sendRedirect(req.getContextPath()+"/user/cart");
     }
 

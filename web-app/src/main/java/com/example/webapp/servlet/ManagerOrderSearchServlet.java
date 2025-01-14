@@ -1,5 +1,6 @@
 package com.example.webapp.servlet;
 
+import com.example.webapp.dto.OrderDto;
 import com.example.webapp.service.OrderService;
 import com.example.webapp.service.impl.OrderServiceImpl;
 import com.example.webapp.utils.JspHelper;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/manager/order/search")
 @Slf4j
@@ -27,7 +29,8 @@ public class ManagerOrderSearchServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() +"/manager/orders");
             return;
         }
-        req.setAttribute("orders",orderService.findAllByUserEmail(emailParam));
+        List<OrderDto> orders = orderService.findAllByUserEmail(emailParam);
+        req.setAttribute("orders",orders);
         req.getRequestDispatcher(JspHelper.getPath("managerOrders")).forward(req,resp);
     }
 }

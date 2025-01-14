@@ -1,14 +1,11 @@
 package com.example.webapp.service.impl;
 
-import com.example.webapp.dto.RegisterUserDto;
+import com.example.webapp.dao.impl.CartDaoImpl;
+import com.example.webapp.dto.*;
 import com.example.webapp.exception.UserNotFoundException;
-import com.example.webapp.mapper.OderItemCartMapper;
-import com.example.webapp.mapper.UserMapper;
-import com.example.webapp.mapper.UserMapperImpl;
+import com.example.webapp.mapper.*;
 import com.example.webapp.model.Cart;
 import com.example.webapp.model.Order;
-import com.example.webapp.model.Product;
-import com.example.webapp.dao.UserDao;
 import com.example.webapp.dao.impl.UserDaoImpl;
 import com.example.webapp.model.User;
 import com.example.webapp.model.enums.Role;
@@ -36,12 +33,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
     private final UserMapper userMapper = new UserMapperImpl();
-
+    private final ProductMapper productMapper = new ProductMapperImpl();
+    private final OrderMapper orderMapper = new OrderMapperImpl();
 
     @Override
     @Transactional
     public void save(RegisterUserDto registerUserDto) {
-        User user = userMapper.toEntity(registerUserDto);
+        User user = userMapper.toNewEntity(registerUserDto);
+        log.info("{} {} {} {}",user.getUsername(),user.getPassword(),user.getPhoneNumber(),user.getUsername());
         Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
@@ -52,61 +51,77 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        return userDao.findByEmail(email);
+    public Optional<UserDto> findByEmail(String email) {
+        Optional<User> user = userDao.findByEmail(email);
+        return user.map(userMapper::toDTO);
     }
 
     @Override
-    public Optional<User> findByPhoneNumber(String number) {
-        return userDao.findByPhoneNumber(number);
+    public Optional<UserDto> findByPhoneNumber(String number) {
+        Optional<User> user = userDao.findByPhoneNumber(number);
+        return user.map(userMapper::toDTO);
     }
 
     @Override
-    public User findById(Long id) {
-        return userDao.findById(id).orElseThrow(()->
+    public UserDto findById(Long id) {
+        User user = userDao.findById(id).orElseThrow(()->
                 new UserNotFoundException("User with id "+id+" was not found"));
+        return userMapper.toDTO(user);
+    }
+
+    @Override
+    public UserDto updateUserDto(UserDto userDto) {
+        User user = userMapper.toEntity(userDto);
+        return update(user);
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+        return userDao.findAll().stream()
+                .map(userMapper::toDTO)
+                .toList();
     }
 
     @Override
     @Transactional
-    public void update(@Valid User user) {
-        Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
-        update(user);
-    }
-
-    @Override
-    public List<User> findAll() {
-        return userDao.findAll();
-    }
-
-    @Override
-    @Transactional
-    public void addProductToCart(User user, Product product) {
+    public UserDto addProductToCart(UserDto userDto, ProductDto productDto) {
+        User user = userDao.findById(userDto.getId()).get();
         boolean isInCartList = user.getCarts().stream()
-                .filter(cart -> cart.getProduct().getId().equals(product.getId()))
+                .filter(cart -> cart.getProduct().getId().equals(productDto.getId()))
                 .peek(cart -> cart.setAmount(cart.getAmount() + 1))
                 .findFirst()
                 .isPresent();
         if (!isInCartList) {
-            log.info("a new item {} has been added to the user's {} cart",product.getTitle(),user.getEmail());
-            Cart cart = new Cart(product);
+            log.info("a new item {} has been added to the user's {} cart",productDto.getTitle(),user.getEmail());
+            Cart cart = new Cart(productMapper.toEntity(productDto));
             user.addCartToList(cart);
         }
-        update(user);
+        return update(user);
     }
 
     @Override
     @Transactional
-    public void makeOrder(User user, Order order) {
+    public UserDto makeOrder(UserDto userDto, OrderDto orderDto) {
+
+        User user = userMapper.toEntity(userDto);
+        Order order = orderMapper.toEntity(orderDto);
+
         order.setOrderItems(user.getCarts().stream()
                 .map(cart -> OderItemCartMapper.map(cart, order))
                 .toList());
         user.getCarts().clear();
-        user.addOrderToList(order);
-        update(user);
+        user.getOrders().add(order);
+        return update(user);
+    }
+
+    @Transactional
+    @Override
+    public UserDto update(@Valid User user) {
+        Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+        return userMapper.toDTO(userDao.update(user));
     }
 
 }

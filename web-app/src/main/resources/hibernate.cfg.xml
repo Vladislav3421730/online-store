@@ -4,15 +4,27 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.url">jdbc:postgresql://localhost:5432/onlineshop</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">postgres</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
-        <property name="current_session_context_class">thread</property>
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
+
+        <property name="hibernate.hikari.dataSourceClassName">org.postgresql.ds.PGSimpleDataSource</property>
+        <property name="hibernate.hikari.dataSource.url">jdbc:postgresql://localhost:5432/onlineshop</property>
+        <property name="hibernate.hikari.dataSource.user">postgres</property>
+        <property name="hibernate.hikari.dataSource.password">postgres</property>
+        <property name="hibernate.hikari.maximumPoolSize">30</property>
+        <property name="hibernate.hikari.minimumIdle">5</property>
+        <property name="hibernate.hikari.idleTimeout">300000</property>
+        <property name="hibernate.hikari.maxLifetime">1800000</property>
+        <property name="hibernate.hikari.connectionTimeout">30000</property>
+        <property name="hibernate.hikari.poolName">HikariPool</property>
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
+
         <mapping class="com.example.webapp.model.Product"/>
         <mapping class="com.example.webapp.model.User"/>
         <mapping class="com.example.webapp.model.Image"/>
@@ -20,5 +32,6 @@
         <mapping class="com.example.webapp.model.Order"/>
         <mapping class="com.example.webapp.model.OrderItem"/>
         <mapping class="com.example.webapp.model.Address"/>
+
     </session-factory>
 </hibernate-configuration>

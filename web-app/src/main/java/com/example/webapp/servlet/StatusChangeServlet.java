@@ -1,5 +1,6 @@
 package com.example.webapp.servlet;
 
+import com.example.webapp.dto.OrderDto;
 import com.example.webapp.model.Order;
 import com.example.webapp.model.enums.Status;
 import com.example.webapp.service.OrderService;
@@ -24,10 +25,10 @@ public class StatusChangeServlet extends HttpServlet {
         Status status = Status.valueOf(req.getParameter("status"));
         long statusId = Validator.validateLong(req.getParameter("id"));
 
-        Order order = orderService.findById(statusId);
-        order.setStatus(status);
-        orderService.update(order);
+        OrderDto order = orderService.findById(statusId);
+        order.setStatus(status.getDisplayName());
 
+        orderService.update(order);
         req.setAttribute("order", order);
         req.getRequestDispatcher(JspHelper.getPath("order")).forward(req, resp);
     }

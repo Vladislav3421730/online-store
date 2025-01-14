@@ -26,7 +26,7 @@
         <br>
         <strong>email: ${requestScope.order.getUser().getEmail()}</strong><br>
         <strong>Имя: ${requestScope.order.getUser().getUsername()}</strong><br>
-        <strong>Телевон: ${requestScope.order.getUser().getPhoneNumber()}</strong><br>
+        <strong>Телефон: ${requestScope.order.getUser().getPhoneNumber()}</strong><br>
         <div class="orderInfo">
             <strong>Номер заказа ${requestScope.order.getId()}</strong>
             <div class="${requestScope.order.getStatus().getDisplayName() == 'доставлен' ? 'delivered mx-2' : 'status mx-2'}">

@@ -1,6 +1,9 @@
 package com.example.webapp.service.impl;
 
+import com.example.webapp.dto.OrderDto;
 import com.example.webapp.exception.OrderNotFoundException;
+import com.example.webapp.mapper.OrderMapper;
+import com.example.webapp.mapper.OrderMapperImpl;
 import com.example.webapp.model.Order;
 import com.example.webapp.dao.OrderDao;
 import com.example.webapp.dao.impl.OrderDaoImpl;
@@ -20,25 +23,32 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private final OrderDaoImpl orderDao = OrderDaoImpl.getInstance();
+    private final OrderMapper orderMapper = new OrderMapperImpl();
 
     @Override
-    public List<Order> findAll() {
-        return orderDao.findAll();
+    public List<OrderDto> findAll() {
+        return orderDao.findAll().stream()
+                .map(orderMapper::toDTO)
+                .toList();
     }
 
     @Override
-    public Order findById(Long id) {
-        return orderDao.findById(id).orElseThrow(
+    public OrderDto findById(Long id) {
+        Order order = orderDao.findById(id).orElseThrow(
                 () -> new OrderNotFoundException("Order with id " + id + " not found"));
+        return orderMapper.toDTO(order);
     }
 
     @Override
-    public List<Order> findAllByUserEmail(String email) {
-        return orderDao.findAllByUserEmail(email);
+    public List<OrderDto> findAllByUserEmail(String email) {
+        return orderDao.findAllByUserEmail(email).stream()
+                .map(orderMapper::toDTO)
+                .toList();
     }
 
     @Override
-    public void update(Order order) {
+    public void update(OrderDto orderDto) {
+        Order order = orderMapper.toEntity(orderDto);
         orderDao.update(order);
     }
 }

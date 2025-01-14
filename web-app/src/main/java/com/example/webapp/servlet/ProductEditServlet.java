@@ -1,5 +1,7 @@
 package com.example.webapp.servlet;
 
+import com.example.webapp.dto.ImageDto;
+import com.example.webapp.dto.ProductDto;
 import com.example.webapp.model.Image;
 import com.example.webapp.model.Product;
 import com.example.webapp.service.ProductService;
@@ -36,15 +38,15 @@ public class ProductEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-//        Product product = productService.findById(Validator.validateLong(req.getParameter("id")));
+//
+//        ProductDto product = productService.findById(Validator.validateLong(req.getParameter("id")));
 //        product.setTitle(req.getParameter("name"));
 //        product.setDescription((req.getParameter("description")));
 //        product.setCoast(BigDecimal.valueOf(Validator.validateDouble(req.getParameter("coast"))));
 //        product.setAmount(Validator.validateInt(req.getParameter("amount")));
 //        product.setCategory(req.getParameter("category"));
-
-//        List<Image> existingImages = product.getImageList();
+//
+//        List<ImageDto> existingImages = product.getImageList();
 //
 //        log.info("Size of files {}", req.getParts().size());
 //        for (Part part : req.getParts()) {

@@ -41,7 +41,6 @@ public class User {
     @Pattern(regexp = "^[+]375[0-9]{9}$",message = "Phone number must be in format +375XXXXXXXXX")
     private String phoneNumber;
 
-
     @PrePersist
     private void init(){
         isBun=false;
@@ -59,21 +58,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
-    public boolean isAdmin(){
-        return roleSet.contains(Role.ROLE_ADMIN);
-    }
-    public boolean isManager(){
-        return roleSet.contains(Role.ROLE_MANAGER);
-    }
 
-    public void addCartToList(Cart cart){
+    public void addCartToList(Cart cart) {
         carts.add(cart);
         cart.setUser(this);
     }
-
-    public void addOrderToList(Order order){
-        orders.add(order);
-        order.setUser(this);
-    }
-
 }

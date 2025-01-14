@@ -37,11 +37,12 @@ public abstract class AbstractHibernateDao<T> {
         }
     }
 
-    public void update(T entity) {
+    public T update(T entity) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.merge(entity);
+            T updatedEntity = (T) session.merge(entity);
             session.getTransaction().commit();
+            return updatedEntity;
         }
     }
 

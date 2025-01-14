@@ -1,6 +1,7 @@
 package com.example.webapp.servlet;
 
 import com.example.webapp.dto.ProductDto;
+import com.example.webapp.dto.UserDto;
 import com.example.webapp.model.Product;
 import com.example.webapp.model.User;
 import com.example.webapp.service.ProductService;
@@ -34,8 +35,10 @@ public class AddProductToCartServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
-//        User user = (User) req.getSession().getAttribute("user");
-//        req.getSession().setAttribute("user", userService.addProductToCart(user,product));
+
+        UserDto user = (UserDto) req.getSession().getAttribute("user");
+        UserDto updatedUser = userService.addProductToCart(user,product);
+        req.getSession().setAttribute("user",updatedUser);
         resp.sendRedirect(req.getContextPath() + "/");
     }
 }

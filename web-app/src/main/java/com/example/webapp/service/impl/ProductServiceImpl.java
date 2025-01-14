@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void save(CreateProductDto createProductDTO) {
-        Product product = productMapper.toEntity(createProductDTO);
+        Product product = productMapper.toNewEntity(createProductDTO);
         Set<ConstraintViolation<Product>> violations = HibernateValidatorUtil.getValidator().validate(product);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);

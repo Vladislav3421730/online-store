@@ -1,5 +1,6 @@
 package com.example.webapp.servlet;
 
+import com.example.webapp.dto.UserDto;
 import com.example.webapp.model.User;
 import com.example.webapp.service.AdminService;
 import com.example.webapp.service.UserService;
@@ -24,7 +25,7 @@ public class BunUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = userService.findById(Validator
+        UserDto user = userService.findById(Validator
                 .validateLong(req.getParameter("userId")));
         log.info("{} {}", user.isBun() ? "ban user" : "unban",user.getEmail());
         adminService.bun(user);

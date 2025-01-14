@@ -1,5 +1,6 @@
 package com.example.webapp.servlet;
 
+import com.example.webapp.dto.UserDto;
 import com.example.webapp.model.User;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.UserServiceImpl;
@@ -30,7 +31,7 @@ public class UserSearchServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() +"/admin/panel");
             return;
         }
-        Optional<User> user = userService.findByEmail(emailParam);
+        Optional<UserDto> user = userService.findByEmail(emailParam);
         if(user.isEmpty()){
             log.error("User with email {} was not found",emailParam);
             req.setAttribute("users", List.of());

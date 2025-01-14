@@ -1,6 +1,7 @@
 package com.example.webapp.servlet;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.example.webapp.dto.UserDto;
 import com.example.webapp.model.User;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.UserServiceImpl;
@@ -37,7 +38,7 @@ public class LoginServlet extends HttpServlet {
             req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
             return;
         }
-        Optional<User> user = userService.findByEmail(email);
+        Optional<UserDto> user = userService.findByEmail(email);
         if (user.isEmpty() || !BCrypt.verifyer().verify(password.toCharArray(), user.get().getPassword()).verified) {
             log.error("User authorization error {} {}, incorrect email or password",
                     email, password);

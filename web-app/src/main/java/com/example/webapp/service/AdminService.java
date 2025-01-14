@@ -1,8 +1,8 @@
 package com.example.webapp.service;
 
-import com.example.webapp.model.User;
+import com.example.webapp.dto.UserDto;
 
 public interface AdminService {
-    void bun(User user);
-    void madeManager(User user);
+    void bun(UserDto userDto);
+    void madeManager(UserDto userDto);
 }

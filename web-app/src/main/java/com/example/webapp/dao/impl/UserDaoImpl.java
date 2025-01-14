@@ -30,7 +30,15 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
                     .setParameter("adminRole", Role.ROLE_ADMIN)
                     .getResultList();
         }
+    }
 
+    @Override
+    public void save(User entity) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.save(entity);
+            session.getTransaction().commit();
+        }
     }
 
     @Override
@@ -43,6 +51,7 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
         }
     }
 
+    @Override
     public Optional<User> findByEmail(String email) {
         try (Session session = sessionFactory.openSession()) {
             User user = session.createQuery("FROM User u WHERE  u.email = :email", User.class)
@@ -59,6 +68,40 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
                     .setParameter("number", number)
                     .uniqueResult();
             return Optional.ofNullable(user);
+        }
+    }
+
+    @Override
+    public void addRoleManagerToUser(Long userId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.createNativeQuery("INSERT INTO user_role (user_id, roleset) VALUES (:userId, :role)")
+                    .setParameter("userId", userId)
+                    .setParameter("role", Role.ROLE_MANAGER.name())
+                    .executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void removeRoleManagerFromUser(Long userId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.createNativeQuery("DELETE FROM user_role where user_id=:userId and roleset=:role")
+                    .setParameter("userId", userId)
+                    .setParameter("role", Role.ROLE_MANAGER.name())
+                    .executeUpdate();
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void bunUser(Long userId) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.createQuery("UPDATE User u SET u.isBun = CASE WHEN u.isBun = true THEN false ELSE true end")
+                    .executeUpdate();
+            session.getTransaction().commit();
         }
     }
 }
