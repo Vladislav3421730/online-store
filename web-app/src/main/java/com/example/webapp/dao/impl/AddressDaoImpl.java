@@ -3,6 +3,7 @@ package com.example.webapp.dao.impl;
 import com.example.webapp.model.Address;
 import com.example.webapp.dao.AbstractHibernateDao;
 import com.example.webapp.dao.AddressDao;
+import org.hibernate.Session;
 
 public class AddressDaoImpl extends AbstractHibernateDao<Address> implements AddressDao {
 
@@ -15,6 +16,5 @@ public class AddressDaoImpl extends AbstractHibernateDao<Address> implements Add
     private AddressDaoImpl() {
         super(Address.class);
     }
-
 
 }

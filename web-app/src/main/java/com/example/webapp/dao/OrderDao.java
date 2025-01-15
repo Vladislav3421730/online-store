@@ -7,6 +7,4 @@ import java.util.Optional;
 
 public interface OrderDao {
     List<Order> findAllByUserEmail(String email);
-    Optional<Order> findById(Long id);
-
 }

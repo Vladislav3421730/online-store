@@ -58,9 +58,13 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
-
     public void addCartToList(Cart cart) {
         carts.add(cart);
         cart.setUser(this);
+    }
+
+    public void addOrderToList(Order order){
+        orders.add(order);
+        order.setUser(this);
     }
 }

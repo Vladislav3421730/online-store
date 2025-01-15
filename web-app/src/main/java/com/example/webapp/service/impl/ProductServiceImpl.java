@@ -32,8 +32,9 @@ public class ProductServiceImpl implements ProductService {
         return INSTANCE;
     }
 
-    private final ProductDaoImpl productRepository = ProductDaoImpl.getInstance();
+    private final ProductDaoImpl productDao = ProductDaoImpl.getInstance();
     private final ImageDaoImpl imageRepository = ImageDaoImpl.getInstance();
+
     private final ProductMapper productMapper = new ProductMapperImpl();
 
     @Override
@@ -44,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
-        productRepository.save(product);
+        productDao.save(product);
         for (Image image : product.getImageList()) {
             image.setProduct(product);
             imageRepository.save(image);
@@ -53,44 +54,47 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll() {
-        return productRepository.findAll().stream()
+        return productDao.findAll().stream()
                 .map(productMapper::toDTO)
                 .toList();
     }
 
     @Override
     public ProductDto findById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(()->
+        Product product = productDao.findById(id).orElseThrow(()->
                 new ProductNotFoundException("Product with id "+id+" was not found"));
         return productMapper.toDTO(product);
     }
 
     @Override
     public List<ProductDto> findAllBySearch(String title) {
-        return productRepository.findAllByTitle(title).stream()
+        return productDao.findAllByTitle(title).stream()
                 .map(productMapper::toDTO)
                 .toList();
     }
 
     @Override
     public List<ProductDto> findAllByFilter(ProductFilterDTO productFilterDTO) {
-        return productRepository.findAllByFilter(productFilterDTO).stream()
+        return productDao.findAllByFilter(productFilterDTO).stream()
                 .map(productMapper::toDTO)
                 .toList();
     }
 
     @Override
-    public void update(@Valid Product product) {
+    @Transactional
+    public void update(ProductDto productDto) {
+        Product product = productMapper.toEntity(productDto);
         Set<ConstraintViolation<Product>> violations = HibernateValidatorUtil.getValidator().validate(product);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
-        productRepository.update(product);
+        productDao.update(product);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        productRepository.delete(id);
+        productDao.delete(id);
     }
 
 

@@ -17,12 +17,12 @@
             <div class="modal-body">
                 <form action="${pageContext.request.contextPath}/manager/status/change" method="post">
                     <select  class="form-control" id="select" name="status">
-                        <option value="ACCEPTED">принят</option>
-                        <option value="IN_PROCESSING">в обработке</option>
-                        <option value="IN_TRANSIT">в пути</option>
-                        <option value="DELIVERED">доставлен</option>
+                        <option>принят</option>
+                        <option>в обработке</option>
+                        <option>в пути</option>
+                        <option>доставлен</option>
                     </select>
-                    <input type="hidden" value="${requestScope.order.getId()}" name="id">
+                    <input type="hidden" value="${requestScope.orderDto.getId()}" name="id">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
                         <input type="submit" value="Подтвердить" class="btn btn-primary"/>

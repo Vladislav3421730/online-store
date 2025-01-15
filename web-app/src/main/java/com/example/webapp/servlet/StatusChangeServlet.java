@@ -22,14 +22,14 @@ public class StatusChangeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Status status = Status.valueOf(req.getParameter("status"));
+        String status = req.getParameter("status");
         long statusId = Validator.validateLong(req.getParameter("id"));
 
         OrderDto order = orderService.findById(statusId);
-        order.setStatus(status.getDisplayName());
+        order.setStatus(status);
 
         orderService.update(order);
-        req.setAttribute("order", order);
-        req.getRequestDispatcher(JspHelper.getPath("order")).forward(req, resp);
+        req.setAttribute("orderDto", order);
+        req.getRequestDispatcher(JspHelper.getPath("managerOrder")).forward(req, resp);
     }
 }

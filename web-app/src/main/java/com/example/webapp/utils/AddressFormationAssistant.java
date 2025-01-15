@@ -37,7 +37,7 @@ public class AddressFormationAssistant {
             address.setId(addressId);
             log.info("Address {} already exist in database",address);
         } catch (NumberFormatException e){
-            addressService.save(address);
+            address = addressService.save(address);
             log.info("Adding a new delivery address {}",address);
         }
         return address;

@@ -29,4 +29,11 @@ public class OrderDaoImpl extends AbstractHibernateDao<Order> implements OrderDa
         }
     }
 
+    @Override
+    public List<Order> findAll() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from Order o order by o.createdAt desc", Order.class)
+                    .getResultList();
+        }
+    }
 }

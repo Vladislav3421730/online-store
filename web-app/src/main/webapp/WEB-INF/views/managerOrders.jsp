@@ -39,10 +39,10 @@
                     <tr>
                         <td>${status.index+1}</td>
                         <td>${order.getId()}</td>
-                        <td>${order.getUser().getEmail()}</td>
+                        <td>${order.getEmail()}</td>
                         <td><p><fmt:formatDate value="${order.getCreatedAtAsDate()}"
                                                              pattern="yyyy-MM-dd HH:mm"/></p></td>
-                        <th>${order.getStatus().getDisplayName()}</th>
+                        <th>${order.getStatus()}</th>
                         <td>
                             <input type="button" class="btn btn-primary" value="Информация"
                                    onclick="window.location.href=

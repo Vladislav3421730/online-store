@@ -30,7 +30,7 @@
                             <c:forEach var="image" items="${requestScope.product.getImageList()}" varStatus="status">
                                 <div class="carousel-item ${status.first ? 'active' : ''}">
                                     <img class="d-block w-100"
-                                         src="${pageContext.request.contextPath}/image?id=${image}"
+                                         src="${pageContext.request.contextPath}/image?id=${image.getId()}"
                                          alt="Slide ${status.index + 1}">
                                 </div>
                             </c:forEach>

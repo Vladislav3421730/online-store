@@ -15,7 +15,7 @@ public interface ProductService {
     ProductDto findById(Long id);
     List<ProductDto> findAllBySearch(String word);
     List<ProductDto> findAllByFilter(ProductFilterDTO productFilterDTO);
-    void update(Product product);
+    void update(ProductDto product);
     void delete(Long id);
 
 }

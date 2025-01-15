@@ -48,7 +48,7 @@
                                                          class="card-img-top">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <img src="${pageContext.request.contextPath}/image?id=${product.getImageList().get(0)}"
+                                                    <img src="${pageContext.request.contextPath}/image?id=${product.getImageList().get(0).getId()}"
                                                          class="card-img-top"/>
                                                 </c:otherwise>
                                             </c:choose>

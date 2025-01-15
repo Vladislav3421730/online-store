@@ -11,6 +11,7 @@ import com.example.webapp.utils.HibernateValidatorUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Set;
@@ -27,12 +28,14 @@ public class AddressServiceImpl implements AddressService {
     private final AddressMapper addressMapper = new AddressMapperImpl();
 
     @Override
-    public void save(AddressDto addressDto) {
+    @Transactional
+    public AddressDto save(AddressDto addressDto) {
         Address address = addressMapper.toEntity(addressDto);
         Set<ConstraintViolation<Address>> violations = HibernateValidatorUtil.getValidator().validate(address);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
         addressDao.save(address);
+        return addressMapper.toDTO(address);
     }
 }

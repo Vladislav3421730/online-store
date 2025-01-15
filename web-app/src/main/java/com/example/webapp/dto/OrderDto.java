@@ -1,6 +1,7 @@
 package com.example.webapp.dto;
 
 import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -15,6 +16,7 @@ public class OrderDto {
     private BigDecimal totalPrice;
     private AddressDto address;
     private Long userId;
+    private String email;
     private String status;
     private List<OrderItemDto> orderItems;
 

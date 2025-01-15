@@ -27,12 +27,12 @@ public class ManagerViewOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long orderId = Validator.validateLong(req.getParameter("orderId"));
-        OrderDto order = orderService.findById(orderId);
-        System.out.println(order);
-        UserDto user = userService.findById(order.getUserId());
 
-        req.setAttribute("order", order);
-        req.setAttribute("user",user);
-        req.getRequestDispatcher(JspHelper.getPath("order")).forward(req, resp);
+        OrderDto orderDto = orderService.findById(orderId);
+        UserDto user = userService.findById(orderDto.getUserId());
+
+        req.setAttribute("orderDto", orderDto);
+        req.setAttribute("user", user);
+        req.getRequestDispatcher(JspHelper.getPath("managerOrder")).forward(req, resp);
     }
 }

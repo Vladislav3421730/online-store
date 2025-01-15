@@ -24,23 +24,22 @@
         </div>
         <hr>
         <br>
-        <strong>email: ${requestScope.order.getUser().getEmail()}</strong><br>
-        <strong>Имя: ${requestScope.order.getUser().getUsername()}</strong><br>
-        <strong>Телефон: ${requestScope.order.getUser().getPhoneNumber()}</strong><br>
+        <strong>email: ${requestScope.userDto.getEmail()}</strong><br>
+        <strong>Имя: ${requestScope.userDto.getUsername()}</strong><br>
+        <strong>Телефон: ${requestScope.userDto.getPhoneNumber()}</strong><br>
         <div class="orderInfo">
-            <strong>Номер заказа ${requestScope.order.getId()}</strong>
-            <div class="${requestScope.order.getStatus().getDisplayName() == 'доставлен' ? 'delivered mx-2' : 'status mx-2'}">
-                ${requestScope.order.getStatus().getDisplayName()}
+            <strong>Номер заказа ${requestScope.orderDto.getId()}</strong>
+            <div class="${requestScope.orderDto.getStatus() == 'доставлен' ? 'delivered mx-2' : 'status mx-2'}">
+                ${requestScope.orderDto.getStatus()}
             </div>
         </div>
-        <strong>Общая сумма заказа ${requestScope.order.getTotalPrice()}</strong><br>
-        <p>Время заказа: <fmt:formatDate value="${requestScope.order.getCreatedAtAsDate()}"
+        <strong>Общая сумма заказа ${requestScope.orderDto.getTotalPrice()}</strong><br>
+        <p>Время заказа: <fmt:formatDate value="${requestScope.orderDto.getCreatedAtAsDate()}"
                                          pattern="yyyy-MM-dd HH:mm"/></p>
-        <p>Адресс
-            доставки: ${requestScope.order.getAddress().getRegion()}, ${requestScope.order.getAddress().getTown()},
-            ${requestScope.order.getAddress().getExactAddress()}</p>
+        <p>Адресс доставки: ${requestScope.orderDto.getAddress().getRegion()}, ${requestScope.orderDto.getAddress().getTown()},
+            ${requestScope.orderDto.getAddress().getExactAddress()}</p>
         <div class="row">
-            <c:forEach var="orderItem" items="${requestScope.order.getOrderItems()}">
+            <c:forEach var="orderItem" items="${requestScope.orderDto.getOrderItems()}">
                 <div class="col-lg-3 col-md-6">
                     <div class="card mt-2 mb-2" style="width: 17.5rem;height: 24rem">
                         <a href="${pageContext.request.contextPath}/product/get?id=${orderItem.getProduct().getId()}">

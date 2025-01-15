@@ -99,7 +99,9 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
     public void bunUser(Long userId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.createQuery("UPDATE User u SET u.isBun = CASE WHEN u.isBun = true THEN false ELSE true end")
+            session.createQuery("UPDATE User u SET u.isBun = CASE " +
+                            "WHEN u.isBun = true THEN false ELSE true end where u.id=:userId")
+                    .setParameter("userId",userId)
                     .executeUpdate();
             session.getTransaction().commit();
         }

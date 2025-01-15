@@ -3,8 +3,6 @@ package com.example.webapp.dao.impl;
 import com.example.webapp.dao.AbstractHibernateDao;
 import com.example.webapp.dao.CartDao;
 import com.example.webapp.model.Cart;
-import com.example.webapp.model.Product;
-import com.example.webapp.model.User;
 import org.hibernate.Session;
 
 public class CartDaoImpl extends AbstractHibernateDao<Cart> implements CartDao {

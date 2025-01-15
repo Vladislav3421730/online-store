@@ -1,6 +1,5 @@
 package com.example.webapp.service.impl;
 
-import com.example.webapp.dao.impl.CartDaoImpl;
 import com.example.webapp.dto.*;
 import com.example.webapp.exception.UserNotFoundException;
 import com.example.webapp.mapper.*;
@@ -9,6 +8,7 @@ import com.example.webapp.model.Order;
 import com.example.webapp.dao.impl.UserDaoImpl;
 import com.example.webapp.model.User;
 import com.example.webapp.model.enums.Role;
+import com.example.webapp.model.enums.Status;
 import com.example.webapp.service.UserService;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.webapp.utils.HibernateValidatorUtil;
@@ -26,12 +26,14 @@ import java.util.Set;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private final static UserServiceImpl INSTANCE=new UserServiceImpl();
-    public static UserServiceImpl getInstance(){
+    private final static UserServiceImpl INSTANCE = new UserServiceImpl();
+
+    public static UserServiceImpl getInstance() {
         return INSTANCE;
     }
 
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
+
     private final UserMapper userMapper = new UserMapperImpl();
     private final ProductMapper productMapper = new ProductMapperImpl();
     private final OrderMapper orderMapper = new OrderMapperImpl();
@@ -40,7 +42,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void save(RegisterUserDto registerUserDto) {
         User user = userMapper.toNewEntity(registerUserDto);
-        log.info("{} {} {} {}",user.getUsername(),user.getPassword(),user.getPhoneNumber(),user.getUsername());
         Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
@@ -64,15 +65,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findById(Long id) {
-        User user = userDao.findById(id).orElseThrow(()->
-                new UserNotFoundException("User with id "+id+" was not found"));
+        User user = userDao.findById(id).orElseThrow(() ->
+                new UserNotFoundException("User with id " + id + " was not found"));
         return userMapper.toDTO(user);
-    }
-
-    @Override
-    public UserDto updateUserDto(UserDto userDto) {
-        User user = userMapper.toEntity(userDto);
-        return update(user);
     }
 
     @Override
@@ -85,14 +80,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto addProductToCart(UserDto userDto, ProductDto productDto) {
-        User user = userDao.findById(userDto.getId()).get();
+
+        User user = userMapper.toEntity(userDto);
         boolean isInCartList = user.getCarts().stream()
                 .filter(cart -> cart.getProduct().getId().equals(productDto.getId()))
                 .peek(cart -> cart.setAmount(cart.getAmount() + 1))
                 .findFirst()
                 .isPresent();
         if (!isInCartList) {
-            log.info("a new item {} has been added to the user's {} cart",productDto.getTitle(),user.getEmail());
+            log.info("a new item {} has been added to the user's {} cart", productDto.getTitle(), user.getEmail());
             Cart cart = new Cart(productMapper.toEntity(productDto));
             user.addCartToList(cart);
         }
@@ -103,6 +99,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDto makeOrder(UserDto userDto, OrderDto orderDto) {
 
+        orderDto.setStatus(Status.ACCEPTED.getDisplayName());
         User user = userMapper.toEntity(userDto);
         Order order = orderMapper.toEntity(orderDto);
 
@@ -110,13 +107,12 @@ public class UserServiceImpl implements UserService {
                 .map(cart -> OderItemCartMapper.map(cart, order))
                 .toList());
         user.getCarts().clear();
-        user.getOrders().add(order);
+        user.addOrderToList(order);
         return update(user);
     }
 
     @Transactional
-    @Override
-    public UserDto update(@Valid User user) {
+    private UserDto update(@Valid User user) {
         Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);

@@ -1,5 +1,6 @@
 package com.example.webapp.dto;
 
+import com.example.webapp.model.Image;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -14,5 +15,10 @@ public class ProductDto {
     private String category;
     private int amount;
     private BigDecimal coast;
-    private List<Long> imageList;
+    private List<ImageDto> imageList;
+
+    public void addImageToList(ImageDto image) {
+        imageList.add(image);
+        image.setProductId(this.id);
+    }
 }

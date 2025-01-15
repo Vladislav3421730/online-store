@@ -11,6 +11,7 @@ import com.example.webapp.service.OrderService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -47,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void update(OrderDto orderDto) {
         Order order = orderMapper.toEntity(orderDto);
         orderDao.update(order);

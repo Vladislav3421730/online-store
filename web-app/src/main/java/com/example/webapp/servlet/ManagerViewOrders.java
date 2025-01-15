@@ -20,9 +20,9 @@ public class ManagerViewOrders extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         List<OrderDto> orders = orderService.findAll();
-        req.setAttribute("orders",orders);
-        req.getRequestDispatcher(JspHelper.getPath("managerOrders")).forward(req,resp);
+
+        req.setAttribute("orders", orders);
+        req.getRequestDispatcher(JspHelper.getPath("managerOrders")).forward(req, resp);
     }
 }
