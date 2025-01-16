@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.manager;
 
 import com.example.webapp.dto.OrderDto;
 import com.example.webapp.service.impl.OrderServiceImpl;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/manager/orders")
-public class ManagerViewOrders extends HttpServlet {
+public class ViewOrders extends HttpServlet {
 
     private final OrderService orderService = OrderServiceImpl.getInstance();
 

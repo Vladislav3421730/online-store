@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.user;
 
 import com.example.webapp.dto.CartDto;
 import com.example.webapp.dto.UserDto;
@@ -17,21 +17,20 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/user/cart/decrement")
+@WebServlet("/user/cart/delete")
 @Slf4j
-public class DecrementCartServlet extends HttpServlet {
+public class DeleteCartServlet extends HttpServlet {
 
     private final UserService userService = UserServiceImpl.getInstance();
     private final CartService cartService = CartServiceImpl.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         UserDto user = (UserDto) req.getSession().getAttribute("user");
         int index = Validator.validateInt(req.getParameter("index"));
 
-        List<CartDto> userCarts = user.getCarts();
-        cartService.decrementAmountOfCartInBasket(userCarts,index);
+        List<CartDto> cartAfterRemoving = user.getCarts();
+        cartService.deleteCartFromBasket(cartAfterRemoving,index);
 
         resp.sendRedirect(req.getContextPath()+"/user/cart");
     }

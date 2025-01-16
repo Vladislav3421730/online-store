@@ -1,8 +1,7 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.manager;
 
 import com.example.webapp.dto.ProductDto;
 import com.example.webapp.exception.InvalidParamException;
-import com.example.webapp.model.Product;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.utils.JspHelper;
@@ -20,7 +19,7 @@ import java.util.Optional;
 
 @WebServlet("/manager/product/search")
 @Slf4j
-public class ManagerSearchProductServlet extends HttpServlet {
+public class SearchProductServlet extends HttpServlet {
 
     private final ProductService productService = ProductServiceImpl.getInstance();
 
@@ -44,6 +43,7 @@ public class ManagerSearchProductServlet extends HttpServlet {
             req.setAttribute("products", List.of());
             req.setAttribute("error", "Параметр id введён неверно");
         } finally {
+            req.setAttribute("url", "manager");
             req.getRequestDispatcher(JspHelper.getPath("managerProducts")).forward(req, resp);
         }
 

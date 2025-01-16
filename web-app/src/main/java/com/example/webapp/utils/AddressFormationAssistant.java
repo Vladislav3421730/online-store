@@ -24,7 +24,7 @@ public class AddressFormationAssistant {
 
     private final AddressService addressService = AddressServiceImpl.getInstance();
 
-    public AddressDto formAddress(HttpServletRequest request){
+    public AddressDto formAddress(final HttpServletRequest request){
         long addressId;
         AddressDto address = AddressDto.builder()
                 .region(request.getParameter("region"))
@@ -43,7 +43,7 @@ public class AddressFormationAssistant {
         return address;
     }
 
-    public void updateAddresses(HttpServletRequest request){
+    public void updateAddresses(final HttpServletRequest request){
         UserDto user = (UserDto) request.getSession().getAttribute("user");
         List<AddressDto> addresses = user.getOrders().stream()
                 .map(OrderDto::getAddress)

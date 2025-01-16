@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.manager;
 
 import com.example.webapp.dto.OrderDto;
 import com.example.webapp.service.OrderService;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @WebServlet("/manager/order/search")
 @Slf4j
-public class ManagerOrderSearchServlet extends HttpServlet {
+public class OrderSearchServlet extends HttpServlet {
 
     private final OrderService orderService = OrderServiceImpl.getInstance();
 

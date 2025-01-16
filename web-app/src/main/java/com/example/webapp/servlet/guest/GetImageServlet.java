@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.guest;
 
 import com.example.webapp.dto.ImageDto;
 import com.example.webapp.service.impl.ImageServiceImpl;

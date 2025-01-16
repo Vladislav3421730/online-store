@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.user;
 
 import com.example.webapp.dto.OrderDto;
 import com.example.webapp.dto.UserDto;

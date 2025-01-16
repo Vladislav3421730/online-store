@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.manager;
 
 import com.example.webapp.dto.CreateImageDto;
 import com.example.webapp.dto.CreateProductDto;
@@ -24,7 +24,7 @@ import java.util.List;
 @Slf4j
 @WebServlet("/manager/product/add")
 @MultipartConfig
-public class ManagerAddProductServlet extends HttpServlet {
+public class AddProductServlet extends HttpServlet {
 
     private final ProductService productService = ProductServiceImpl.getInstance();
 

@@ -4,26 +4,31 @@
 <html>
 <head>
     <title>control products</title>
+    <style>
+        <%@include file="/WEB-INF/css/inputForms.css"%>
+    </style>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
+<jsp:include page="modal/modalFilter.jsp"/>
 <div class="container mt-4">
-    <div class="d-flex align-items-center">
+    <div class="viewProductSearching mb-2">
         <form action="${pageContext.request.contextPath}/manager/product/search" method="get" class="w-100  mr-3">
-            <div class="input-group mb-3">
-                <input value="${requestScope.search}" type="text" class="form-control" id="search" placeholder="Найти по id"
+            <div class="input-group">
+                <input value="${requestScope.search}" type="text" class="form-control" id="search" placeholder="Найти"
                        name="id"/>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="submit">Поиск</button>
                 </div>
             </div>
         </form>
-        <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 17px"
-                data-toggle="modal" data-target="#modal">
-            Применить фильтры
-        </button>
+        <div>
+            <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 17px" data-toggle="modal" data-target="#modal">
+                Применить фильтры
+            </button>
+        </div>
     </div>
-    <p style="color: red">${error}</p>
+    <p style="color: red">${requestScope.error}</p>
     <input type="button" class="btn btn-success mb-3" value="Добавить"
            onclick="window.location.href='${pageContext.request.contextPath}/manager/product/add'">
     <c:choose>

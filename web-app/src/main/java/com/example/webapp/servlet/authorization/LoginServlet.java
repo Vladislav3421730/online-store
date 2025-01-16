@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.authorization;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.webapp.dto.UserDto;

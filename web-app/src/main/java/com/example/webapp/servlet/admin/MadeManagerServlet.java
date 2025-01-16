@@ -1,7 +1,6 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.admin;
 
 import com.example.webapp.dto.UserDto;
-import com.example.webapp.model.User;
 import com.example.webapp.service.AdminService;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.AdminServiceImpl;
@@ -18,7 +17,7 @@ import java.io.IOException;
 
 @WebServlet("/admin/role/manager")
 @Slf4j
-public class AdminMadeManagerServlet extends HttpServlet {
+public class MadeManagerServlet extends HttpServlet {
 
     private final UserService userService = UserServiceImpl.getInstance();
     private final AdminService adminService = AdminServiceImpl.getInstance();

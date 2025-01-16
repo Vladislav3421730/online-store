@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.authorization;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

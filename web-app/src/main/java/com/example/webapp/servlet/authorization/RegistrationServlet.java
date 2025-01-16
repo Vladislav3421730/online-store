@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.authorization;
 
 import com.example.webapp.dto.RegisterUserDto;
 import com.example.webapp.model.User;

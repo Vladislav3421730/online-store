@@ -3,16 +3,7 @@
 <head>
     <title>Title</title>
     <style>
-        select {
-            border: 1px solid black;
-            border-radius: 5px;
-            padding: 3px;
-        }
-
-        input {
-            border: 0px solid black;
-            border-bottom-width: 2px;
-        }
+        <%@include file="/WEB-INF/css/modal.css"%>
     </style>
 </head>
 <body>
@@ -26,7 +17,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="${pageContext.request.contextPath}/product/filter" method="get">
+                <form action="${pageContext.request.contextPath}/${requestScope.url}/product/filter" method="get">
                     <label for="category" class="form-label">Категория</label><br>
                     <select id="category" name="category">
                         <option selected>Выберите категорию</option>

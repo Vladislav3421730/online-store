@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.admin;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.UserServiceImpl;
 import com.example.webapp.utils.JspHelper;
@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/admin/panel")
-public class AdminPanelServlet extends HttpServlet {
+public class PanelServlet extends HttpServlet {
 
     private final UserService userService = UserServiceImpl.getInstance();
 

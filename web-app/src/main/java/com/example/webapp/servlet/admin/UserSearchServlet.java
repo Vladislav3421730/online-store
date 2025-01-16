@@ -1,4 +1,4 @@
-package com.example.webapp.servlet;
+package com.example.webapp.servlet.admin;
 
 import com.example.webapp.dto.UserDto;
 import com.example.webapp.model.User;

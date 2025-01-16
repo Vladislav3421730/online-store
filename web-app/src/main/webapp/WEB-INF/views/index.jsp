@@ -6,6 +6,7 @@
     <title>Main page</title>
     <style>
         <%@include file="/WEB-INF/css/card.css"%>
+        <%@include file="/WEB-INF/css/inputForms.css"%>
     </style>
 </head>
 <body>
@@ -17,9 +18,9 @@
             <div class="col-lg-1 col-mg-0"></div>
             <div class="col-lg-10 col-mg-12">
                 <p class="mt-2 mb-2" >${requestScope.error}</p>
-                <div class="d-flex align-items-center">
+                <div class="viewProductSearching mb-4">
                     <form action="${pageContext.request.contextPath}/product/search" method="get" class="w-100  mr-3">
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <input value="${requestScope.search}" type="text" class="form-control" id="search" placeholder="Найти"
                                    name="search"/>
                             <div class="input-group-append">
@@ -27,7 +28,7 @@
                             </div>
                         </div>
                     </form>
-                    <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 17px"
+                    <button type="button" class="btn btn-outline-secondary"
                             data-toggle="modal" data-target="#modal">
                         Применить фильтры
                     </button>

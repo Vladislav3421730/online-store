@@ -36,6 +36,4 @@ public class CartDaoImpl extends AbstractHibernateDao<Cart> implements CartDao {
             session.getTransaction().commit();
         }
     }
-
-
 }
