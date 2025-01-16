@@ -24,7 +24,7 @@ import java.util.List;
 @Slf4j
 @WebServlet("/manager/product/add")
 @MultipartConfig
-public class AddProductServlet extends HttpServlet {
+public class ManagerAddProductServlet extends HttpServlet {
 
     private final ProductService productService = ProductServiceImpl.getInstance();
 

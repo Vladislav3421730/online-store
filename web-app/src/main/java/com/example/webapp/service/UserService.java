@@ -19,10 +19,6 @@ public interface UserService {
 
     UserDto findById(Long id);
 
-    UserDto update(User user);
-
-    UserDto updateUserDto(UserDto userDto);
-
     List<UserDto> findAll();
 
     UserDto addProductToCart(UserDto user, ProductDto product);

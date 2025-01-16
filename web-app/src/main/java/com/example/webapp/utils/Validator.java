@@ -1,6 +1,7 @@
 package com.example.webapp.utils;
 
 
+import com.example.webapp.exception.InvalidParamException;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,7 +14,7 @@ public class Validator {
             return Long.parseLong(isParam);
         } catch (NumberFormatException e) {
             log.error("Failed to parse in long {}",isParam);
-            throw new RuntimeException("Invalid param " + isParam, e);
+            throw new InvalidParamException("Invalid param " + isParam+"can't be parse to Long");
         }
 
     }
@@ -23,7 +24,7 @@ public class Validator {
             return Double.parseDouble(isParam);
         } catch (NumberFormatException e) {
             log.error("Failed to parse in double {}",isParam);
-            throw new RuntimeException("Invalid param " + isParam, e);
+            throw new InvalidParamException("Invalid param " + isParam+"can't be parse to double");
         }
 
     }
@@ -33,7 +34,7 @@ public class Validator {
             return Integer.parseInt(isParam);
         } catch (NumberFormatException e) {
             log.error("Failed to parse in int {}",isParam);
-            throw new RuntimeException("Invalid param" + isParam, e);
+            throw new InvalidParamException("Invalid param" + isParam +"can't be parse to int");
         }
 
     }

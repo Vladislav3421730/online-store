@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.transaction.Transactional;
 import javax.validation.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -61,9 +62,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto findById(Long id) {
-        Product product = productDao.findById(id).orElseThrow(()->
-                new ProductNotFoundException("Product with id "+id+" was not found"));
+        Product product = productDao.findById(id).orElseThrow(() ->
+                new ProductNotFoundException("Product with id " + id + " was not found"));
         return productMapper.toDTO(product);
+    }
+
+    @Override
+    public Optional<ProductDto> findByIdAsOptional(Long id) {
+        Optional<Product> product = productDao.findById(id);
+        return product.map(productMapper::toDTO);
     }
 
     @Override

@@ -7,12 +7,14 @@ import com.example.webapp.model.Product;
 
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
 
     void save(CreateProductDto createProductDTO);
     List<ProductDto> findAll();
     ProductDto findById(Long id);
+    Optional<ProductDto> findByIdAsOptional(Long id);
     List<ProductDto> findAllBySearch(String word);
     List<ProductDto> findAllByFilter(ProductFilterDTO productFilterDTO);
     void update(ProductDto product);

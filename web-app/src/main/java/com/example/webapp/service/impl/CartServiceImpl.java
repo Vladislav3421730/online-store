@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -31,6 +32,7 @@ public class CartServiceImpl implements CartService {
     private final CartDaoImpl cartDao = CartDaoImpl.getInstance();
 
     @Override
+    @Transactional
     public boolean incrementAmountOfCartInBasket(List<CartDto> userCarts, int index) {
         if (index < 0 || index >= userCarts.size()) {
             log.error("Index out of bounds: {}", index);
@@ -51,6 +53,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public void decrementAmountOfCartInBasket(List<CartDto> userCarts, int index) {
         if (index < 0 || index >= userCarts.size()) {
             log.error("Index out of bounds: {}", index);
@@ -72,6 +75,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public void deleteCartFromBasket(List<CartDto> cartAfterRemoving, int index) {
         if (index < 0 || index >= cartAfterRemoving.size()) {
             log.error("Index out of bounds {}", index);

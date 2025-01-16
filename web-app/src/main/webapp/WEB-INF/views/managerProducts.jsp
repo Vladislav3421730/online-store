@@ -8,6 +8,22 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="container mt-4">
+    <div class="d-flex align-items-center">
+        <form action="${pageContext.request.contextPath}/manager/product/search" method="get" class="w-100  mr-3">
+            <div class="input-group mb-3">
+                <input value="${requestScope.search}" type="text" class="form-control" id="search" placeholder="Найти по id"
+                       name="id"/>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Поиск</button>
+                </div>
+            </div>
+        </form>
+        <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 17px"
+                data-toggle="modal" data-target="#modal">
+            Применить фильтры
+        </button>
+    </div>
+    <p style="color: red">${error}</p>
     <input type="button" class="btn btn-success mb-3" value="Добавить"
            onclick="window.location.href='${pageContext.request.contextPath}/manager/product/add'">
     <c:choose>
@@ -19,6 +35,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">id</th>
                     <th scope="col">Название</th>
                     <th scope="col">Количество</th>
                     <th scope="col">Цена</th>
@@ -31,6 +48,7 @@
                 <c:forEach var="product" items="${requestScope.products}" varStatus="status">
                     <tr>
                         <td>${status.index+1}</td>
+                        <td>${product.getId()}</td>
                         <td>${product.getTitle()}</td>
                         <td>${product.getAmount()}</td>
                         <td>${product.getCoast()}</td>
