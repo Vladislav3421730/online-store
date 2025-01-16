@@ -11,4 +11,10 @@ public interface ProductDao {
     List<Product> findAllByTitle(String title);
 
     List<Product> findAllByFilter(ProductFilterDTO productFilterDTO);
+
+    List<Product> findAllByPriceFilter(ProductFilterDTO productFilterDTO, int initIndex);
+
+    int getTotalAmountByFilter(ProductFilterDTO productFilterDTO);
+
+    List<Product> findAllOffset(int initIndex);
 }

@@ -17,7 +17,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="${pageContext.request.contextPath}/${requestScope.url}/product/filter" method="get">
+                <form action="${pageContext.request.contextPath}/product/filter" method="get">
                     <label for="category" class="form-label">Категория</label><br>
                     <select id="category" name="category">
                         <option selected>Выберите категорию</option>

@@ -43,7 +43,6 @@ public class SearchProductServlet extends HttpServlet {
             req.setAttribute("products", List.of());
             req.setAttribute("error", "Параметр id введён неверно");
         } finally {
-            req.setAttribute("url", "manager");
             req.getRequestDispatcher(JspHelper.getPath("managerProducts")).forward(req, resp);
         }
 

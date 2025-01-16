@@ -12,12 +12,23 @@ import java.util.Optional;
 public interface ProductService {
 
     void save(CreateProductDto createProductDTO);
+
     List<ProductDto> findAll();
+
     ProductDto findById(Long id);
+
     Optional<ProductDto> findByIdAsOptional(Long id);
+
     List<ProductDto> findAllBySearch(String word);
+
     List<ProductDto> findAllByFilter(ProductFilterDTO productFilterDTO);
+
+    List<ProductDto> findAllByPriceFilter(ProductFilterDTO productFilterDTO, int initIndex);
+
+    int getTotalAmount(ProductFilterDTO productFilterDTO);
+
     void update(ProductDto product);
+
     void delete(Long id);
 
 }

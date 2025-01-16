@@ -10,7 +10,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<jsp:include page="modal/modalFilter.jsp"/>
+<jsp:include page="modal/modalCoastFilter.jsp"/>
 <div class="container mt-4">
     <div class="viewProductSearching mb-2">
         <form action="${pageContext.request.contextPath}/manager/product/search" method="get" class="w-100  mr-3">
@@ -23,7 +23,8 @@
             </div>
         </form>
         <div>
-            <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 17px" data-toggle="modal" data-target="#modal">
+            <button type="button" class="btn btn-outline-secondary" style="margin-bottom: 17px" data-toggle="modal"
+                    data-target="#modal">
                 Применить фильтры
             </button>
         </div>
@@ -77,6 +78,22 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <div class="pagination">
+                <c:if test="${currentPage > 1}">
+                    <a href="${pageContext.request.contextPath}/manager/products?page=${currentPage - 1}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}">&laquo;
+                        Назад</a>
+                </c:if>
+                <c:if test="${totalPages > 1}">
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <a href="${pageContext.request.contextPath}/manager/products?page=${i}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}"
+                           class="${currentPage == i ? 'active' : ''}">${i}</a>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${currentPage < totalPages}">
+                    <a href="${pageContext.request.contextPath}/manager/products?page=${currentPage + 1}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}">Вперёд
+                        &raquo;</a>
+                </c:if>
+            </div>
         </c:otherwise>
     </c:choose>
 </div>

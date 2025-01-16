@@ -88,6 +88,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductDto> findAllByPriceFilter(ProductFilterDTO productFilterDTO, int initIndex) {
+        return productDao.findAllByPriceFilter(productFilterDTO, (initIndex - 1) * 10).stream()
+                .map(productMapper::toDTO)
+                .toList();
+    }
+
+    @Override
+    public int getTotalAmount(ProductFilterDTO productFilterDTO) {
+        return productDao.getTotalAmountByFilter(productFilterDTO);
+    }
+
+    @Override
     @Transactional
     public void update(ProductDto productDto) {
         Product product = productMapper.toEntity(productDto);
@@ -103,6 +115,5 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         productDao.delete(id);
     }
-
 
 }
