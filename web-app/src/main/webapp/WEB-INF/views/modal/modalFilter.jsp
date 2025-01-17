@@ -1,7 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Title</title>
+    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+    <fmt:setBundle basename="messages" var="lang"/>
+    <title><fmt:message key="filterModal.title" bundle="${lang}" /></title>
     <style>
         <%@include file="/WEB-INF/css/modal.css"%>
     </style>
@@ -11,45 +14,45 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Фильтры</h3>
+                <h3><fmt:message key="filterModal.title" bundle="${lang}" /></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form action="${pageContext.request.contextPath}/product/filter" method="get">
-                    <label for="category" class="form-label">Категория</label><br>
+                    <label for="category" class="form-label"><fmt:message key="filterModal.category" bundle="${lang}" /></label><br>
                     <select id="category" name="category">
-                        <option selected>Выберите категорию</option>
-                        <option>Игрушки</option>
-                        <option>Мужская одежда</option>
-                        <option>Женская одежда</option>
-                        <option>Для дома</option>
-                        <option>Обувь</option>
-                        <option>Инструменты</option>
-                        <option>Техника</option>
+                        <option selected><fmt:message key="filterModal.selectCategory" bundle="${lang}" /></option>
+                        <option><fmt:message key="filterModal.toys" bundle="${lang}" /></option>
+                        <option><fmt:message key="filterModal.menClothing" bundle="${lang}" /></option>
+                        <option><fmt:message key="filterModal.womenClothing" bundle="${lang}" /></option>
+                        <option><fmt:message key="filterModal.homeGoods" bundle="${lang}" /></option>
+                        <option><fmt:message key="filterModal.shoes" bundle="${lang}" /></option>
+                        <option><fmt:message key="filterModal.tools" bundle="${lang}" /></option>
+                        <option><fmt:message key="filterModal.electronics" bundle="${lang}" /></option>
                     </select><br>
-                    <label for="sort" class="form-label mt-2">Сортировать по:</label><br>
+                    <label for="sort" class="form-label mt-2"><fmt:message key="filterModal.sortBy" bundle="${lang}" /></label><br>
                     <select id="sort" name="sort">
-                        <option selected>Выберите сортировку</option>
-                        <option value="expensive">Сначала подороже</option>
-                        <option value="cheap">Сначала подешевле</option>
-                        <option value="alphabet">По алфавиту</option>
+                        <option selected><fmt:message key="filterModal.selectSort" bundle="${lang}" /></option>
+                        <option value="expensive"><fmt:message key="filterModal.sortExpensive" bundle="${lang}" /></option>
+                        <option value="cheap"><fmt:message key="filterModal.sortCheap" bundle="${lang}" /></option>
+                        <option value="alphabet"><fmt:message key="filterModal.sortAlphabet" bundle="${lang}" /></option>
                     </select><br>
                     <div class="d-flex align-items-center mt-2">
                         <div class="mt-2" style="margin-right: 10px">
-                            <label for="minPrice" class="form-label">Минимальная цена:</label><br>
+                            <label for="minPrice" class="form-label"><fmt:message key="filterModal.minPrice" bundle="${lang}" />:</label><br>
                             <input type="number" step="0.1" min="0" id="minPrice" name="minPrice" placeholder="0">
                         </div>
                         <div class="mt-2">
-                            <label for="maxPrice" class="form-label">Максимальная цена:</label>
+                            <label for="maxPrice" class="form-label"><fmt:message key="filterModal.maxPrice" bundle="${lang}" />:</label>
                             <input type="number" step="0.1" id="maxPrice" min="0" name="maxPrice" placeholder="10000"><br>
                         </div>
                     </div>
                     <input type="hidden" name="search-filter" id="search-filter">
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
-                        <button type="submit" class="btn btn-primary">Применить фильтры</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><fmt:message key="filterModal.close" bundle="${lang}" /></button>
+                        <button type="submit" class="btn btn-primary"><fmt:message key="filterModal.applyFilters" bundle="${lang}" /></button>
                     </div>
                 </form>
             </div>

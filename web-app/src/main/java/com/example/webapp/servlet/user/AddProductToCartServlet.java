@@ -14,16 +14,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
 @WebServlet("/user/cart/add")
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @Slf4j
 public class AddProductToCartServlet extends HttpServlet {
 
-    private final UserService userService = UserServiceImpl.getInstance();
-    private final ProductService productService = ProductServiceImpl.getInstance();
+    UserService userService = UserServiceImpl.getInstance();
+    ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

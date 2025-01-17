@@ -10,11 +10,13 @@ import com.example.webapp.dao.impl.OrderDaoImpl;
 import com.example.webapp.service.OrderService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderServiceImpl implements OrderService {
 
     private static final OrderServiceImpl INSTANCE = new OrderServiceImpl();
@@ -23,8 +25,8 @@ public class OrderServiceImpl implements OrderService {
         return INSTANCE;
     }
 
-    private final OrderDaoImpl orderDao = OrderDaoImpl.getInstance();
-    private final OrderMapper orderMapper = new OrderMapperImpl();
+    OrderDaoImpl orderDao = OrderDaoImpl.getInstance();
+    OrderMapper orderMapper = new OrderMapperImpl();
 
     @Override
     public List<OrderDto> findAll() {

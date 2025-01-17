@@ -11,16 +11,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
 @WebServlet("/admin/role/manager")
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @Slf4j
 public class MadeManagerServlet extends HttpServlet {
 
-    private final UserService userService = UserServiceImpl.getInstance();
-    private final AdminService adminService = AdminServiceImpl.getInstance();
+    UserService userService = UserServiceImpl.getInstance();
+    AdminService adminService = AdminServiceImpl.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

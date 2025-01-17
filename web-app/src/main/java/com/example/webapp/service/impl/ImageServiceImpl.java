@@ -9,23 +9,26 @@ import com.example.webapp.dao.impl.ImageDaoImpl;
 import com.example.webapp.service.ImageService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ImageServiceImpl implements ImageService {
 
     private final static ImageServiceImpl INSTANCE = new ImageServiceImpl();
-    public static ImageServiceImpl getInstance(){
+
+    public static ImageServiceImpl getInstance() {
         return INSTANCE;
     }
 
-    private final ImageDaoImpl imageRepository = ImageDaoImpl.getInstance();
-    private final ImageMapper imageMapper = new ImageMapperImpl();
+    ImageDaoImpl imageRepository = ImageDaoImpl.getInstance();
+    ImageMapper imageMapper = new ImageMapperImpl();
 
     @Override
     public ImageDto findById(Long id) {
-        Image image = imageRepository.findById(id).orElseThrow(()->
-                new  ImageNotFoundException("Image with id "+id+" was not found"));
+        Image image = imageRepository.findById(id).orElseThrow(() ->
+                new ImageNotFoundException("Image with id " + id + " was not found"));
         return imageMapper.toDTO(image);
     }
 }

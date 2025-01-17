@@ -1,19 +1,12 @@
 package com.example.webapp.service.impl;
 
-
-import com.example.webapp.dao.OrderDao;
 import com.example.webapp.dao.impl.CartDaoImpl;
-import com.example.webapp.dao.impl.OrderDaoImpl;
 import com.example.webapp.dto.CartDto;
 import com.example.webapp.exception.WrongIndexException;
-import com.example.webapp.mapper.CartMapper;
-import com.example.webapp.mapper.CartMapperImpl;
-import com.example.webapp.mapper.OrderMapper;
-import com.example.webapp.mapper.OrderMapperImpl;
-import com.example.webapp.model.Cart;
 import com.example.webapp.service.CartService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.transaction.Transactional;
@@ -21,6 +14,7 @@ import java.util.List;
 
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class CartServiceImpl implements CartService {
 
@@ -29,7 +23,8 @@ public class CartServiceImpl implements CartService {
     public static CartServiceImpl getInstance() {
         return INSTANCE;
     }
-    private final CartDaoImpl cartDao = CartDaoImpl.getInstance();
+
+    CartDaoImpl cartDao = CartDaoImpl.getInstance();
 
     @Override
     @Transactional
@@ -45,7 +40,7 @@ public class CartServiceImpl implements CartService {
             return false;
         }
         cart.setAmount(cart.getAmount() + 1);
-        userCarts.set(index,cart);
+        userCarts.set(index, cart);
         cartDao.incrementAmount(cart.getId());
         log.info("The quantity of the product {} has been increased by 1 " +
                 "{}", cart.getProduct().getTitle(), cart.getAmount());

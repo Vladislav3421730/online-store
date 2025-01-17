@@ -15,6 +15,7 @@ import com.example.webapp.service.ProductService;
 import com.example.webapp.utils.HibernateValidatorUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.transaction.Transactional;
@@ -24,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class ProductServiceImpl implements ProductService {
 
@@ -33,10 +35,9 @@ public class ProductServiceImpl implements ProductService {
         return INSTANCE;
     }
 
-    private final ProductDaoImpl productDao = ProductDaoImpl.getInstance();
-    private final ImageDaoImpl imageRepository = ImageDaoImpl.getInstance();
-
-    private final ProductMapper productMapper = new ProductMapperImpl();
+    ProductDaoImpl productDao = ProductDaoImpl.getInstance();
+    ImageDaoImpl imageRepository = ImageDaoImpl.getInstance();
+    ProductMapper productMapper = new ProductMapperImpl();
 
     @Override
     @Transactional

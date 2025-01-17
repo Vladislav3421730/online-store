@@ -1,12 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
-    <title>Product ${requestScope.product.getTitle()}</title>
+    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+    <fmt:setBundle basename="messages" var="lang"/>
+    <title><fmt:message key="product.title" bundle="${lang}" /> ${requestScope.product.getTitle()}</title>
     <style>
         <%@include file="/WEB-INF/css/corousel.css"%>
-
     </style>
 </head>
 <body>
@@ -31,45 +33,43 @@
                                 <div class="carousel-item ${status.first ? 'active' : ''}">
                                     <img class="d-block w-100"
                                          src="${pageContext.request.contextPath}/image?id=${image.getId()}"
-                                         alt="Slide ${status.index + 1}">
+                                         alt="<fmt:message key='product.image.alt' bundle='${lang}' /> ${status.index + 1}">
                                 </div>
                             </c:forEach>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
                            data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
+                            <span class="sr-only"><fmt:message key="carousel.previous" bundle="${lang}" /></span>
                         </a>
                         <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
                            data-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
+                            <span class="sr-only"><fmt:message key="carousel.next" bundle="${lang}" /></span>
                         </a>
                     </div>
                 </c:when>
                 <c:otherwise>
-                    <p>Изображения для данного продукта отсутствуют.</p>
+                    <p><fmt:message key="product.noImages" bundle="${lang}" /></p>
                 </c:otherwise>
             </c:choose>
             <h4>${requestScope.product.getCoast()}</h4>
             <h5>${requestScope.product.getTitle()}</h5>
-            <p class="card-text">Категория: ${requestScope.product.getCategory()}<br></p>
+            <p class="card-text"><fmt:message key="product.category" bundle="${lang}" />: ${requestScope.product.getCategory()}<br></p>
             <p class="text-justify">${requestScope.product.getDescription()}</p>
             <p class="card-text">
                 <c:choose>
                     <c:when test="${requestScope.product.getAmount()==0}">
-                        Нет на складе
+                        <fmt:message key="product.outOfStock" bundle="${lang}" />
                     </c:when>
                     <c:otherwise>
-                        Осталось: ${requestScope.product.getAmount()}
+                        <fmt:message key="product.remaining" bundle="${lang}" />: ${requestScope.product.getAmount()}
                     </c:otherwise>
                 </c:choose>
             </p>
             <form action="${pageContext.request.contextPath}/user/cart/add" method="POST">
                 <input type="hidden" name="id" value="${requestScope.product.getId()}">
-                <button type="submit" class="btn btn-primary mt-2">В
-                    корзину
-                </button>
+                <button type="submit" class="btn btn-primary mt-2"><fmt:message key="product.addToCart" bundle="${lang}" /></button>
             </form>
         </div>
         <div class="col-lg-1 col-mg-0"></div>

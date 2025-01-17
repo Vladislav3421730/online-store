@@ -9,16 +9,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/manager/order/search")
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @Slf4j
 public class OrderSearchServlet extends HttpServlet {
 
-    private final OrderService orderService = OrderServiceImpl.getInstance();
+    OrderService orderService = OrderServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

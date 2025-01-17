@@ -5,6 +5,8 @@ import com.example.webapp.exception.InvalidParamException;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.utils.JspHelper;
+import com.example.webapp.utils.Messages;
+import com.example.webapp.utils.ResourceBundleUtils;
 import com.example.webapp.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 @WebServlet("/manager/product/search")
 @Slf4j
@@ -26,7 +29,8 @@ public class SearchProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String paramId = req.getParameter("id");
-        if (paramId.isBlank()) {
+
+        if (paramId == null || paramId.isBlank()) {
             resp.sendRedirect(req.getContextPath() + "/manager/products");
             return;
         }
@@ -40,11 +44,11 @@ public class SearchProductServlet extends HttpServlet {
             }
 
         } catch (InvalidParamException e) {
+            ResourceBundle messages = ResourceBundleUtils.get(req);
             req.setAttribute("products", List.of());
-            req.setAttribute("error", "Параметр id введён неверно");
+            req.setAttribute("error", messages.getString(Messages.ERROR_MESSAGE));
         } finally {
             req.getRequestDispatcher(JspHelper.getPath("managerProducts")).forward(req, resp);
         }
-
     }
 }

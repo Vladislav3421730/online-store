@@ -14,6 +14,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.webapp.utils.HibernateValidatorUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.transaction.Transactional;
@@ -23,6 +24,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class UserServiceImpl implements UserService {
 
@@ -34,9 +36,9 @@ public class UserServiceImpl implements UserService {
 
     private final UserDaoImpl userDao = UserDaoImpl.getInstance();
 
-    private final UserMapper userMapper = new UserMapperImpl();
-    private final ProductMapper productMapper = new ProductMapperImpl();
-    private final OrderMapper orderMapper = new OrderMapperImpl();
+    UserMapper userMapper = new UserMapperImpl();
+    ProductMapper productMapper = new ProductMapperImpl();
+    OrderMapper orderMapper = new OrderMapperImpl();
 
     @Override
     @Transactional

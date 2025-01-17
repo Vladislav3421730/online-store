@@ -12,13 +12,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 
 import java.io.IOException;
 
 @WebServlet("/manager/status/change")
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class StatusChangeServlet extends HttpServlet {
 
-    private final OrderService orderService = OrderServiceImpl.getInstance();
+    OrderService orderService = OrderServiceImpl.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

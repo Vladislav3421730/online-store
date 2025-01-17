@@ -3,7 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Order ${requestScope.order.getId()} </title>
+    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+    <fmt:setBundle basename="messages" var="lang"/>
+    <title><fmt:message key="order.title" bundle="${lang}" /></title>
     <style>
         <%@include file="/WEB-INF/css/card.css"%>
         <%@include file="/WEB-INF/css/status.css"%>
@@ -17,26 +19,26 @@
         <div class="d-flex">
             <button type="button" class="btn btn-success mb-1 mt-1"
                     data-toggle="modal" data-target="#modal">
-                Изменить стуатус
+                <fmt:message key="order.changeStatus" bundle="${lang}" />
             </button>
-            <input type="button" class="btn btn-primary mx-3" value="Таблица с заказами"
+            <input type="button" class="btn btn-primary mx-3" value="<fmt:message key='order.ordersTable' bundle='${lang}' />"
                    onclick="window.location.href='${pageContext.request.contextPath}/manager/orders'">
         </div>
         <hr>
         <br>
-        <strong>email: ${requestScope.userDto.getEmail()}</strong><br>
-        <strong>Имя: ${requestScope.userDto.getUsername()}</strong><br>
-        <strong>Телефон: ${requestScope.userDto.getPhoneNumber()}</strong><br>
+        <strong>email: ${requestScope.user.getEmail()}</strong><br>
+        <strong><fmt:message key="order.username" bundle="${lang}" />: ${requestScope.user.getUsername()}</strong><br>
+        <strong><fmt:message key="order.phone" bundle="${lang}" />: ${requestScope.user.getPhoneNumber()}</strong><br>
         <div class="orderInfo">
-            <strong>Номер заказа ${requestScope.orderDto.getId()}</strong>
+            <strong><fmt:message key="order.orderNumber" bundle="${lang}" /> ${requestScope.orderDto.getId()}</strong>
             <div class="${requestScope.orderDto.getStatus() == 'доставлен' ? 'delivered mx-2' : 'status mx-2'}">
                 ${requestScope.orderDto.getStatus()}
             </div>
         </div>
-        <strong>Общая сумма заказа ${requestScope.orderDto.getTotalPrice()}</strong><br>
-        <p>Время заказа: <fmt:formatDate value="${requestScope.orderDto.getCreatedAtAsDate()}"
-                                         pattern="yyyy-MM-dd HH:mm"/></p>
-        <p>Адресс доставки: ${requestScope.orderDto.getAddress().getRegion()}, ${requestScope.orderDto.getAddress().getTown()},
+        <strong><fmt:message key="order.totalPrice" bundle="${lang}" /> ${requestScope.orderDto.getTotalPrice()}</strong><br>
+        <p><fmt:message key="order.orderTime" bundle="${lang}" />: <fmt:formatDate value="${requestScope.orderDto.getCreatedAtAsDate()}"
+                                                                                   pattern="yyyy-MM-dd HH:mm"/></p>
+        <p><fmt:message key="order.deliveryAddress" bundle="${lang}" />: ${requestScope.orderDto.getAddress().getRegion()}, ${requestScope.orderDto.getAddress().getTown()},
             ${requestScope.orderDto.getAddress().getExactAddress()}</p>
         <div class="row">
             <c:forEach var="orderItem" items="${requestScope.orderDto.getOrderItems()}">
@@ -58,7 +60,7 @@
                             <strong>${orderItem.getProduct().getCoast()}</strong><br>
                                 ${orderItem.getProduct().getTitle()}<br>
                                 ${orderItem.getProduct().getCategory()}<br>
-                            Количество ${orderItem.getAmount()}
+                            <fmt:message key="order.quantity" bundle="${lang}" /> ${orderItem.getAmount()}
                         </div>
                     </div>
                 </div>

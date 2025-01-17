@@ -4,7 +4,6 @@ import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;
 import com.example.webapp.dao.AbstractHibernateDao;
 import com.example.webapp.dao.ProductDao;
-import com.example.webapp.utils.HibernateUtils;
 import com.example.webapp.utils.PredicateFormationAssistant;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;

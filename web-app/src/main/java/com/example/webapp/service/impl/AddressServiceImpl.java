@@ -10,6 +10,7 @@ import com.example.webapp.service.AddressService;
 import com.example.webapp.utils.HibernateValidatorUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
@@ -17,6 +18,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class AddressServiceImpl implements AddressService {
 
     private final static AddressService INSTANCE = new AddressServiceImpl();
@@ -24,8 +26,8 @@ public class AddressServiceImpl implements AddressService {
         return INSTANCE;
     }
 
-    private final AddressDaoImpl addressDao = AddressDaoImpl.getInstance();
-    private final AddressMapper addressMapper = new AddressMapperImpl();
+    AddressDaoImpl addressDao = AddressDaoImpl.getInstance();
+    AddressMapper addressMapper = new AddressMapperImpl();
 
     @Override
     @Transactional

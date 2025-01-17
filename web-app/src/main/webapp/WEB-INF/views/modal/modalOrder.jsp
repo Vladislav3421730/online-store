@@ -1,8 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Title</title>
+    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+    <fmt:setBundle basename="messages" var="lang"/>
+    <title><fmt:message key="addressModal.title" bundle="${lang}" /></title>
     <style>
         select {
             border: 1px solid black;
@@ -17,7 +20,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Введите адрес доставки</h3>
+                <h3><fmt:message key="addressModal.enterAddress" bundle="${lang}" /></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -27,7 +30,7 @@
                     <c:choose>
                         <c:when test="${!sessionScope.addresses.isEmpty()}">
                             <select id="address-select">
-                                <option value="">Выбрать из предыдущих адресов доставки</option>
+                                <option value=""><fmt:message key="addressModal.choosePrevious" bundle="${lang}" /></option>
                                 <c:forEach var="address" items="${sessionScope.addresses}">
                                     <option
                                             value="${address.getId()}"
@@ -42,30 +45,30 @@
                         </c:when>
                     </c:choose>
                     <div class="form-group mb-2 mt-2">
-                        <label for="region">Область</label>
+                        <label for="region"><fmt:message key="addressModal.region" bundle="${lang}" /></label>
                         <input type="text" class="form-control mt-1" name="region" id="region"
-                               placeholder="Введите область" required>
+                               placeholder="<fmt:message key='addressModal.enterRegion' bundle='${lang}' />" required>
                     </div>
                     <div class="form-group mb-2">
-                        <label for="town">Город</label>
+                        <label for="town"><fmt:message key="addressModal.town" bundle="${lang}" /></label>
                         <input type="text" class="form-control mt-1" name="town" id="town"
-                               placeholder="Введите город" required>
+                               placeholder="<fmt:message key='addressModal.enterTown' bundle='${lang}' />" required>
                     </div>
                     <div class="form-group mb-2">
-                        <label for="exactAddress">Адресс</label>
+                        <label for="exactAddress"><fmt:message key="addressModal.exactAddress" bundle="${lang}" /></label>
                         <input type="text" class="form-control mt-1" name="exactAddress"
-                               id="exactAddress" placeholder="Улица, дом, подъезд, квартира" required>
+                               id="exactAddress" placeholder="<fmt:message key='addressModal.enterExactAddress' bundle='${lang}' />" required>
                     </div>
                     <div class="form-group mb-2">
-                        <label for="postalCode">Почтовый индекс</label>
+                        <label for="postalCode"><fmt:message key="addressModal.postalCode" bundle="${lang}" /></label>
                         <input type="text" class="form-control mt-1" name="postalCode"
-                               id="postalCode" placeholder="Введите почтовый индекс (необязательно)">
+                               id="postalCode" placeholder="<fmt:message key='addressModal.enterPostalCode' bundle='${lang}' />">
                     </div>
                     <input type="hidden" id="addressId" name="addressId">
                     <input type="hidden" name="totalCoast" value="${requestScope.totalCoast}"/>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
-                        <input type="submit" value="Подтвердить" class="btn btn-primary"/>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><fmt:message key="addressModal.close" bundle="${lang}" /></button>
+                        <input type="submit" value="<fmt:message key='addressModal.confirm' bundle='${lang}' />" class="btn btn-primary"/>
                     </div>
                 </form>
             </div>

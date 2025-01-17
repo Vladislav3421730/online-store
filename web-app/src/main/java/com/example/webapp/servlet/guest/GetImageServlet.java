@@ -8,16 +8,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 @WebServlet("/image")
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @Slf4j
 public class GetImageServlet extends HttpServlet {
 
-    private final ImageServiceImpl imageService = ImageServiceImpl.getInstance();
+    ImageServiceImpl imageService = ImageServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

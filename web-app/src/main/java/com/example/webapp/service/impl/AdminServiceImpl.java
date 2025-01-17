@@ -10,27 +10,30 @@ import com.example.webapp.service.AdminService;
 import com.example.webapp.service.UserService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.transaction.Transactional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class AdminServiceImpl implements AdminService {
 
     private final static AdminServiceImpl INSTANCE = new AdminServiceImpl();
-    public static AdminService getInstance(){
+
+    public static AdminService getInstance() {
         return INSTANCE;
     }
 
-    private final UserDaoImpl userDao = UserDaoImpl.getInstance();
-    private final UserMapper userMapper = new UserMapperImpl();
+    UserDaoImpl userDao = UserDaoImpl.getInstance();
+    UserMapper userMapper = new UserMapperImpl();
 
     @Override
     @Transactional
     public void bun(UserDto userDto) {
         User user = userMapper.toEntity(userDto);
-        log.info("{} {}", user.isBun() ? "ban user" : "unban",user.getEmail());
+        log.info("{} {}", user.isBun() ? "ban user" : "unban", user.getEmail());
         user.setBun(!user.isBun());
         userDao.bunUser(user.getId());
     }
@@ -43,8 +46,7 @@ public class AdminServiceImpl implements AdminService {
             log.info("User {} already has ROLE_MANAGER. Removing the role.", user.getUsername());
             user.getRoleSet().remove(Role.ROLE_MANAGER);
             userDao.removeRoleManagerFromUser(user.getId());
-        }
-        else {
+        } else {
             userDao.addRoleManagerToUser(user.getId());
             log.info("Adding ROLE_MANAGER to user {}.", user.getUsername());
         }

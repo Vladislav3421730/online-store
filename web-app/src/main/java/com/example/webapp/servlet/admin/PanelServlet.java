@@ -7,13 +7,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 
 import java.io.IOException;
 
 @WebServlet("/admin/panel")
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class PanelServlet extends HttpServlet {
 
-    private final UserService userService = UserServiceImpl.getInstance();
+    UserService userService = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

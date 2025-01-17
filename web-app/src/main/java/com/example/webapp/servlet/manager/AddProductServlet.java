@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -21,12 +23,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
+
 @WebServlet("/manager/product/add")
 @MultipartConfig
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@Slf4j
 public class AddProductServlet extends HttpServlet {
 
-    private final ProductService productService = ProductServiceImpl.getInstance();
+    ProductService productService = ProductServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
