@@ -5,7 +5,7 @@
 <head>
     <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
     <fmt:setBundle basename="messages" var="lang"/>
-    <title><fmt:message key="order.title" bundle="${lang}" /></title>
+    <title><fmt:message key="order.title" bundle="${lang}"/>: ${requestScope.orderDto.getId()}</title>
     <style>
         <%@include file="/WEB-INF/css/card.css"%>
         <%@include file="/WEB-INF/css/status.css"%>

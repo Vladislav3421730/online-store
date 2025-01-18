@@ -20,10 +20,10 @@
             <div class="modal-body">
                 <form action="${pageContext.request.contextPath}/manager/status/change" method="post">
                     <select class="form-control" id="select" name="status">
-                        <option><fmt:message key="orderStatus.accepted" bundle="${lang}" /></option>
-                        <option><fmt:message key="orderStatus.processing" bundle="${lang}" /></option>
-                        <option><fmt:message key="orderStatus.inTransit" bundle="${lang}" /></option>
-                        <option><fmt:message key="orderStatus.delivered" bundle="${lang}" /></option>
+                        <option value="принят"><fmt:message key="orderStatus.accepted" bundle="${lang}" /></option>
+                        <option value="в обработке"><fmt:message key="orderStatus.processing" bundle="${lang}" /></option>
+                        <option value="в пути"><fmt:message key="orderStatus.inTransit" bundle="${lang}" /></option>
+                        <option value="доставлен"><fmt:message key="orderStatus.delivered" bundle="${lang}" /></option>
                     </select>
                     <input type="hidden" value="${requestScope.orderDto.getId()}" name="id">
                     <div class="modal-footer">

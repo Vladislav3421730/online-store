@@ -24,13 +24,13 @@
                     <label for="category" class="form-label"><fmt:message key="filterModal.category" bundle="${lang}" /></label><br>
                     <select id="category" name="category">
                         <option selected><fmt:message key="filterModal.selectCategory" bundle="${lang}" /></option>
-                        <option><fmt:message key="filterModal.toys" bundle="${lang}" /></option>
-                        <option><fmt:message key="filterModal.menClothing" bundle="${lang}" /></option>
-                        <option><fmt:message key="filterModal.womenClothing" bundle="${lang}" /></option>
-                        <option><fmt:message key="filterModal.homeGoods" bundle="${lang}" /></option>
-                        <option><fmt:message key="filterModal.shoes" bundle="${lang}" /></option>
-                        <option><fmt:message key="filterModal.tools" bundle="${lang}" /></option>
-                        <option><fmt:message key="filterModal.electronics" bundle="${lang}" /></option>
+                        <option value="Игрушки"><fmt:message key="filterModal.toys" bundle="${lang}" /></option>
+                        <option value="Мужская одежда"><fmt:message key="filterModal.menClothing" bundle="${lang}" /></option>
+                        <option value="Женская одежда"><fmt:message key="filterModal.womenClothing" bundle="${lang}" /></option>
+                        <option value="Для дома"><fmt:message key="filterModal.homeGoods" bundle="${lang}" /></option>
+                        <option value="Обувь"><fmt:message key="filterModal.shoes" bundle="${lang}" /></option>
+                        <option value="Инструменты"><fmt:message key="filterModal.tools" bundle="${lang}" /></option>
+                        <option value="Техника"><fmt:message key="filterModal.electronics" bundle="${lang}" /></option>
                     </select><br>
                     <label for="sort" class="form-label mt-2"><fmt:message key="filterModal.sortBy" bundle="${lang}" /></label><br>
                     <select id="sort" name="sort">
