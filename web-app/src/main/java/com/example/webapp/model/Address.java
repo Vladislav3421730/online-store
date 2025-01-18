@@ -16,7 +16,6 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @EqualsAndHashCode.Exclude
     private Long id;
 
     @NotBlank(message = "region must be not empty and blank")

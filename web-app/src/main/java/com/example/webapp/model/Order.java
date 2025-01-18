@@ -2,6 +2,7 @@ package com.example.webapp.model;
 
 import com.example.webapp.model.enums.Status;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
@@ -21,6 +22,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Order {
 
     @Id
@@ -34,7 +36,7 @@ public class Order {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @NotNull(message = "Order cannot be made without user")
     private User user;
@@ -49,18 +51,9 @@ public class Order {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    public Order(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     @PrePersist
     void init(){
         status = Status.ACCEPTED;
         createdAt = LocalDateTime.now();
     }
-
-    public Date getCreatedAtAsDate() {
-        return Date.from(createdAt.atZone(ZoneId.systemDefault()).toInstant());
-    }
-
 }

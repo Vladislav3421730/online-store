@@ -1,31 +1,42 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
+    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
+    <fmt:setBundle basename="messages" var="lang"/>
     <title>header</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
           crossorigin="anonymous">
     <style>
         <%@include file="/WEB-INF/css/header.css"%>
-        .button-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        <%@include file="/WEB-INF/css/dropdown.css"%>
     </style>
 </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container-fluid">
-            <a href="${pageContext.request.contextPath}/">
-                <p class="onlineShopHeaderTitle">OnlineShop</p>
-            </a>
+            <div class="buttons">
+                <a href="${pageContext.request.contextPath}/">
+                    <p class="onlineShopHeaderTitle">OnlineShop</p>
+                </a>
+                <div class="dropdown">
+                    <button class="dropbtn">${sessionScope.locale != null ? sessionScope.locale : 'ru'}</button>
+                    <div class="dropdown-content">
+                        <a href="${pageContext.request.contextPath}/changeLanguage?lang=ru">ru</a>
+                        <a href="${pageContext.request.contextPath}/changeLanguage?lang=en">en</a>
+                    </div>
+                </div>
+            </div>
+
             <c:choose>
                 <c:when test="${sessionScope.user==null}">
-                    <input type="button" class="btn btn-success" value="Войти"
+                    <input type="button" class="btn btn-success"
+                           value="<fmt:message key = "login.submit" bundle = "${lang}"/>"
                            onclick="window.location.href='${pageContext.request.contextPath}/login'">
                 </c:when>
                 <c:otherwise>
@@ -33,25 +44,30 @@
                         <c:choose>
                             <c:when test="${sessionScope.user.isAdmin()}">
                                 <div class="button-container">
-                                    <input type="button" class="btn btn-danger" value="Панель админа"
+                                    <input type="button" class="btn btn-danger"
+                                           value="<fmt:message key = "header.admin" bundle = "${lang}"/>"
                                            onclick="window.location.href='${pageContext.request.contextPath}/admin/panel'">
                                 </div>
                             </c:when>
                         </c:choose>
                         <c:choose>
                             <c:when test="${sessionScope.user.isManager()}">
-                                <div class="button-container">
+                                <div class=" button-container">
                                     <div class="dropdown mx-2">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
                                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                                 aria-expanded="false">
-                                            Панель менеджера
+                                            <fmt:message key="header.manager" bundle="${lang}"/>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item"
-                                               href="${pageContext.request.contextPath}/manager/orders">Заказы</a>
+                                               href="${pageContext.request.contextPath}/manager/orders">
+                                                <fmt:message key="header.manager.order" bundle="${lang}"/>
+                                            </a>
                                             <a class="dropdown-item"
-                                               href="${pageContext.request.contextPath}/manager/products">Продукты</a>
+                                               href="${pageContext.request.contextPath}/manager/products">
+                                                <fmt:message key="header.manager.products" bundle="${lang}"/>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

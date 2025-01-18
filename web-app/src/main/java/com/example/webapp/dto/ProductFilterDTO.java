@@ -1,16 +1,12 @@
 package com.example.webapp.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
+import lombok.*;
 import java.math.BigDecimal;
 
-@Setter
-@Getter
+@Data
+@Builder
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
 public class ProductFilterDTO{
     private String sort;
     private String category;

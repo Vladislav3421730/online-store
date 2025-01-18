@@ -1,8 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Your cart</title>
+    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
+    <fmt:setBundle basename="messages" var="lang"/>
+    <title><fmt:message key="cart.title" bundle="${lang}"/></title>
     <style>
         <%@include file="/WEB-INF/css/card.css"%>
         <%@include file="/WEB-INF/css/buttons.css"%>
@@ -16,12 +19,12 @@
         <div class="row">
             <div class="col-lg-1 col-mg-0"></div>
             <div class="col-lg-10 col-mg-12">
-                <a class="btn btn-success mb-1 mt-1" href="${pageContext.request.contextPath}/">На главную</a>
+                <a class="btn btn-success mb-1 mt-1" href="${pageContext.request.contextPath}/"><fmt:message key="cart.home" bundle="${lang}"/></a>
                 <h4 style="color: red">${requestScope.error}</h4>
                 <h4 style="color: green">${requestScope.success}</h4>
                 <c:choose>
                     <c:when test="${sessionScope.user.getCarts().isEmpty()}">
-                        <h3>Ваша корзина пуста</h3>
+                        <h3><fmt:message key="cart.empty" bundle="${lang}"/></h3>
                     </c:when>
                     <c:otherwise>
                         <div class="row">
@@ -44,7 +47,7 @@
                                             <strong>${cart.getProduct().getCoast()}</strong><br>
                                                 ${cart.getProduct().getTitle()}<br>
                                             <div style="display: flex">
-                                                Количество:
+                                                <fmt:message key="cart.quantity" bundle="${lang}"/>:
                                                 <form action="${pageContext.request.contextPath}/user/cart/decrement?index=${status.index}"
                                                       method="post">
                                                     <button type="submit" id="minus-button">-</button>
@@ -56,10 +59,10 @@
                                                     <button type="submit" id="plus-button">+</button>
                                                 </form>
                                             </div>
-                                            <p>Осталось: ${cart.getProduct().getAmount()}</p>
+                                            <p><fmt:message key="cart.remaining" bundle="${lang}"/>: ${cart.getProduct().getAmount()}</p>
                                             <form action="${pageContext.request.contextPath}/user/cart/delete?index=${status.index}"
                                                   method="post">
-                                                <input type="submit" class="btn btn-danger" value="убрать из корзины"/>
+                                                <input type="submit" class="btn btn-danger" value="<fmt:message key='cart.remove' bundle='${lang}'/>"/>
                                             </form>
                                         </div>
                                     </div>
@@ -68,12 +71,11 @@
                         </div>
                         <div class="mt-2 mb-2 d-flex" style="justify-content: flex-end">
                             <button type="button" class="btn btn-primary mx-3" data-toggle="modal" data-target="#modal">
-                                Оформить заказ ${requestScope.totalCoast}
+                                <fmt:message key="cart.checkout" bundle="${lang}"/> ${requestScope.totalCoast}
                             </button>
                         </div>
                     </c:otherwise>
                 </c:choose>
-
             </div>
             <div class="col-lg-1 col-mg-0"></div>
         </div>

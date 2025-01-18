@@ -29,27 +29,29 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Size(min = 3,message = "title's size must more or equal than 3")
+    @Size(min = 3, message = "title's size must more or equal than 3")
     @NotBlank
     private String title;
     @Column(columnDefinition = "TEXT")
-    @Size(min = 10,message = "description's size must more or equal than 10")
+    @Size(min = 10, message = "description's size must more or equal than 10")
     @NotBlank
     private String description;
-    @Size(min = 3,message = "category's size must more or equal than 3")
+    @Size(min = 3, message = "category's size must more or equal than 3")
     @NotBlank
     private String category;
-    @Min(value = 0,message = "amount must be more or equal than 0")
+    @Min(value = 0, message = "amount must be more or equal than 0")
     private int amount;
+
     @DecimalMin(value = "0.01", message = "Cost must be greater than or equal to 10.3")
     private BigDecimal coast;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "product",orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "product", orphanRemoval = true)
     @OrderBy("id ASC")
-    private List<Image> imageList=new ArrayList<>();
+    private List<Image> imageList = new ArrayList<>();
 
     public void addImageToList(Image image){
         imageList.add(image);
         image.setProduct(this);
     }
+
 }

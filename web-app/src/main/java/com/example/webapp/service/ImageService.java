@@ -1,8 +1,8 @@
 package com.example.webapp.service;
 
-import com.example.webapp.model.Image;
+import com.example.webapp.dto.ImageDto;
 
 public interface ImageService {
 
-    Image findById(Long id);
+    ImageDto findById(Long id);
 }
