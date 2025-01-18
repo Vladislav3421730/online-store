@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
     <fmt:setBundle basename="messages" var="lang"/>
     <title>header</title>
     <meta charset="UTF-8">

@@ -16,5 +16,7 @@ public class Messages {
     public final String SUCCESS_MESSAGE = "order.success";
     public final String FAILED_PAYMENT_MESSAGE =  "order.payment_failed";
     public final String ERROR_MESSAGE_INCREMENT = "cart.error.quantity_exceeded";
+    public final String ERROR_ADMIN_BUN = "admin.bun.error";
+    public final String ERROR_ADMIN_ADDING_ROLE = "admin.role.error";
 
 }

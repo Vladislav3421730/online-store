@@ -6,6 +6,9 @@ import com.example.webapp.service.AdminService;
 import com.example.webapp.service.UserService;
 import com.example.webapp.service.impl.AdminServiceImpl;
 import com.example.webapp.service.impl.UserServiceImpl;
+import com.example.webapp.utils.JspHelper;
+import com.example.webapp.utils.Messages;
+import com.example.webapp.utils.ResourceBundleUtils;
 import com.example.webapp.utils.Validator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,10 +20,11 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 
 @WebServlet("/admin/bun")
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class BunUserServlet extends HttpServlet {
 
@@ -31,8 +35,15 @@ public class BunUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDto user = userService.findById(Validator
                 .validateLong(req.getParameter("userId")));
-        log.info("{} {}", user.isBun() ? "ban user" : "unban",user.getEmail());
+        UserDto userDto = (UserDto) req.getSession().getAttribute("user");
+        if (userDto.getId().equals(user.getId())) {
+            ResourceBundle resourceBundle = ResourceBundleUtils.get(req);
+            req.setAttribute("error",resourceBundle.getString(Messages.ERROR_ADMIN_BUN));
+            req.setAttribute("users",userService.findAll());
+            req.getRequestDispatcher(JspHelper.getPath("adminPanel")).forward(req,resp);
+            return;
+        }
         adminService.bun(user);
-        resp.sendRedirect(req.getContextPath()+"/admin/panel");
+        resp.sendRedirect(req.getContextPath() + "/admin/panel");
     }
 }

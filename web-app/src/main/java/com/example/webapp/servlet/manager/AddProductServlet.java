@@ -62,8 +62,7 @@ public class AddProductServlet extends HttpServlet {
                 imageDTOList.add(imageDTO);
             }
         }
-        productDTO.setImageList(imageDTOList);
-        productService.save(productDTO);
+        productService.save(productDTO,imageDTOList);
         resp.sendRedirect(req.getContextPath() + "/manager/products");
     }
 }

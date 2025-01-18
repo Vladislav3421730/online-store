@@ -10,10 +10,11 @@ import com.example.webapp.service.ImageService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
+import lombok.extern.slf4j.Slf4j;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class ImageServiceImpl implements ImageService {
 
     private final static ImageServiceImpl INSTANCE = new ImageServiceImpl();
@@ -27,8 +28,12 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public ImageDto findById(Long id) {
-        Image image = imageRepository.findById(id).orElseThrow(() ->
-                new ImageNotFoundException("Image with id " + id + " was not found"));
+        log.info("Fetching image by ID: {}", id);
+        Image image = imageRepository.findById(id).orElseThrow(() -> {
+            log.error("Image with id {} not found", id);
+            return new ImageNotFoundException("Image with id " + id + " was not found");
+        });
+        log.info("Found image with ID: {}", id);
         return imageMapper.toDTO(image);
     }
 }

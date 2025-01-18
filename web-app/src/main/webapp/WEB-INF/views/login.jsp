@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
     <fmt:setBundle basename="messages" var="lang"/>
     <title><fmt:message key="page.login.title" bundle="${lang}"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

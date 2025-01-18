@@ -22,17 +22,6 @@ public class UserDaoImpl extends AbstractHibernateDao<User> implements UserDao {
     }
 
     @Override
-    public List<User> findAll() {
-        try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("SELECT u FROM User u" +
-                            " WHERE :adminRole not in elements(u.roleSet) order by u.id", User.class)
-                    .setMaxResults(50)
-                    .setParameter("adminRole", Role.ROLE_ADMIN)
-                    .getResultList();
-        }
-    }
-
-    @Override
     public void save(User entity) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();

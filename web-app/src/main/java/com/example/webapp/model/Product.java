@@ -49,4 +49,9 @@ public class Product {
     @OrderBy("id ASC")
     private List<Image> imageList = new ArrayList<>();
 
+    public void addImageToList(Image image){
+        imageList.add(image);
+        image.setProduct(this);
+    }
+
 }

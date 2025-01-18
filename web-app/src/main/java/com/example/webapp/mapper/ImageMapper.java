@@ -1,5 +1,6 @@
 package com.example.webapp.mapper;
 
+import com.example.webapp.dto.CreateImageDto;
 import com.example.webapp.dto.ImageDto;
 import com.example.webapp.model.Image;
 import com.example.webapp.model.Product;
@@ -14,6 +15,8 @@ public interface ImageMapper {
 
     @Mapping(source = "productId",target = "product")
     Image toEntity(ImageDto imageDto);
+
+    Image toNewEntity(CreateImageDto createImageDto);
 
     default Long mapProductFromImageToImageDto(Product product){
         return product.getId();

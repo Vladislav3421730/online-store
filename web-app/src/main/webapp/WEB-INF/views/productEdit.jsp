@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
     <fmt:setBundle basename="messages" var="lang"/>
     <title><fmt:message key="editProduct.title" bundle="${lang}" /> ${requestScope.product.getTitle()}</title>
     <style>
@@ -49,8 +49,13 @@
                 <button type="button" id="minus-button">-</button>
             </div>
         </div>
-
-        <input type="submit" class="btn btn-success mt-4" value="<fmt:message key='editProduct.submit' bundle='${lang}' />">
+        <div class="d-flex mt-4">
+            <input type="submit" class="btn btn-success"
+                   value="<fmt:message key='editProduct.submit' bundle='${lang}' />">
+            <input type="button" class="btn btn-danger mx-3"
+                   onclick="window.location.href='${pageContext.request.contextPath}/manager/products'"
+                   value="<fmt:message key='product.adding.refuse' bundle='${lang}'/>">
+        </div>
     </form>
 </div>
 </body>

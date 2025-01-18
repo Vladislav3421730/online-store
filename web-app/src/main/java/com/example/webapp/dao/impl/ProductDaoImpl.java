@@ -71,6 +71,7 @@ public class ProductDaoImpl extends AbstractHibernateDao<Product> implements Pro
             if (!predicates.isEmpty()) {
                 query.where(predicates.toArray(new Predicate[predicates.size() - 1]));
             }
+            query.orderBy(cb.asc(root.get("id")));
             return session.createQuery(query)
                     .setFirstResult(initIndex)
                     .setMaxResults(10)

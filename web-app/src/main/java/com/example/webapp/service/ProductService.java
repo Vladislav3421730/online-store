@@ -1,5 +1,6 @@
 package com.example.webapp.service;
 
+import com.example.webapp.dto.CreateImageDto;
 import com.example.webapp.dto.CreateProductDto;
 import com.example.webapp.dto.ProductDto;
 import com.example.webapp.dto.ProductFilterDTO;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    void save(CreateProductDto createProductDTO);
+    void save(CreateProductDto createProductDTO, List<CreateImageDto> imageDtos);
 
     List<ProductDto> findAll();
 

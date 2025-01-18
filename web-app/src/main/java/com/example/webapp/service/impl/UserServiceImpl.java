@@ -43,37 +43,49 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void save(RegisterUserDto registerUserDto) {
+        log.info("Registering a new user: {}", registerUserDto.getEmail());
+
         User user = userMapper.toNewEntity(registerUserDto);
         Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
         if (!violations.isEmpty()) {
+            log.warn("Validation failed for user registration: {}", registerUserDto.getEmail());
             throw new ConstraintViolationException(violations);
         }
+
         user.setPassword(BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray()));
         user.setRoleSet(Set.of(Role.ROLE_USER));
         userDao.save(user);
+
+        log.info("User registered successfully: {}", registerUserDto.getEmail());
     }
 
     @Override
     public Optional<UserDto> findByEmail(String email) {
+        log.info("Finding user by email: {}", email);
         Optional<User> user = userDao.findByEmail(email);
         return user.map(userMapper::toDTO);
     }
 
     @Override
     public Optional<UserDto> findByPhoneNumber(String number) {
+        log.info("Finding user by phone number: {}", number);
         Optional<User> user = userDao.findByPhoneNumber(number);
         return user.map(userMapper::toDTO);
     }
 
     @Override
     public UserDto findById(Long id) {
-        User user = userDao.findById(id).orElseThrow(() ->
-                new UserNotFoundException("User with id " + id + " was not found"));
+        log.info("Finding user by ID: {}", id);
+        User user = userDao.findById(id).orElseThrow(() -> {
+            log.error("User with id {} not found", id);
+            return new UserNotFoundException("User with id " + id + " was not found");
+        });
         return userMapper.toDTO(user);
     }
 
     @Override
     public List<UserDto> findAll() {
+        log.info("Fetching all users");
         return userDao.findAll().stream()
                 .map(userMapper::toDTO)
                 .toList();
@@ -82,6 +94,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto addProductToCart(UserDto userDto, ProductDto productDto) {
+        log.info("Adding product to cart: {} for user: {}", productDto.getTitle(), userDto.getEmail());
 
         User user = userMapper.toEntity(userDto);
         boolean isInCartList = user.getCarts().stream()
@@ -89,17 +102,20 @@ public class UserServiceImpl implements UserService {
                 .peek(cart -> cart.setAmount(cart.getAmount() + 1))
                 .findFirst()
                 .isPresent();
+
         if (!isInCartList) {
-            log.info("a new item {} has been added to the user's {} cart", productDto.getTitle(), user.getEmail());
+            log.info("Adding a new item {} to the user's cart", productDto.getTitle());
             Cart cart = new Cart(productMapper.toEntity(productDto));
             user.addCartToList(cart);
         }
+
         return update(user);
     }
 
     @Override
     @Transactional
     public UserDto makeOrder(UserDto userDto, OrderDto orderDto) {
+        log.info("Making an order for user: {}", userDto.getEmail());
 
         orderDto.setStatus(Status.ACCEPTED.getDisplayName());
         User user = userMapper.toEntity(userDto);
@@ -110,16 +126,23 @@ public class UserServiceImpl implements UserService {
                 .toList());
         user.getCarts().clear();
         user.addOrderToList(order);
+
+        log.info("Order for user {} created successfully", userDto.getEmail());
         return update(user);
     }
 
     @Transactional
     private UserDto update(@Valid User user) {
+        log.info("Updating user with id: {}", user.getId());
+
         Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
         if (!violations.isEmpty()) {
+            log.warn("Validation failed for user update: {}", user.getId());
             throw new ConstraintViolationException(violations);
         }
-        return userMapper.toDTO(userDao.update(user));
-    }
 
+        User updatedUser = userDao.update(user);
+        log.info("User updated successfully with id: {}", updatedUser.getId());
+        return userMapper.toDTO(updatedUser);
+    }
 }

@@ -28,6 +28,7 @@
         <bcrypt.version>0.9.0</bcrypt.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <hikaricp.version>2.7.2</hikaricp.version>
+        <h2database.vesrion>2.2.224</h2database.vesrion>
     </properties>
 
     <dependencies>
@@ -126,6 +127,13 @@
             <artifactId>HikariCP</artifactId>
             <version>${hikaricp.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2database.vesrion}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

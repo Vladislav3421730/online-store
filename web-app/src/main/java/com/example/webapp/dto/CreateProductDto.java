@@ -16,7 +16,4 @@ public class CreateProductDto {
     private String category;
     private int amount;
     private BigDecimal coast;
-    private List<CreateImageDto> imageList;
-
-
 }

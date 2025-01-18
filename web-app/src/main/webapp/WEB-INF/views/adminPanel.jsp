@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'en'}"/>
+    <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
     <fmt:setBundle basename="messages" var="lang"/>
     <title><fmt:message key="admin.panel.title" bundle="${lang}"/></title>
 </head>
@@ -20,6 +20,7 @@
             </div>
         </div>
     </form>
+    <h3 style="color: red" class="mt-2 mb-2">${requestScope.error}</h3>
     <c:choose>
         <c:when test="${requestScope.users.isEmpty()}">
             <h3><fmt:message key="admin.no.users.found" bundle="${lang}"/></h3>

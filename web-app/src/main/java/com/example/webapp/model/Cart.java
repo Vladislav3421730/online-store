@@ -1,6 +1,7 @@
 package com.example.webapp.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "cart_of_goods")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cart {
