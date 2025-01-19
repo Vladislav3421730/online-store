@@ -17,7 +17,6 @@ import java.io.OutputStream;
 
 @WebServlet("/image")
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
-@Slf4j
 public class GetImageServlet extends HttpServlet {
 
     ImageServiceImpl imageService = ImageServiceImpl.getInstance();
@@ -27,6 +26,7 @@ public class GetImageServlet extends HttpServlet {
 
         long imageId = Validator.validateLong(req.getParameter("id"));
         ImageDto image = imageService.findById(imageId);
+
         resp.setContentType(image.getContentType());
         byte[] imageData = image.getBytes();
         resp.setContentLength(imageData.length);
