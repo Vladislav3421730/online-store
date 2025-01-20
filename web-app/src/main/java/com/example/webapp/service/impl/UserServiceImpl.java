@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService {
     OrderMapper orderMapper = new OrderMapperImpl();
 
     @Override
-    @Transactional
     public void save(RegisterUserDto registerUserDto) {
         log.info("Registering a new user: {}", registerUserDto.getEmail());
 
