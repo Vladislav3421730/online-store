@@ -67,7 +67,6 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    @Transactional
     public void deleteCartFromBasket(List<CartDto> cartAfterRemoving, int index) {
         if (index < 0 || index >= cartAfterRemoving.size()) {
             log.error("Index out of bounds: {}", index);
