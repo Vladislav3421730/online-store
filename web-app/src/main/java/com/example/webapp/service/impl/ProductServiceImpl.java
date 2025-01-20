@@ -43,7 +43,6 @@ public class ProductServiceImpl implements ProductService {
     ImageMapper imageMapper = new ImageMapperImpl();
 
     @Override
-    @Transactional
     public void save(CreateProductDto createProductDTO, List<CreateImageDto> imageDtos) {
         log.info("Saving new product: {}", createProductDTO.getTitle());
 
@@ -120,7 +119,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public void update(ProductDto productDto) {
         log.info("Updating product with id: {}", productDto.getId());
 
@@ -136,7 +134,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
         log.info("Deleting product with id: {}", id);
         productDao.delete(id);

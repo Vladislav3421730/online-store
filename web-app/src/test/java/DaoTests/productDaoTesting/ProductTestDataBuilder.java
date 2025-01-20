@@ -1,4 +1,4 @@
-package productDaoTesting;
+package DaoTests.productDaoTesting;
 
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;

@@ -1,4 +1,4 @@
-package orderDaoTesting;
+package DaoTests.orderDaoTesting;
 
 import com.example.webapp.dao.impl.OrderDaoImpl;
 import com.example.webapp.dao.impl.UserDaoImpl;

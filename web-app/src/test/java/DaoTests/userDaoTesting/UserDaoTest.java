@@ -1,4 +1,4 @@
-package userDaoTesting;
+package DaoTests.userDaoTesting;
 
 import com.example.webapp.dao.impl.UserDaoImpl;
 import com.example.webapp.model.User;
@@ -145,7 +145,6 @@ public class UserDaoTest {
         assertTrue(userAfterUnbun.isPresent(), "User must be not null");
         assertFalse(userAfterUnbun.get().isBun(), "User must not be bun");
     }
-
 
 
 }

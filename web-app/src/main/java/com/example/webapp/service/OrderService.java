@@ -9,7 +9,10 @@ import java.util.Optional;
 
 public interface OrderService {
     List<OrderDto> findAll();
+
     OrderDto findById(Long id);
+
     List<OrderDto> findAllByUserEmail(String email);
+
     void update(OrderDto order);
 }

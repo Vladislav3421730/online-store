@@ -1,3 +1,5 @@
+package DaoTests;
+
 import com.example.webapp.dao.impl.ImageDaoImpl;
 import com.example.webapp.model.Image;
 import org.junit.jupiter.api.*;

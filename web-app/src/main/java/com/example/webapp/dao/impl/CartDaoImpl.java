@@ -20,8 +20,7 @@ public class CartDaoImpl extends AbstractHibernateDao<Cart> implements CartDao {
     public void incrementAmount(Long cartId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            String INCREMENT_CART_SQL = "UPDATE Cart c SET c.amount = c.amount + 1 WHERE c.id = :cartId";
-            session.createQuery(INCREMENT_CART_SQL)
+            session.createQuery("UPDATE Cart c SET c.amount = c.amount + 1 WHERE c.id = :cartId")
                     .setParameter("cartId", cartId)
                     .executeUpdate();
             session.getTransaction().commit();
@@ -31,8 +30,7 @@ public class CartDaoImpl extends AbstractHibernateDao<Cart> implements CartDao {
     public void decrementAmount(Long cartId) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            String DECREMENT_CART_SQL = "UPDATE Cart c SET c.amount = c.amount - 1 WHERE c.id = :cartId";
-            session.createQuery(DECREMENT_CART_SQL)
+            session.createQuery("UPDATE Cart c SET c.amount = c.amount - 1 WHERE c.id = :cartId")
                     .setParameter("cartId", cartId)
                     .executeUpdate();
             session.getTransaction().commit();

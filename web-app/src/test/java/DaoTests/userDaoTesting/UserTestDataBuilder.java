@@ -1,4 +1,4 @@
-package userDaoTesting;
+package DaoTests.userDaoTesting;
 
 import com.example.webapp.model.User;
 import com.example.webapp.model.enums.Role;

@@ -26,7 +26,6 @@ public class CartServiceImpl implements CartService {
     CartDaoImpl cartDao = CartDaoImpl.getInstance();
 
     @Override
-    @Transactional
     public boolean incrementAmountOfCartInBasket(List<CartDto> userCarts, int index) {
         if (index < 0 || index >= userCarts.size()) {
             log.error("Index out of bounds: {}", index);
@@ -48,7 +47,6 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    @Transactional
     public void decrementAmountOfCartInBasket(List<CartDto> userCarts, int index) {
         if (index < 0 || index >= userCarts.size()) {
             log.error("Index out of bounds: {}", index);

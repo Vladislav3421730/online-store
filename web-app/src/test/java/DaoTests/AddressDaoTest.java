@@ -1,3 +1,5 @@
+package DaoTests;
+
 import com.example.webapp.dao.impl.AddressDaoImpl;
 import com.example.webapp.model.Address;
 import org.junit.jupiter.api.*;

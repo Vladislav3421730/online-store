@@ -62,7 +62,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
     public void update(OrderDto orderDto) {
         log.info("Updating order with ID: {}", orderDto.getId());
         Order order = orderMapper.toEntity(orderDto);

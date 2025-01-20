@@ -30,7 +30,6 @@ public class AdminServiceImpl implements AdminService {
     UserMapper userMapper = new UserMapperImpl();
 
     @Override
-    @Transactional
     public void bun(UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         log.info("{} {}", user.isBun() ? "ban user" : "unban", user.getEmail());
@@ -39,7 +38,6 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    @Transactional
     public void madeManager(UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         if (!user.getRoleSet().add(Role.ROLE_MANAGER)) {

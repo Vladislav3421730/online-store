@@ -32,7 +32,6 @@ public class AddressServiceImpl implements AddressService {
     AddressMapper addressMapper = new AddressMapperImpl();
 
     @Override
-    @Transactional
     public AddressDto save(AddressDto addressDto) {
         Address address = addressMapper.toEntity(addressDto);
         Set<ConstraintViolation<Address>> violations = HibernateValidatorUtil.getValidator().validate(address);

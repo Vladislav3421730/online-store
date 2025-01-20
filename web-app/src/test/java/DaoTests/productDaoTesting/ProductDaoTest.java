@@ -1,4 +1,4 @@
-package productDaoTesting;
+package DaoTests.productDaoTesting;
 
 import com.example.webapp.dao.impl.ProductDaoImpl;
 import com.example.webapp.dto.ProductFilterDTO;
@@ -122,7 +122,6 @@ public class ProductDaoTest {
     @Order(8)
     @DisplayName("Test find all products by price filter")
     void testFindAllByPriceFilter() {
-
 
         List<Product> products = productDao.findAllByPriceFilter(filterCoastDTO, 0);
 

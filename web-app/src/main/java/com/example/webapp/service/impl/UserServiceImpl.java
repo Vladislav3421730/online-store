@@ -92,7 +92,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public UserDto addProductToCart(UserDto userDto, ProductDto productDto) {
         log.info("Adding product to cart: {} for user: {}", productDto.getTitle(), userDto.getEmail());
 
@@ -113,7 +112,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public UserDto makeOrder(UserDto userDto, OrderDto orderDto) {
         log.info("Making an order for user: {}", userDto.getEmail());
 
@@ -131,7 +129,6 @@ public class UserServiceImpl implements UserService {
         return update(user);
     }
 
-    @Transactional
     private UserDto update(@Valid User user) {
         log.info("Updating user with id: {}", user.getId());
 

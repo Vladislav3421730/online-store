@@ -1,3 +1,5 @@
+package DaoTests;
+
 import com.example.webapp.dao.impl.CartDaoImpl;
 import com.example.webapp.model.Cart;
 import org.junit.jupiter.api.*;

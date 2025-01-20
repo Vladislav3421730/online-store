@@ -1,4 +1,4 @@
-package orderDaoTesting;
+package DaoTests.orderDaoTesting;
 
 import com.example.webapp.model.Order;
 import com.example.webapp.model.User;
