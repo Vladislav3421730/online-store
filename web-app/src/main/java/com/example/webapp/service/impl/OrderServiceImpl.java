@@ -5,35 +5,29 @@ import com.example.webapp.exception.OrderNotFoundException;
 import com.example.webapp.mapper.OrderMapper;
 import com.example.webapp.mapper.OrderMapperImpl;
 import com.example.webapp.model.Order;
-import com.example.webapp.dao.OrderDao;
-import com.example.webapp.dao.impl.OrderDaoImpl;
+import com.example.webapp.repository.OrderRepository;
 import com.example.webapp.service.OrderService;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tags.shaded.org.apache.bcel.generic.Select;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Service
 @Slf4j
 public class OrderServiceImpl implements OrderService {
 
-    private static final OrderServiceImpl INSTANCE = new OrderServiceImpl();
+    @Autowired
+    private OrderRepository orderRepository;
 
-    public static OrderServiceImpl getInstance() {
-        return INSTANCE;
-    }
-
-    OrderDaoImpl orderDao = OrderDaoImpl.getInstance();
     OrderMapper orderMapper = new OrderMapperImpl();
 
     @Override
     public List<OrderDto> findAll() {
         log.info("Fetching all orders");
-        List<OrderDto> orders = orderDao.findAll().stream()
+        List<OrderDto> orders = orderRepository.findAllOrderByCreatedAt().stream()
                 .map(orderMapper::toDTO)
                 .toList();
         log.info("Retrieved {} orders", orders.size());
@@ -43,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto findById(Long id) {
         log.info("Fetching order by ID: {}", id);
-        Order order = orderDao.findById(id).orElseThrow(() -> {
+        Order order = orderRepository.findById(id).orElseThrow(() -> {
             log.error("Order with id {} not found", id);
             return new OrderNotFoundException("Order with id " + id + " not found");
         });
@@ -54,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> findAllByUserEmail(String email) {
         log.info("Fetching orders for user with email: {}", email);
-        List<OrderDto> orders = orderDao.findAllByUserEmail(email).stream()
+        List<OrderDto> orders = orderRepository.findAllByUserEmail(email).stream()
                 .map(orderMapper::toDTO)
                 .toList();
         log.info("Retrieved {} orders for user with email: {}", orders.size(), email);
@@ -65,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
     public void update(OrderDto orderDto) {
         log.info("Updating order with ID: {}", orderDto.getId());
         Order order = orderMapper.toEntity(orderDto);
-        orderDao.update(order);
+        orderRepository.save(order);
         log.info("Order with ID: {} updated successfully", orderDto.getId());
     }
 }

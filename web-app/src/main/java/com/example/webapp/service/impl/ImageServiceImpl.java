@@ -5,26 +5,22 @@ import com.example.webapp.exception.ImageNotFoundException;
 import com.example.webapp.mapper.ImageMapper;
 import com.example.webapp.mapper.ImageMapperImpl;
 import com.example.webapp.model.Image;
-import com.example.webapp.dao.impl.ImageDaoImpl;
-import com.example.webapp.service.ImageService;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+import com.example.webapp.repository.ImageRepository;
+import com.example.webapp.service.ImageService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+@Service
 @Slf4j
 public class ImageServiceImpl implements ImageService {
 
-    private final static ImageServiceImpl INSTANCE = new ImageServiceImpl();
+    @Autowired
+    private ImageRepository imageRepository;
 
-    public static ImageServiceImpl getInstance() {
-        return INSTANCE;
-    }
-
-    ImageDaoImpl imageRepository = ImageDaoImpl.getInstance();
-    ImageMapper imageMapper = new ImageMapperImpl();
+    private final ImageMapper imageMapper = new ImageMapperImpl();
 
     @Override
     public ImageDto findById(Long id) {

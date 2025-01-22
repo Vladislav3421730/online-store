@@ -3,13 +3,6 @@ package com.example.webapp.utils;
 import com.example.webapp.dto.AddressDto;
 import com.example.webapp.dto.OrderDto;
 import com.example.webapp.dto.UserDto;
-import com.example.webapp.mapper.AddressMapper;
-import com.example.webapp.mapper.AddressMapperImpl;
-import com.example.webapp.model.Address;
-import com.example.webapp.model.Order;
-import com.example.webapp.model.User;
-import com.example.webapp.dao.AddressDao;
-import com.example.webapp.dao.impl.AddressDaoImpl;
 import com.example.webapp.service.AddressService;
 import com.example.webapp.service.impl.AddressServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,14 +10,17 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Slf4j
-@UtilityClass
+@Component
 public class AddressFormationAssistant {
 
-    private final AddressService addressService = AddressServiceImpl.getInstance();
+    @Autowired
+    private AddressService addressService;
 
     public AddressDto formAddress(final HttpServletRequest request){
         long addressId;
