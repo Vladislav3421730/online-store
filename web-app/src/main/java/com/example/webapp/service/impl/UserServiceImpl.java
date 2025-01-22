@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.transaction.Transactional;
 import javax.validation.*;
 import java.util.List;
 import java.util.Optional;
