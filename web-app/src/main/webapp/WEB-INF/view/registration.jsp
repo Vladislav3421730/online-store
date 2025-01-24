@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -15,12 +16,21 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title text-center"><fmt:message key="registration.heading" bundle="${lang}" /></h5>
-                    <p style="color: red">${requestScope.error}</p>
+                    <c:if test="${not empty errors}">
+                        <div class="alert alert-danger">
+                            <ul>
+                                <c:forEach var="error" items="${errors}">
+                                    <li>${error}</li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </c:if>
+
                     <form action="${pageContext.request.contextPath}/registration" method="post">
                         <div class="form-group mb-2">
                             <label for="username"><fmt:message key="registration.username" bundle="${lang}" /></label>
-                            <input type="text" value="${requestScope.username}" class="form-control mt-1" minlength="5" name="username" id="username"
-                                   placeholder="<fmt:message key='registration.usernamePlaceholder' bundle='${lang}' />" required>
+                            <input type="text" value="${requestScope.username}" class="form-control mt-1"  name="username" id="username"
+                                   placeholder="<fmt:message key='registration.usernamePlaceholder' bundle='${lang}' />">
                         </div>
                         <div class="form-group mb-2">
                             <label for="email"><fmt:message key="registration.email" bundle="${lang}" /></label>
@@ -29,7 +39,7 @@
                         </div>
                         <div class="form-group mb-2">
                             <label for="phone"><fmt:message key="registration.phone" bundle="${lang}" /></label>
-                            <input type="text" value="${requestScope.phone}" class="form-control mt-1" name="phone" id="phone"
+                            <input type="text" value="${requestScope.phone}" class="form-control mt-1" name="phoneNumber" id="phone"
                                    placeholder="<fmt:message key='registration.phonePlaceholder' bundle='${lang}' />" pattern="\+375[0-9]{9}">
                         </div>
                         <div class="form-group mb-2">

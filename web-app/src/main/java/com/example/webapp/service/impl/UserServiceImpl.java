@@ -11,41 +11,36 @@ import com.example.webapp.model.enums.Status;
 import com.example.webapp.repository.UserRepository;
 import com.example.webapp.service.UserService;
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.example.webapp.utils.HibernateValidatorUtil;
+import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
+    OderItemCartMapper oderItemCartMapper;
 
-    @Autowired
-    private OderItemCartMapper oderItemCartMapper;
-
-    UserMapper userMapper = new UserMapperImpl();
-    ProductMapper productMapper = new ProductMapperImpl();
-    OrderMapper orderMapper = new OrderMapperImpl();
+    UserMapper userMapper;
+    ProductMapper productMapper;
+    OrderMapper orderMapper;
 
     @Override
+    @Transactional
     public void save(RegisterUserDto registerUserDto) {
         log.info("Registering a new user: {}", registerUserDto.getEmail());
 
         User user = userMapper.toNewEntity(registerUserDto);
-        Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
-        if (!violations.isEmpty()) {
-            log.warn("Validation failed for user registration: {}", registerUserDto.getEmail());
-            throw new ConstraintViolationException(violations);
-        }
-
         user.setPassword(BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray()));
         user.setRoleSet(Set.of(Role.ROLE_USER));
         userRepository.save(user);
@@ -80,12 +75,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAll() {
         log.info("Fetching all users");
-        return userRepository.findAll().stream()
+        return userRepository.findByOrderById().stream()
                 .map(userMapper::toDTO)
                 .toList();
     }
 
     @Override
+    @Transactional
     public UserDto addProductToCart(UserDto userDto, ProductDto productDto) {
         log.info("Adding product to cart: {} for user: {}", productDto.getTitle(), userDto.getEmail());
 
@@ -106,6 +102,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto makeOrder(UserDto userDto, OrderDto orderDto) {
         log.info("Making an order for user: {}", userDto.getEmail());
 
@@ -123,13 +120,9 @@ public class UserServiceImpl implements UserService {
         return update(user);
     }
 
-    private UserDto update(@Valid User user) {
+    @Transactional
+    private UserDto update(User user) {
         log.info("Updating user with id: {}", user.getId());
-        Set<ConstraintViolation<User>> violations = HibernateValidatorUtil.getValidator().validate(user);
-        if (!violations.isEmpty()) {
-            log.warn("Validation failed for user update: {}", user.getId());
-            throw new ConstraintViolationException(violations);
-        }
         User updatedUser = userRepository.save(user);
         log.info("User updated successfully with id: {}", updatedUser.getId());
         return userMapper.toDTO(updatedUser);

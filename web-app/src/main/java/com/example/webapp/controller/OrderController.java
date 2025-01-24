@@ -4,6 +4,9 @@ import com.example.webapp.dto.OrderDto;
 import com.example.webapp.dto.UserDto;
 import com.example.webapp.service.OrderService;
 import com.example.webapp.service.UserService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,13 +16,12 @@ import java.util.List;
 
 @Controller
 @RequestMapping("orders")
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private UserService userService;
+    OrderService orderService;
+    UserService userService;
 
     @GetMapping
     public String findAllOrders(Model model) {
@@ -48,7 +50,7 @@ public class OrderController {
 
         orderService.update(order);
         UserDto user = userService.findById(order.getUserId());
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         model.addAttribute("orderDto", order);
         return "order";
     }

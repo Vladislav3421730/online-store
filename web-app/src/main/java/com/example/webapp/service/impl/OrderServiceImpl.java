@@ -3,31 +3,31 @@ package com.example.webapp.service.impl;
 import com.example.webapp.dto.OrderDto;
 import com.example.webapp.exception.OrderNotFoundException;
 import com.example.webapp.mapper.OrderMapper;
-import com.example.webapp.mapper.OrderMapperImpl;
 import com.example.webapp.model.Order;
 import com.example.webapp.repository.OrderRepository;
 import com.example.webapp.service.OrderService;
+import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tags.shaded.org.apache.bcel.generic.Select;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
-    private OrderRepository orderRepository;
-
-    OrderMapper orderMapper = new OrderMapperImpl();
+    OrderRepository orderRepository;
+    OrderMapper orderMapper;
 
     @Override
     public List<OrderDto> findAll() {
         log.info("Fetching all orders");
-        List<OrderDto> orders = orderRepository.findAllOrderByCreatedAt().stream()
+        List<OrderDto> orders = orderRepository.findByOrderByCreatedAtDesc().stream()
                 .map(orderMapper::toDTO)
                 .toList();
         log.info("Retrieved {} orders", orders.size());
@@ -56,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void update(OrderDto orderDto) {
         log.info("Updating order with ID: {}", orderDto.getId());
         Order order = orderMapper.toEntity(orderDto);

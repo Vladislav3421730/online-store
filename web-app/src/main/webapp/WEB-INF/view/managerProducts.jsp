@@ -15,7 +15,7 @@
 <jsp:include page="modal/modalCoastFilter.jsp"/>
 <div class="container mt-4">
     <div class="viewProductSearching mb-2">
-        <form action="${pageContext.request.contextPath}/manager/product/search" method="get" class="w-100  mr-3">
+        <form action="${pageContext.request.contextPath}/products/manager/search" method="get" class="w-100  mr-3">
             <div class="input-group">
                 <input value="${requestScope.search}" type="text" class="form-control" id="search" placeholder="<fmt:message key='products.searchPlaceholder' bundle='${lang}' />"
                        name="id"/>
@@ -79,17 +79,17 @@
             </table>
             <div class="pagination">
                 <c:if test="${currentPage > 1}">
-                    <a href="${pageContext.request.contextPath}/products?page=${currentPage - 1}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}">&laquo;
+                    <a href="${pageContext.request.contextPath}/products/manager?page=${currentPage - 1}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}">&laquo;
                         <fmt:message key="products.pagination.prev" bundle="${lang}" /></a>
                 </c:if>
                 <c:if test="${totalPages > 1}">
                     <c:forEach var="i" begin="1" end="${totalPages}">
-                        <a href="${pageContext.request.contextPath}/products?page=${i}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}"
+                        <a href="${pageContext.request.contextPath}/products/manager?page=${i}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}"
                            class="${currentPage == i ? 'active' : ''}">${i}</a>
                     </c:forEach>
                 </c:if>
                 <c:if test="${currentPage < totalPages}">
-                    <a href="${pageContext.request.contextPath}/products?page=${currentPage + 1}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}">
+                    <a href="${pageContext.request.contextPath}/products/manager?page=${currentPage + 1}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}">
                         <fmt:message key="products.pagination.next" bundle="${lang}" /> &raquo;</a>
                 </c:if>
             </div>

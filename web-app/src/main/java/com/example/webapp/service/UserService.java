@@ -5,7 +5,6 @@ import com.example.webapp.dto.OrderDto;
 import com.example.webapp.dto.ProductDto;
 import com.example.webapp.dto.RegisterUserDto;
 import com.example.webapp.dto.UserDto;
-import com.example.webapp.model.User;
 
 import java.util.List;
 import java.util.Optional;

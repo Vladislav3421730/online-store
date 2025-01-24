@@ -19,26 +19,26 @@
         <div class="row">
             <div class="col-lg-1 col-mg-0"></div>
             <div class="col-lg-10 col-mg-12">
-                <a class="btn btn-success mb-1 mt-1" href="${pageContext.request.contextPath}/"><fmt:message key="cart.home" bundle="${lang}"/></a>
+                <a class="btn btn-success mb-1 mt-1" href="${pageContext.request.contextPath}/products"><fmt:message key="cart.home" bundle="${lang}"/></a>
                 <h4 style="color: red">${requestScope.error}</h4>
                 <h4 style="color: green">${requestScope.success}</h4>
                 <c:choose>
-                    <c:when test="${sessionScope.user.getCarts().isEmpty()}">
+                    <c:when test="${user.getCarts().isEmpty()}">
                         <h3><fmt:message key="cart.empty" bundle="${lang}"/></h3>
                     </c:when>
                     <c:otherwise>
                         <div class="row">
-                            <c:forEach var="cart" items="${sessionScope.user.getCarts()}" varStatus="status">
+                            <c:forEach var="cart" items="${user.getCarts()}" varStatus="status">
                                 <div class="col-lg-3 col-md-6">
                                     <div class="card mt-2 mb-2" style="width: 17.5rem;height: 29rem">
-                                        <a href="${pageContext.request.contextPath}/product/get?id=${cart.getProduct().getId()}">
+                                        <a href="${pageContext.request.contextPath}/products/${cart.getProduct().getId()}">
                                             <c:choose>
                                                 <c:when test="${cart.getProduct().getImageList().isEmpty()}">
                                                     <img src="https://brilliant24.ru/files/cat/template_01.png"
                                                          class="card-img-top">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <img src="${pageContext.request.contextPath}/image?id=${cart.getProduct().getImageList().get(0).getId()}"
+                                                    <img src="${pageContext.request.contextPath}/images/${cart.getProduct().getImageList().get(0).getId()}"
                                                          class="card-img-top"/>
                                                 </c:otherwise>
                                             </c:choose>

@@ -45,7 +45,7 @@
                         <td>${user.getEmail()}</td>
                         <td>${user.getUsername()}</td>
                         <td>
-                            <form action="${pageContext.request.contextPath}/users/bun/${user.getId()}" method="post">
+                            <form action="${pageContext.request.contextPath}/admin/bun/${user.getId()}" method="post">
                                 <c:choose>
                                     <c:when test="${user.isBun()}">
                                         <input type="submit" class="btn btn-success" value="<fmt:message key='admin.unban' bundle='${lang}'/>">
@@ -57,7 +57,7 @@
                             </form>
                         </td>
                         <td>
-                            <form action="${pageContext.request.contextPath}/users/role/manager/${user.getId()}" method="post">
+                            <form action="${pageContext.request.contextPath}/admin/role/manager/${user.getId()}" method="post">
                                 <c:choose>
                                     <c:when test="${user.isManager()}">
                                         <input type="submit" class="btn btn-danger" value="<fmt:message key='admin.remove.manager' bundle='${lang}'/>">

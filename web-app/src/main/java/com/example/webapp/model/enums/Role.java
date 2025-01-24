@@ -1,5 +1,12 @@
 package com.example.webapp.model.enums;
 
-public enum Role   {
-    ROLE_USER,ROLE_ADMIN,ROLE_MANAGER;
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
+    ROLE_USER, ROLE_ADMIN, ROLE_MANAGER;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

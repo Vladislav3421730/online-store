@@ -4,15 +4,12 @@ import com.example.webapp.dto.AddressDto;
 import com.example.webapp.dto.OrderDto;
 import com.example.webapp.dto.UserDto;
 import com.example.webapp.service.AddressService;
-import com.example.webapp.service.impl.AddressServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j

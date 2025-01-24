@@ -2,25 +2,36 @@ package com.example.webapp.controller;
 
 import com.example.webapp.dto.ProductDto;
 import com.example.webapp.dto.ProductFilterDTO;
+import com.example.webapp.exception.InvalidParamException;
+import com.example.webapp.model.Product;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.service.impl.ProductServiceImpl;
+import com.example.webapp.utils.Messages;
+import com.example.webapp.utils.ResourceBundleUtils;
+import com.example.webapp.utils.Validator;
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 @Controller
 @Slf4j
 @RequestMapping("/products")
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    ProductService productService;
 
     @GetMapping
     public String findAllProducts(Model model) {
@@ -76,6 +87,31 @@ public class ProductController {
 
         return "managerProducts";
     }
+
+    @GetMapping("/manager/search")
+    public String findProductByIdManagerPanel(
+            @RequestParam(required = false) String id,
+            @RequestParam(required = false, defaultValue = "ru") String lang,
+            Model model, Locale locale) {
+        if (id == null || id.isBlank()) {
+            return "redirect:/manager/products";
+        }
+        try {
+            Long productId = Validator.validateLong(id);
+            Optional<ProductDto> product = productService.findByIdAsOptional(productId);
+            if (product.isPresent()) {
+                model.addAttribute("products", List.of(product.get()));
+            } else {
+                model.addAttribute("products", List.of());
+            }
+        } catch (InvalidParamException e) {
+            model.addAttribute("products", List.of());
+//            String errorMessage =  messageSource.getMessage(Messages.ERROR_MESSAGE, null, locale);
+//            model.addAttribute("error",errorMessage);
+        }
+        return "managerProducts";
+    }
+
 
     @PostMapping("/delete/{id}")
     public String deleteProduct(

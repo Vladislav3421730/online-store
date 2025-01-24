@@ -8,28 +8,34 @@ import com.example.webapp.model.enums.Role;
 import com.example.webapp.repository.UserRepository;
 import com.example.webapp.service.AdminService;
 
+import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    UserMapper userMapper = new UserMapperImpl();
+    UserRepository userRepository;
+    UserMapper userMapper;
 
     @Override
+    @Transactional
     public void bun(UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         log.info("{} {}", user.isBun() ? "ban user" : "unban", user.getEmail());
-        user.setBun(!user.isBun());
+        user.setBun(!userDto.isBun());
         userRepository.save(user);
     }
 
     @Override
+    @Transactional
     public void madeManager(UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         if (!user.getRoleSet().add(Role.ROLE_MANAGER)) {

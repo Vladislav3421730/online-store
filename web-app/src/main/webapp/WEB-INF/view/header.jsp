@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <head>
@@ -33,64 +34,55 @@
                 </div>
             </div>
 
-            <c:choose>
-                <c:when test="${sessionScope.user==null}">
-                    <input type="button" class="btn btn-success"
-                           value="<fmt:message key = "login.submit" bundle = "${lang}"/>"
-                           onclick="window.location.href='${pageContext.request.contextPath}/login'">
-                </c:when>
-                <c:otherwise>
-                    <div class="d-flex">
-                        <c:choose>
-                            <c:when test="${sessionScope.user.isAdmin()}">
-                                <div class="button-container">
-                                    <input type="button" class="btn btn-danger"
-                                           value="<fmt:message key = "header.admin" bundle = "${lang}"/>"
-                                           onclick="window.location.href='${pageContext.request.contextPath}/users/panel'">
-                                </div>
-                            </c:when>
-                        </c:choose>
-                        <c:choose>
-                            <c:when test="${sessionScope.user.isManager()}">
-                                <div class=" button-container">
-                                    <div class="dropdown mx-2">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                            <fmt:message key="header.manager" bundle="${lang}"/>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item"
-                                               href="${pageContext.request.contextPath}/orders">
-                                                <fmt:message key="header.manager.order" bundle="${lang}"/>
-                                            </a>
-                                            <a class="dropdown-item"
-                                               href="${pageContext.request.contextPath}/products/manager">
-                                                <fmt:message key="header.manager.products" bundle="${lang}"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:when>
-                        </c:choose>
-                        <div style="position: relative; display: inline-block;">
-                            <a href="${pageContext.request.contextPath}/user/cart">
-                                <img class="image"
-                                     src="https://png.klev.club/uploads/posts/2024-04/png-klev-club-z0k5-p-korzina-belaya-png-9.png">
-                                <c:choose>
-                                    <c:when test="${!sessionScope.user.getCarts().isEmpty()}">
-                                        <div class="circle">${sessionScope.user.getCarts().size()}</div>
-                                    </c:when>
-                                </c:choose>
-                            </a>
+            <sec:authorize access="!isAuthenticated()">
+                <input type="button" class="btn btn-success"
+                       value="<fmt:message key='login.submit' bundle='${lang}'/>"
+                       onclick="window.location.href='${pageContext.request.contextPath}/login'">
+            </sec:authorize>
+
+            <sec:authorize access="isAuthenticated()">
+                <div class="d-flex">
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <div class="button-container">
+                            <input type="button" class="btn btn-danger"
+                                   value="<fmt:message key='header.admin' bundle='${lang}'/>"
+                                   onclick="window.location.href='${pageContext.request.contextPath}/admin/panel'">
                         </div>
-                        <a href="${pageContext.request.contextPath}/user/account">
-                            <img class="profileImage"
-                                 src="https://cdn.icon-icons.com/icons2/1993/PNG/512/account_avatar_face_man_people_profile_user_icon_123197.png">
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_MANAGER')">
+                        <div class="button-container">
+                            <div class="dropdown mx-2">
+                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    <fmt:message key="header.manager" bundle="${lang}"/>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item"
+                                       href="${pageContext.request.contextPath}/orders">
+                                        <fmt:message key="header.manager.order" bundle="${lang}"/>
+                                    </a>
+                                    <a class="dropdown-item"
+                                       href="${pageContext.request.contextPath}/products/manager">
+                                        <fmt:message key="header.manager.products" bundle="${lang}"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </sec:authorize>
+
+                    <div style="position: relative; display: inline-block;">
+                        <a href="${pageContext.request.contextPath}/user/cart">
+                            <img class="image"
+                                 src="https://png.klev.club/uploads/posts/2024-04/png-klev-club-z0k5-p-korzina-belaya-png-9.png">
                         </a>
                     </div>
-                </c:otherwise>
-            </c:choose>
+                    <a href="${pageContext.request.contextPath}/user/account">
+                        <img class="profileImage"
+                             src="https://cdn.icon-icons.com/icons2/1993/PNG/512/account_avatar_face_man_people_profile_user_icon_123197.png">
+                    </a>
+                </div>
+            </sec:authorize>
         </div>
     </nav>
 </header>

@@ -5,14 +5,18 @@ import com.example.webapp.model.Order;
 import com.example.webapp.model.OrderItem;
 import com.example.webapp.model.Product;
 import com.example.webapp.repository.ProductRepository;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class OderItemCartMapper {
 
-    @Autowired
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
 
     public OrderItem map(Cart cart, Order order){
         Product product = cart.getProduct();

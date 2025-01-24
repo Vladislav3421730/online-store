@@ -8,19 +8,21 @@ import com.example.webapp.model.Image;
 
 import com.example.webapp.repository.ImageRepository;
 import com.example.webapp.service.ImageService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ImageServiceImpl implements ImageService {
 
-    @Autowired
-    private ImageRepository imageRepository;
-
-    private final ImageMapper imageMapper = new ImageMapperImpl();
+    ImageRepository imageRepository;
+    ImageMapper imageMapper;
 
     @Override
     public ImageDto findById(Long id) {
