@@ -2,7 +2,9 @@ package com.example.webapp.controller;
 
 import com.example.webapp.dto.UserDto;
 import com.example.webapp.service.AdminService;
+import com.example.webapp.service.SecurityContextService;
 import com.example.webapp.service.UserService;
+import com.example.webapp.utils.Messages;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -24,6 +26,7 @@ public class AdminController {
 
     UserService userService;
     AdminService adminService;
+    SecurityContextService securityContextService;
 
     @GetMapping("/panel")
     public String getAdminPage(Model model) {
@@ -33,15 +36,25 @@ public class AdminController {
     }
 
     @PostMapping("/bun/{id}")
-    public String bunUser(@PathVariable Long id) {
+    public String bunUser(@PathVariable Long id, Model model) {
         UserDto userDto = userService.findById(id);
+        UserDto contextUser = securityContextService.getUser();
+        if (userDto.getId().equals(contextUser.getId())) {
+            model.addAttribute("error", Messages.ERROR_ADMIN_BUN);
+            return getAdminPage(model);
+        }
         adminService.bun(userDto);
         return "redirect:/admin/panel";
     }
 
     @PostMapping("/role/manager/{id}")
-    public String madeUserManager(@PathVariable Long id) {
+    public String madeUserManager(@PathVariable Long id, Model model) {
         UserDto userDto = userService.findById(id);
+        UserDto contextUser = securityContextService.getUser();
+        if (userDto.getId().equals(contextUser.getId())) {
+            model.addAttribute("error", Messages.ERROR_ADMIN_ADDING_ROLE);
+            return getAdminPage(model);
+        }
         adminService.madeManager(userDto);
         return "redirect:/admin/panel";
     }

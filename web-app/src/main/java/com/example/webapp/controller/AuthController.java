@@ -2,6 +2,7 @@ package com.example.webapp.controller;
 
 import com.example.webapp.dto.RegisterUserDto;
 import com.example.webapp.service.UserService;
+import com.example.webapp.utils.Messages;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -48,11 +49,11 @@ public class AuthController {
         }
 
         if (userService.findByEmail(registerUserDto.getEmail()).isPresent()) {
-            model.addAttribute("errors", List.of("Email is already in use."));
+            model.addAttribute("error", Messages.EMAIL_ALREADY_IN_USE);
             return "registration";
         }
         if (userService.findByPhoneNumber(registerUserDto.getPhoneNumber()).isPresent()) {
-            model.addAttribute("errors", List.of("Phone number is already in use."));
+            model.addAttribute("error", Messages.PHONE_ALREADY_IN_USE);
             return "registration";
         }
         userService.save(registerUserDto);

@@ -15,11 +15,11 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="add-product">
-    <form action="${pageContext.request.contextPath}/manager/product/edit" method="post" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/manager/products/edit/${product.id}" method="post" enctype="multipart/form-data">
         <input type="hidden" value="${requestScope.product.getId()}" name="id">
 
         <label for="name" class="form-label"><fmt:message key="editProduct.name" bundle="${lang}" /></label>
-        <input class="form-control" value="${requestScope.product.getTitle()}" type="text" id="name" minlength="3" name="name" placeholder="<fmt:message key='editProduct.namePlaceholder' bundle='${lang}' />" required>
+        <input class="form-control" value="${requestScope.product.getTitle()}" type="text" id="name" minlength="3" name="title" placeholder="<fmt:message key='editProduct.namePlaceholder' bundle='${lang}' />" required>
 
         <label for="category" class="form-label"><fmt:message key="editProduct.category" bundle="${lang}" /></label>
         <input class="form-control"  value="${requestScope.product.getCategory()}" type="text" id="category"
@@ -41,7 +41,7 @@
             <div id="file-window">
                 <c:forEach var="item" items="${requestScope.product.getImageList()}" varStatus="status">
                     <input type="file" class="mt-1 mb-1" accept="image/jpeg, image/png" id="file${status.index+1}"
-                           name="file${status.index+1}" multiple>
+                           name="files" multiple>
                 </c:forEach>
             </div>
             <div>

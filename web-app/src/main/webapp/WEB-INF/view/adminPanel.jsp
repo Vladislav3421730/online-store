@@ -16,11 +16,15 @@
                    placeholder="<fmt:message key='admin.search.placeholder' bundle='${lang}'/>"
                    name="search"/>
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit"><fmt:message key="admin.search.button" bundle="${lang}"/></button>
+                <button class="btn btn-outline-secondary" type="submit"><fmt:message key="admin.search.button"
+                                                                                     bundle="${lang}"/></button>
             </div>
         </div>
     </form>
-    <h3 style="color: red" class="mt-2 mb-2">${requestScope.error}</h3>
+    <c:if test="${error!=null}">
+        <h3 style="color: red" class="mt-2 mb-2"><fmt:message key="${error}" bundle="${lang}"/></h3>
+    </c:if>
+
     <c:choose>
         <c:when test="${requestScope.users.isEmpty()}">
             <h3><fmt:message key="admin.no.users.found" bundle="${lang}"/></h3>
@@ -48,22 +52,27 @@
                             <form action="${pageContext.request.contextPath}/admin/bun/${user.getId()}" method="post">
                                 <c:choose>
                                     <c:when test="${user.isBun()}">
-                                        <input type="submit" class="btn btn-success" value="<fmt:message key='admin.unban' bundle='${lang}'/>">
+                                        <input type="submit" class="btn btn-success"
+                                               value="<fmt:message key='admin.unban' bundle='${lang}'/>">
                                     </c:when>
                                     <c:otherwise>
-                                        <input type="submit" class="btn btn-danger" value="<fmt:message key='admin.ban' bundle='${lang}'/>">
+                                        <input type="submit" class="btn btn-danger"
+                                               value="<fmt:message key='admin.ban' bundle='${lang}'/>">
                                     </c:otherwise>
                                 </c:choose>
                             </form>
                         </td>
                         <td>
-                            <form action="${pageContext.request.contextPath}/admin/role/manager/${user.getId()}" method="post">
+                            <form action="${pageContext.request.contextPath}/admin/role/manager/${user.getId()}"
+                                  method="post">
                                 <c:choose>
                                     <c:when test="${user.isManager()}">
-                                        <input type="submit" class="btn btn-danger" value="<fmt:message key='admin.remove.manager' bundle='${lang}'/>">
+                                        <input type="submit" class="btn btn-danger"
+                                               value="<fmt:message key='admin.remove.manager' bundle='${lang}'/>">
                                     </c:when>
                                     <c:otherwise>
-                                        <input type="submit" class="btn btn-success" value="<fmt:message key='admin.make.manager' bundle='${lang}'/>">
+                                        <input type="submit" class="btn btn-success"
+                                               value="<fmt:message key='admin.make.manager' bundle='${lang}'/>">
                                     </c:otherwise>
                                 </c:choose>
                             </form>

@@ -1,6 +1,5 @@
 package com.example.webapp.dto;
 
-import com.example.webapp.model.Image;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -13,7 +12,7 @@ public class ProductDto {
     private String title;
     private String description;
     private String category;
-    private int amount;
+    private Integer amount;
     private BigDecimal coast;
     private List<ImageDto> imageList;
 

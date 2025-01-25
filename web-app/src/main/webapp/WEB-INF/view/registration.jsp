@@ -16,6 +16,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title text-center"><fmt:message key="registration.heading" bundle="${lang}" /></h5>
+                    <c:
                     <c:if test="${not empty errors}">
                         <div class="alert alert-danger">
                             <ul>

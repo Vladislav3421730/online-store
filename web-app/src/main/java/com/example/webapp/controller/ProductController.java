@@ -1,9 +1,6 @@
 package com.example.webapp.controller;
 
-import com.example.webapp.dto.CreateImageDto;
-import com.example.webapp.dto.CreateProductDto;
-import com.example.webapp.dto.ProductDto;
-import com.example.webapp.dto.ProductFilterDTO;
+import com.example.webapp.dto.*;
 import com.example.webapp.exception.InvalidParamException;
 import com.example.webapp.mapper.MultipartFileMapper;
 import com.example.webapp.model.Product;
@@ -99,56 +96,6 @@ public class ProductController {
         model.addAttribute("search", searchParameter);
 
         return "index";
-    }
-
-    @GetMapping("/manager")
-    public String getProductsPage(
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @ModelAttribute ProductFilterDTO productFilterDTO,
-            Model model) {
-
-        List<ProductDto> products = productService.findAllByPriceFilter(productFilterDTO, page);
-        int totalProducts = productService.getTotalAmount(productFilterDTO);
-        int totalPages = (int) Math.ceil((double) totalProducts / 10);
-
-        model.addAttribute("filter", productFilterDTO);
-        model.addAttribute("products", products);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-
-        return "managerProducts";
-    }
-
-    @GetMapping("/manager/search")
-    public String findProductByIdManagerPanel(
-            @RequestParam(required = false) String id,
-            @RequestParam(required = false, defaultValue = "ru") String lang,
-            Model model, Locale locale) {
-        if (id == null || id.isBlank()) {
-            return "redirect:/manager/products";
-        }
-        try {
-            Long productId = Validator.validateLong(id);
-            Optional<ProductDto> product = productService.findByIdAsOptional(productId);
-            if (product.isPresent()) {
-                model.addAttribute("products", List.of(product.get()));
-            } else {
-                model.addAttribute("products", List.of());
-            }
-        } catch (InvalidParamException e) {
-            model.addAttribute("products", List.of());
-            model.addAttribute("error", Messages.ERROR_MESSAGE);
-        }
-        return "managerProducts";
-    }
-
-
-    @PostMapping("/delete/{id}")
-    public String deleteProduct(
-            @PathVariable Long id,
-            @RequestHeader(value = "Referer", defaultValue = "/manager/products") String referer) {
-        productService.delete(id);
-        return "redirect:" + referer;
     }
 
 }

@@ -21,12 +21,10 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-header"><fmt:message key="login.header" bundle="${lang}"/></div>
                 <div class="card-body">
-                    <c:choose>
-                        <c:when test="${param.error != null}">
-                            <p style="color: red"><fmt:message key="login.error.invalid_credentials"
-                                                               bundle="${lang}"/></p>
-                        </c:when>
-                    </c:choose>
+                    <c:if test="${param.error != null}">
+                        <p style="color: red"><fmt:message key="login.error.invalid_credentials"
+                                                           bundle="${lang}"/></p>
+                    </c:if>
                     <form action="${pageContext.request.contextPath}/login" method="post">
                         <div class="mb-3">
                             <label for="login" class="form-label"><fmt:message key="login.email"
