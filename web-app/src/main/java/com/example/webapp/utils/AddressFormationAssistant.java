@@ -5,21 +5,26 @@ import com.example.webapp.dto.OrderDto;
 import com.example.webapp.dto.UserDto;
 import com.example.webapp.service.AddressService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
 import java.security.Principal;
 import java.util.List;
 
 @Slf4j
 @Component
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class AddressFormationAssistant {
 
-    @Autowired
-    private AddressService addressService;
+    AddressService addressService;
 
-    public AddressDto formAddress(final HttpServletRequest request){
+    public AddressDto formAddress(final HttpServletRequest request) {
         long addressId;
         AddressDto address = AddressDto.builder()
                 .region(request.getParameter("region"))
@@ -30,22 +35,19 @@ public class AddressFormationAssistant {
         try {
             addressId = Long.parseLong(request.getParameter("addressId"));
             address.setId(addressId);
-            log.info("Address {} already exist in database",address);
-        } catch (NumberFormatException e){
+            log.info("Address {} already exist in database", address);
+        } catch (NumberFormatException e) {
             address = addressService.save(address);
-            log.info("Adding a new delivery address {}",address);
+            log.info("Adding a new delivery address {}", address);
         }
         return address;
     }
 
-    public void updateAddresses(final HttpServletRequest request){
-        UserDto user = (UserDto) request.getSession().getAttribute("user");
-        List<AddressDto> addresses = user.getOrders().stream()
+    public List<AddressDto> updateAddresses(UserDto user) {
+        return user.getOrders().stream()
                 .map(OrderDto::getAddress)
                 .distinct()
                 .toList();
-        log.info("All user delivery addresses {}",addresses);
-        request.getSession().setAttribute("addresses", addresses);
     }
 
 }

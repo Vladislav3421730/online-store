@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> findAllBySearch(String title) {
         log.info("Searching products with title: {}", title);
-        return productRepository.findAllByTitle(title).stream()
+        return productRepository.findAllByTitleLike(title).stream()
                 .map(productMapper::toDTO)
                 .toList();
     }
@@ -114,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void delete(Long id) {
         log.info("Deleting product with id: {}", id);
-        productRepository.deleteById(id);
+        productRepository.deleteProductWithOrderItems(id);
         log.info("Product with id {} deleted successfully", id);
     }
 

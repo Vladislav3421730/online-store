@@ -22,7 +22,7 @@
             <div class="col-lg-10 col-mg-12">
                 <p class="mt-2 mb-2">${requestScope.error}</p>
                 <div class="viewProductSearching mb-4">
-                    <form action="${pageContext.request.contextPath}/product/search" method="get" class="w-100  mr-3">
+                    <form action="${pageContext.request.contextPath}/products/search" method="get" class="w-100  mr-3">
                         <div class="input-group">
                             <input value="${requestScope.search}" type="text" class="form-control" id="search"
                                    placeholder=" <fmt:message key="placeholder.product.find" bundle="${lang}"/>"
@@ -73,7 +73,7 @@
                                                                  bundle="${lang}"/>: ${product.getAmount()}<br>
                                                 </c:otherwise>
                                             </c:choose>
-                                            <form action="${pageContext.request.contextPath}/user/cart/add"
+                                            <form action="${pageContext.request.contextPath}/user/cart/add/${product.getId()}"
                                                   method="POST">
                                                 <input type="hidden" name="id" value="${product.getId()}">
                                                 <button type="submit" class="btn btn-primary w-100 mt-1 btn-block">

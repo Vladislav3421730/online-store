@@ -19,9 +19,18 @@
         <div class="row">
             <div class="col-lg-1 col-mg-0"></div>
             <div class="col-lg-10 col-mg-12">
-                <a class="btn btn-success mb-1 mt-1" href="${pageContext.request.contextPath}/products"><fmt:message key="cart.home" bundle="${lang}"/></a>
-                <h4 style="color: red">${requestScope.error}</h4>
-                <h4 style="color: green">${requestScope.success}</h4>
+                <a class="btn btn-success mb-1 mt-1" href="${pageContext.request.contextPath}/products"><fmt:message
+                        key="cart.home" bundle="${lang}"/></a>
+                <c:choose>
+                    <c:when test="${requestScope.error!=null}">
+                        <h4 style="color: red"><fmt:message key="${requestScope.error}" bundle="${lang}"/></h4>
+                    </c:when>
+                    <c:when test="${requestScope.success!=null}">
+                        <h4 style="color: green"><fmt:message key="${requestScope.success}" bundle="${lang}"/></h4>
+                    </c:when>
+                </c:choose>
+
+
                 <c:choose>
                     <c:when test="${user.getCarts().isEmpty()}">
                         <h3><fmt:message key="cart.empty" bundle="${lang}"/></h3>
@@ -48,21 +57,24 @@
                                                 ${cart.getProduct().getTitle()}<br>
                                             <div style="display: flex">
                                                 <fmt:message key="cart.quantity" bundle="${lang}"/>:
-                                                <form action="${pageContext.request.contextPath}/user/cart/decrement?index=${status.index}"
+                                                <form action="${pageContext.request.contextPath}/user/cart/decrement/${status.index}"
                                                       method="post">
                                                     <button type="submit" id="minus-button">-</button>
                                                 </form>
                                                     ${cart.getAmount()}
-                                                <form action="${pageContext.request.contextPath}/user/cart/increment?index=${status.index}"
+                                                <form action="${pageContext.request.contextPath}/user/cart/increment/${status.index}"
                                                       method="post">
-                                                    <input type="hidden" name="totalCoast" value="${requestScope.totalCoast}">
+                                                    <input type="hidden" name="totalCoast"
+                                                           value="${requestScope.totalCoast}">
                                                     <button type="submit" id="plus-button">+</button>
                                                 </form>
                                             </div>
-                                            <p><fmt:message key="cart.remaining" bundle="${lang}"/>: ${cart.getProduct().getAmount()}</p>
-                                            <form action="${pageContext.request.contextPath}/user/cart/delete?index=${status.index}"
+                                            <p><fmt:message key="cart.remaining"
+                                                            bundle="${lang}"/>: ${cart.getProduct().getAmount()}</p>
+                                            <form action="${pageContext.request.contextPath}/user/cart/delete/${status.index}"
                                                   method="post">
-                                                <input type="submit" class="btn btn-danger" value="<fmt:message key='cart.remove' bundle='${lang}'/>"/>
+                                                <input type="submit" class="btn btn-danger"
+                                                       value="<fmt:message key='cart.remove' bundle='${lang}'/>"/>
                                             </form>
                                         </div>
                                     </div>

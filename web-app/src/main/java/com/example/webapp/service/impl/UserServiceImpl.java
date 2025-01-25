@@ -8,6 +8,7 @@ import com.example.webapp.model.Order;;
 import com.example.webapp.model.User;
 import com.example.webapp.model.enums.Role;
 import com.example.webapp.model.enums.Status;
+import com.example.webapp.repository.AddressRepository;
 import com.example.webapp.repository.UserRepository;
 import com.example.webapp.service.UserService;
 import at.favre.lib.crypto.bcrypt.BCrypt;
@@ -29,8 +30,9 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
-    OderItemCartMapper oderItemCartMapper;
+    AddressRepository addressRepository;
 
+    OderItemCartMapper oderItemCartMapper;
     UserMapper userMapper;
     ProductMapper productMapper;
     OrderMapper orderMapper;
@@ -109,6 +111,10 @@ public class UserServiceImpl implements UserService {
         orderDto.setStatus(Status.ACCEPTED.getDisplayName());
         User user = userMapper.toEntity(userDto);
         Order order = orderMapper.toEntity(orderDto);
+        log.info("address: {}",order.getAddress());
+        if (order.getAddress().getId() == null) {
+            addressRepository.save(order.getAddress());
+        }
 
         order.setOrderItems(user.getCarts().stream()
                 .map(cart -> oderItemCartMapper.map(cart, order))

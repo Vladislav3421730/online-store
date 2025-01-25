@@ -16,9 +16,19 @@
 <body>
 <%@ include file="header.jsp" %>
 <div class="add-product">
-    <form action="${pageContext.request.contextPath}/manager/product/add" method="post" enctype="multipart/form-data">
+    <c:if test="${not empty errors}">
+        <div class="alert alert-danger">
+            <ul>
+                <c:forEach var="error" items="${errors}">
+                    <li>${error}</li>
+                </c:forEach>
+            </ul>
+        </div>
+    </c:if>
+
+    <form action="${pageContext.request.contextPath}/products/add" method="post" enctype="multipart/form-data">
         <label for="name" class="form-label"><fmt:message key="product.adding.name" bundle="${lang}"/></label>
-        <input class="form-control" type="text" id="name" minlength="3" name="name"
+        <input class="form-control" type="text" id="name" minlength="3" name="title"
                placeholder="<fmt:message key='product.adding.name.placeholder' bundle='${lang}'/>" required>
 
         <label for="category" class="form-label"><fmt:message key="product.adding.category" bundle="${lang}"/></label>
@@ -42,7 +52,7 @@
         <label for="file-input" class="form-label"><fmt:message key="product.adding.file" bundle="${lang}"/></label>
         <div id="file-input">
             <div id="file-window">
-                <input type="file" accept="image/jpeg, image/png" id="file" name="file1">
+                <input type="file" accept="image/jpeg, image/png" id="file" name="files" multiple>
             </div>
             <div>
                 <button type="button" id="plus-button">+</button>
@@ -53,7 +63,7 @@
             <input type="submit" class="btn btn-primary"
                    value="<fmt:message key='product.adding.submit' bundle='${lang}'/>">
             <input type="button" class="btn btn-danger mx-3"
-                   onclick="window.location.href='${pageContext.request.contextPath}/manager/products'"
+                   onclick="window.location.href='${pageContext.request.contextPath}/products/manager'"
                    value="<fmt:message key='product.adding.refuse' bundle='${lang}'/>">
         </div>
     </form>

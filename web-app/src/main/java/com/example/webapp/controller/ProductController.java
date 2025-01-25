@@ -1,28 +1,34 @@
 package com.example.webapp.controller;
 
+import com.example.webapp.dto.CreateImageDto;
+import com.example.webapp.dto.CreateProductDto;
 import com.example.webapp.dto.ProductDto;
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.exception.InvalidParamException;
+import com.example.webapp.mapper.MultipartFileMapper;
 import com.example.webapp.model.Product;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.service.impl.ProductServiceImpl;
 import com.example.webapp.utils.Messages;
 import com.example.webapp.utils.ResourceBundleUtils;
 import com.example.webapp.utils.Validator;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -40,6 +46,23 @@ public class ProductController {
         return "index";
     }
 
+    @GetMapping("/add")
+    public String getAddingProductPage() {
+        return "addProduct";
+    }
+
+    @PostMapping("/add")
+    public String addNewProduct(
+            @ModelAttribute CreateProductDto createProductDto,
+            @RequestParam("files") List<MultipartFile> files) {
+
+        List<CreateImageDto> images = files.stream()
+                .map(MultipartFileMapper::map)
+                .toList();
+        productService.save(createProductDto, images);
+        return "redirect:/products/manager";
+    }
+
     @GetMapping("/{id}")
     public String findProductById(@PathVariable Long id, Model model) {
         ProductDto product = productService.findById(id);
@@ -49,8 +72,16 @@ public class ProductController {
 
     @GetMapping("/filter")
     public String filterProducts(
-            @ModelAttribute ProductFilterDTO productFilterDTO,
+            @Valid @ModelAttribute ProductFilterDTO productFilterDTO,
+            BindingResult bindingResult,
             Model model) {
+        if (bindingResult.hasErrors()) {
+            List<String> errorMessages = bindingResult.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
+            model.addAttribute("errors", errorMessages);
+            return "addProduct";
+        }
         log.info("ProductFilterDTO: {}", productFilterDTO);
         List<ProductDto> products = productService.findAllByFilter(productFilterDTO);
         model.addAttribute("products", products);
@@ -106,8 +137,7 @@ public class ProductController {
             }
         } catch (InvalidParamException e) {
             model.addAttribute("products", List.of());
-//            String errorMessage =  messageSource.getMessage(Messages.ERROR_MESSAGE, null, locale);
-//            model.addAttribute("error",errorMessage);
+            model.addAttribute("error", Messages.ERROR_MESSAGE);
         }
         return "managerProducts";
     }

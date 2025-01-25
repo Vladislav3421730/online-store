@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import jakarta.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,7 @@ public class Product {
     @NotBlank
     private String category;
     @Min(value = 0, message = "amount must be more or equal than 0")
-    private int amount;
+    private Integer amount;
 
     @DecimalMin(value = "0.01", message = "Cost must be greater than or equal to 10.3")
     private BigDecimal coast;

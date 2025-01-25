@@ -31,8 +31,7 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/products", false)
-                )
+                        .defaultSuccessUrl("/products", false))
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/products")

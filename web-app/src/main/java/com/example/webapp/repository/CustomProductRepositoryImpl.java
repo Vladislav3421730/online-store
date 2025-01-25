@@ -8,18 +8,21 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Predicate;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class CustomProductRepositoryImpl implements CustomProductRepository {
 
-    private final EntityManager entityManager;
+    EntityManager entityManager;
 
     @Override
     public List<Product> findAllByFilter(ProductFilterDTO productFilterDTO) {
@@ -56,6 +59,20 @@ public class CustomProductRepositoryImpl implements CustomProductRepository {
                 .setFirstResult(initIndex)
                 .setMaxResults(10)
                 .getResultList();
+    }
+
+    @Override
+    public void deleteProductWithOrderItems(Long productId) {
+        Product product = entityManager.find(Product.class, productId);
+        if (product != null) {
+            entityManager.createQuery("DELETE FROM OrderItem o WHERE o.product.id = :productId")
+                    .setParameter("productId", productId)
+                    .executeUpdate();
+            entityManager.createQuery("DELETE FROM Cart c WHERE c.product.id = :productId")
+                    .setParameter("productId", productId)
+                    .executeUpdate();
+            entityManager.remove(product);
+        }
     }
 
     @Override

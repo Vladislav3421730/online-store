@@ -67,8 +67,7 @@
                     </c:otherwise>
                 </c:choose>
             </p>
-            <form action="${pageContext.request.contextPath}/user/cart/add" method="POST">
-                <input type="hidden" name="id" value="${requestScope.product.getId()}">
+            <form action="${pageContext.request.contextPath}/user/cart/add/${requestScope.product.getId()}" method="POST">
                 <button type="submit" class="btn btn-primary mt-2"><fmt:message key="product.addToCart" bundle="${lang}" /></button>
             </form>
         </div>

@@ -3,7 +3,7 @@ package com.example.webapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 
 @Entity

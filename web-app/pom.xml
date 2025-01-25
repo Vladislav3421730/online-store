@@ -184,6 +184,11 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring.secutiry}</version>
         </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.5</version>
+        </dependency>
 
 
     </dependencies>

@@ -4,7 +4,7 @@ document.getElementById("plus-button").addEventListener('click',function (){
     newFileInput.style.paddingTop="5px"
     newFileInput.type = "file";
     newFileInput.accept = "image/jpeg, image/png";
-    newFileInput.name = "file"+ Number(fileWindow.children.length+1);
+    newFileInput.name = "files"
     newFileInput.id="file"+ Number(fileWindow.children.length+1);
     newFileInput.setAttribute('multiple','')
     console.log("add element "+newFileInput.name,)

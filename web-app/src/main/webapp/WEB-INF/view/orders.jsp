@@ -10,23 +10,24 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="container mt-4">
+    <form action="${pageContext.request.contextPath}/orders/search" method="get" class="w-100 mr-3">
+        <div class="input-group mb-3">
+            <input value="${requestScope.search}" type="text" class="form-control" id="search"
+                   placeholder="<fmt:message key='orders.searchPlaceholder' bundle='${lang}' />"
+                   name="search"/>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">
+                    <fmt:message key="orders.searchButton" bundle="${lang}" />
+                </button>
+            </div>
+        </div>
+    </form>
     <c:choose>
         <c:when test="${requestScope.orders.isEmpty()}">
             <h3><fmt:message key="orders.noOrders" bundle="${lang}" /></h3>
         </c:when>
         <c:otherwise>
-            <form action="${pageContext.request.contextPath}/manager/order/search" method="get" class="w-100 mr-3">
-                <div class="input-group mb-3">
-                    <input value="${requestScope.search}" type="text" class="form-control" id="search"
-                           placeholder="<fmt:message key='orders.searchPlaceholder' bundle='${lang}' />"
-                           name="search"/>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">
-                            <fmt:message key="orders.searchButton" bundle="${lang}" />
-                        </button>
-                    </div>
-                </div>
-            </form>
+
             <table class="table table-striped">
                 <thead>
                 <tr>

@@ -25,12 +25,11 @@
                             </ul>
                         </div>
                     </c:if>
-
                     <form action="${pageContext.request.contextPath}/registration" method="post">
                         <div class="form-group mb-2">
                             <label for="username"><fmt:message key="registration.username" bundle="${lang}" /></label>
-                            <input type="text" value="${requestScope.username}" class="form-control mt-1"  name="username" id="username"
-                                   placeholder="<fmt:message key='registration.usernamePlaceholder' bundle='${lang}' />">
+                            <input type="text" value="${requestScope.username}" minlength="5" class="form-control mt-1"  name="username" id="username"
+                                   placeholder="<fmt:message key='registration.usernamePlaceholder' bundle='${lang}' />" required>
                         </div>
                         <div class="form-group mb-2">
                             <label for="email"><fmt:message key="registration.email" bundle="${lang}" /></label>
@@ -64,6 +63,21 @@
 </div>
 </body>
 <script>
+    const password=document.getElementById("register-password")
+    const passwordConfirm=document.getElementById("confirmPassword")
+    const message=document.getElementById("passwordNotTheSame")
+    const submitButton=document.getElementById("register-button")
+    passwordConfirm.addEventListener('change',function (){
+
+        if(password.value!==passwordConfirm.value){
+            message.textContent='<fmt:message key='registration.password.same' bundle='${lang}' />'
+                submitButton.setAttribute('disabled','')
+        }
+        else {
+            message.textContent=''
+            submitButton.removeAttribute('disabled')
+        }
+    })
     <%@include file="/WEB-INF/script/modalSelectValue.js"%>
 </script>
 </html>

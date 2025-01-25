@@ -39,7 +39,7 @@
         <p><fmt:message key="order.orderTime" bundle="${lang}" />: <fmt:formatDate value="${requestScope.orderDto.getCreatedAtAsDate()}"
                                                                                    pattern="yyyy-MM-dd HH:mm"/></p>
         <p><fmt:message key="order.deliveryAddress" bundle="${lang}" />: ${requestScope.orderDto.getAddress().getRegion()}, ${requestScope.orderDto.getAddress().getTown()},
-            ${requestScope.orderDto.getAddress().getExactAddress()}</p>
+            ${requestScope.orderDto.getAddress().getExactAddress()},${orderDto.address.postalCode}</p>
         <div class="row">
             <c:forEach var="orderItem" items="${requestScope.orderDto.getOrderItems()}">
                 <div class="col-lg-3 col-md-6">

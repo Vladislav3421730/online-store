@@ -14,6 +14,6 @@ public class CreateProductDto {
     private String title;
     private String description;
     private String category;
-    private int amount;
+    private Integer amount;
     private BigDecimal coast;
 }

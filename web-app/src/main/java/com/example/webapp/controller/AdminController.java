@@ -63,11 +63,4 @@ public class AdminController {
         model.addAttribute("search", emailParam);
         return "adminPanel";
     }
-
-    @GetMapping("/{id}/orders")
-    public String findUserOrdersByUserId(@PathVariable Long id ,Model model) {
-        List<UserDto> users = userService.findAll();
-        model.addAttribute("users", users);
-        return "adminPanel";
-    }
 }

@@ -7,8 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,16 +30,16 @@ public class Order {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @DecimalMin(value = "0.01",message = "total price must be more or equal than 0.01")
+    @DecimalMin(value = "0.01", message = "total price must be more or equal than 0.01")
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @NotNull(message = "Order cannot be made without user")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -49,7 +50,7 @@ public class Order {
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @PrePersist
-    void init(){
+    void init() {
         status = Status.ACCEPTED;
         createdAt = LocalDateTime.now();
     }

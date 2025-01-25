@@ -1,12 +1,13 @@
 package com.example.webapp.model;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Data
@@ -23,7 +24,7 @@ public class Image {
     @NotBlank(message = "ContentType must be not empty")
     @Column(name = "content_type")
     private String contentType;
-    @NotBlank(message = "image's bytes must be not empty")
+    @NotNull(message = "Bytes cannot be null")
     private byte[] bytes;
 
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)

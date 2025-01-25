@@ -14,8 +14,8 @@ public class OrderPayingValidator {
 
         double doubleValue = coast.doubleValue();
 
-        double max = doubleValue * 1.24;
-        double min = doubleValue * 0.95;
+        double max = doubleValue * 1.28;
+        double min = doubleValue * 0.97;
 
         Random random = new Random();
 

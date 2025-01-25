@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface CustomProductRepository {
     List<Product> findAllByFilter(ProductFilterDTO productFilterDTO);
+
     List<Product> findAllByPriceFilter(ProductFilterDTO productFilterDTO, int initIndex);
+
+    void deleteProductWithOrderItems(Long productId);
+
     int getTotalAmountByFilter(ProductFilterDTO productFilterDTO);
 }

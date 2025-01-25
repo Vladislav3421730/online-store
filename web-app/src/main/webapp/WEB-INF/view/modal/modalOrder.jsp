@@ -28,10 +28,10 @@
             <div class="modal-body">
                 <form action="${pageContext.request.contextPath}/user/cart" method="post">
                     <c:choose>
-                        <c:when test="${!sessionScope.addresses.isEmpty()}">
+                        <c:when test="${!requestScope.addresses.isEmpty()}">
                             <select id="address-select">
                                 <option value=""><fmt:message key="addressModal.choosePrevious" bundle="${lang}" /></option>
-                                <c:forEach var="address" items="${sessionScope.addresses}">
+                                <c:forEach var="address" items="${requestScope.addresses}">
                                     <option
                                             value="${address.getId()}"
                                             data-region="${address.getRegion()}"
