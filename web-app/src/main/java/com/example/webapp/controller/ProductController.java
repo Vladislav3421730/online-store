@@ -43,23 +43,6 @@ public class ProductController {
         return "index";
     }
 
-    @GetMapping("/add")
-    public String getAddingProductPage() {
-        return "addProduct";
-    }
-
-    @PostMapping("/add")
-    public String addNewProduct(
-            @ModelAttribute CreateProductDto createProductDto,
-            @RequestParam("files") List<MultipartFile> files) {
-
-        List<CreateImageDto> images = files.stream()
-                .map(MultipartFileMapper::map)
-                .toList();
-        productService.save(createProductDto, images);
-        return "redirect:/products/manager";
-    }
-
     @GetMapping("/{id}")
     public String findProductById(@PathVariable Long id, Model model) {
         ProductDto product = productService.findById(id);

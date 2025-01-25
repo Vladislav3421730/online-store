@@ -15,7 +15,7 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="add-product">
-    <form action="${pageContext.request.contextPath}/manager/products/edit/${product.id}" method="post" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/manager/products/edit/${requestScope.product.getId()}" method="post" enctype="multipart/form-data">
         <input type="hidden" value="${requestScope.product.getId()}" name="id">
 
         <label for="name" class="form-label"><fmt:message key="editProduct.name" bundle="${lang}" /></label>

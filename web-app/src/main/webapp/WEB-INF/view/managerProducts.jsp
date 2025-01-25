@@ -40,7 +40,7 @@
     </c:choose>
 
     <input type="button" class="btn btn-success mb-3" value="<fmt:message key='products.addButton' bundle='${lang}' />"
-           onclick="window.location.href='${pageContext.request.contextPath}/products/add'">
+           onclick="window.location.href='${pageContext.request.contextPath}/manager/products/add'">
     <c:choose>
         <c:when test="${requestScope.products.isEmpty()}">
             <h3><fmt:message key="products.noProductsFound" bundle="${lang}"/></h3>

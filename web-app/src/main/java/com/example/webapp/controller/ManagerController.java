@@ -1,24 +1,26 @@
 package com.example.webapp.controller;
 
-import com.example.webapp.dto.ImageDto;
-import com.example.webapp.dto.ProductDto;
-import com.example.webapp.dto.ProductFilterDTO;
+import com.example.webapp.dto.*;
 import com.example.webapp.exception.InvalidParamException;
+import com.example.webapp.mapper.MultipartFileMapper;
 import com.example.webapp.service.ProductService;
+import com.example.webapp.utils.EditProductUtils;
 import com.example.webapp.utils.Messages;
 import com.example.webapp.utils.Validator;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Controller
@@ -67,42 +69,17 @@ public class ManagerController {
     public String editProduct(
             @PathVariable Long id,
             @ModelAttribute ProductDto product,
-            @RequestParam("files") List<MultipartFile> files) throws IOException {
+            @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
         ProductDto existingProduct = productService.findById(id);
-
-        existingProduct.setAmount(product.getAmount());
-        existingProduct.setCoast(product.getCoast());
-        existingProduct.setCategory(product.getCategory());
-        existingProduct.setTitle(product.getTitle());
-        existingProduct.setDescription(product.getDescription());
-
-        List<ImageDto> existingImages = existingProduct.getImageList();
-        for (int i = 0; i < files.size(); i++) {
-            MultipartFile file = files.get(i);
-            if (!file.isEmpty()) {
-                byte[] fileBytes = file.getBytes();
-                if (i < existingImages.size()) {
-                    ImageDto existingImage = existingImages.get(i);
-                    existingImage.setContentType(file.getContentType());
-                    existingImage.setBytes(fileBytes);
-                } else {
-                    ImageDto newImage = ImageDto.builder()
-                            .contentType(file.getContentType())
-                            .bytes(fileBytes)
-                            .build();
-                    existingProduct.addImageToList(newImage);
-                }
-            }
-        }
+        EditProductUtils.editProduct(product, existingProduct, files);
         productService.update(existingProduct);
-        return "redirect:/products/manager";
+        return "redirect:/manager/products";
     }
 
     @GetMapping("/search")
     public String findProductByIdManagerPanel(
             @RequestParam(required = false) String id,
-            @RequestParam(required = false, defaultValue = "ru") String lang,
-            Model model, Locale locale) {
+            Model model) {
         if (id == null || id.isBlank()) {
             return "redirect:/manager/products";
         }
@@ -119,6 +96,29 @@ public class ManagerController {
             model.addAttribute("error", Messages.ERROR_MESSAGE);
         }
         return "managerProducts";
+    }
+
+    @PostMapping("/add")
+    public String addNewProduct(
+            @Valid @ModelAttribute CreateProductDto createProductDto,
+            BindingResult bindingResult,
+            @RequestParam(value = "files", required = false) List<MultipartFile> files,
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            List<String> errorMessages = bindingResult.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
+            model.addAttribute("errors", errorMessages);
+            return "registration";
+        }
+        if (bindingResult.hasErrors()) {
+            return "redirect:/manager/products/add";
+        }
+        List<CreateImageDto> images = files.stream()
+                .map(MultipartFileMapper::map)
+                .toList();
+        productService.save(createProductDto, images);
+        return "redirect:/products/manager";
     }
 
 }

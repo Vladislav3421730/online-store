@@ -8,7 +8,7 @@ import com.example.webapp.service.CartService;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.service.SecurityContextService;
 import com.example.webapp.service.UserService;
-import com.example.webapp.utils.AddressFormationAssistant;
+import com.example.webapp.utils.UserHelperUtils;
 import com.example.webapp.utils.Messages;
 import com.example.webapp.utils.OrderPayingValidator;
 import lombok.AccessLevel;
@@ -34,7 +34,6 @@ public class UserController {
     ProductService productService;
     UserService userService;
     CartService cartService;
-    AddressFormationAssistant addressFormationAssistant;
 
     @GetMapping("/account")
     public String getAccountPage(Model model) {
@@ -49,13 +48,11 @@ public class UserController {
         UserDto user = securityContextService.getUser();
         model.addAttribute("user", user);
         if (!user.getCarts().isEmpty()) {
-            BigDecimal totalCoast = user.getCarts().stream()
-                    .map(x -> x.getProduct().getCoast().multiply(BigDecimal.valueOf(x.getAmount())))
-                    .reduce(BigDecimal::add).get();
+            BigDecimal totalCoast = UserHelperUtils.getCoast(user);
             log.info("The sum of the prices of all items in the basket {}", totalCoast);
             model.addAttribute("totalCoast", totalCoast);
         }
-        List<AddressDto> addresses = addressFormationAssistant.updateAddresses(user);
+        List<AddressDto> addresses = UserHelperUtils.updateAddresses(user);
         model.addAttribute("addresses", addresses);
         return "cart";
     }

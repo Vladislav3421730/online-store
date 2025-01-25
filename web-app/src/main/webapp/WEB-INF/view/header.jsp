@@ -63,7 +63,7 @@
                                         <fmt:message key="header.manager.order" bundle="${lang}"/>
                                     </a>
                                     <a class="dropdown-item"
-                                       href="${pageContext.request.contextPath}/products/manager">
+                                       href="${pageContext.request.contextPath}/manager/products">
                                         <fmt:message key="header.manager.products" bundle="${lang}"/>
                                     </a>
                                 </div>
@@ -96,5 +96,6 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+</script>
 </html>

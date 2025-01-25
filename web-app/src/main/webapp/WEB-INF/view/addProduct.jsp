@@ -26,7 +26,7 @@
         </div>
     </c:if>
 
-    <form action="${pageContext.request.contextPath}/products/add" method="post" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/manager/products/add" method="post" enctype="multipart/form-data">
         <label for="name" class="form-label"><fmt:message key="product.adding.name" bundle="${lang}"/></label>
         <input class="form-control" type="text" id="name" minlength="3" name="title"
                placeholder="<fmt:message key='product.adding.name.placeholder' bundle='${lang}'/>" required>
