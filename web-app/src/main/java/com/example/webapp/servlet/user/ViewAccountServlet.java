@@ -21,7 +21,6 @@ public class ViewAccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDto user = (UserDto) req.getSession().getAttribute("user");
         user.getOrders().sort(Comparator.comparing(OrderDto::getCreatedAt).reversed());
-        System.out.println(user);
         req.getRequestDispatcher(JspHelper.getPath("account")).forward(req,resp);
     }
 }
