@@ -14,5 +14,7 @@ public interface OrderService {
 
     List<OrderDto> findAllByUserEmail(String email);
 
+    List<OrderDto> findAllByUserId(Long id);
+
     void update(OrderDto order);
 }

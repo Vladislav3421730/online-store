@@ -42,14 +42,14 @@
 
             <sec:authorize access="isAuthenticated()">
                 <div class="d-flex">
-                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <sec:authorize access="hasAnyRole('ADMIN','MANAGER')">
                         <div class="button-container">
                             <input type="button" class="btn btn-danger"
                                    value="<fmt:message key='header.admin' bundle='${lang}'/>"
                                    onclick="window.location.href='${pageContext.request.contextPath}/admin/panel'">
                         </div>
                     </sec:authorize>
-                    <sec:authorize access="hasRole('ROLE_MANAGER')">
+                    <sec:authorize access="hasRole('MANAGER')">
                         <div class="button-container">
                             <div class="dropdown mx-2">
                                 <button class="btn btn-secondary dropdown-toggle" type="button"

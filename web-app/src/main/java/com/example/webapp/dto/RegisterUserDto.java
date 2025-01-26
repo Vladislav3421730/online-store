@@ -28,4 +28,6 @@ public class RegisterUserDto {
     @Pattern(regexp = "^[+]375[0-9]{9}$", message = "Phone number must be in format +375XXXXXXXXX.")
     @NotBlank(message = "Phone number cannot be blank.")
     private String phoneNumber;
+
+    private String confirmPassword;
 }

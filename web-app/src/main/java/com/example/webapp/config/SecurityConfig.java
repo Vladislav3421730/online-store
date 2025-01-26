@@ -38,10 +38,12 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
                 .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/admin/panel", "/admin/search").hasAnyRole("ADMIN", "MANAGER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/manager/**","/orders/**").hasRole("MANAGER")
+                        .requestMatchers("/manager/**", "/orders/**").hasRole("MANAGER")
                         .requestMatchers("/user/**").hasAnyRole("ADMIN", "MANAGER", "USER")
                         .anyRequest().permitAll())
+                .exceptionHandling((ex) -> ex.accessDeniedPage("/denied"))
                 .build();
     }
 

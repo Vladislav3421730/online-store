@@ -5,6 +5,7 @@ import com.example.webapp.dto.CreateProductDto;
 import com.example.webapp.dto.ProductDto;
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    void save(CreateProductDto createProductDTO, List<CreateImageDto> imageDtos);
+    void save(CreateProductDto createProductDTO, List<MultipartFile> images);
 
     List<ProductDto> findAll();
 

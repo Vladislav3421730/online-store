@@ -8,7 +8,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,14 +24,18 @@ public class AuthController {
 
     UserService userService;
 
+    @GetMapping("/denied")
+    public String getDeniedPage() {
+        return "403";
+    }
+
     @GetMapping("/login")
     public String getLoginPage() {
         return "login";
     }
 
     @GetMapping("/registration")
-    public String getRegistrationPage(Model model) {
-        model.addAttribute("registerUserDto", RegisterUserDto.builder().build());
+    public String getRegistrationPage() {
         return "registration";
     }
 
@@ -40,6 +43,7 @@ public class AuthController {
     public String userRegistration(@Valid @ModelAttribute("registerUserDto") RegisterUserDto registerUserDto,
                                    BindingResult bindingResult,
                                    Model model) {
+        model.addAttribute("registerUserDto", registerUserDto);
         if (bindingResult.hasErrors()) {
             List<String> errorMessages = bindingResult.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -48,6 +52,10 @@ public class AuthController {
             return "registration";
         }
 
+        if (!registerUserDto.getPassword().equals(registerUserDto.getConfirmPassword())) {
+            model.addAttribute("error", Messages.ERROR_PASSWORD_MISS);
+            return "registration";
+        }
         if (userService.findByEmail(registerUserDto.getEmail()).isPresent()) {
             model.addAttribute("error", Messages.EMAIL_ALREADY_IN_USE);
             return "registration";

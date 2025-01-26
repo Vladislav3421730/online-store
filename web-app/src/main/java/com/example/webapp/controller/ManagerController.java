@@ -2,7 +2,6 @@ package com.example.webapp.controller;
 
 import com.example.webapp.dto.*;
 import com.example.webapp.exception.InvalidParamException;
-import com.example.webapp.mapper.MultipartFileMapper;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.utils.EditProductUtils;
 import com.example.webapp.utils.Messages;
@@ -98,6 +97,11 @@ public class ManagerController {
         return "managerProducts";
     }
 
+    @GetMapping("/add")
+    public String getAddProductPage() {
+        return "addProduct";
+    }
+
     @PostMapping("/add")
     public String addNewProduct(
             @Valid @ModelAttribute CreateProductDto createProductDto,
@@ -109,16 +113,10 @@ public class ManagerController {
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .toList();
             model.addAttribute("errors", errorMessages);
-            return "registration";
+            return "addProduct";
         }
-        if (bindingResult.hasErrors()) {
-            return "redirect:/manager/products/add";
-        }
-        List<CreateImageDto> images = files.stream()
-                .map(MultipartFileMapper::map)
-                .toList();
-        productService.save(createProductDto, images);
-        return "redirect:/products/manager";
+        productService.save(createProductDto, files);
+        return "redirect:/manager/products";
     }
 
 }

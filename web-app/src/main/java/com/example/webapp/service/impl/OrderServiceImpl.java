@@ -27,11 +27,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> findAll() {
         log.info("Fetching all orders");
-        List<OrderDto> orders = orderRepository.findByOrderByCreatedAtDesc().stream()
+        return orderRepository.findByOrderByCreatedAtDesc().stream()
                 .map(orderMapper::toDTO)
                 .toList();
-        log.info("Retrieved {} orders", orders.size());
-        return orders;
     }
 
     @Override
@@ -48,11 +46,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> findAllByUserEmail(String email) {
         log.info("Fetching orders for user with email: {}", email);
-        List<OrderDto> orders = orderRepository.findAllByUserEmail(email).stream()
+        return orderRepository.findAllByUserEmail(email).stream()
                 .map(orderMapper::toDTO)
                 .toList();
-        log.info("Retrieved {} orders for user with email: {}", orders.size(), email);
-        return orders;
+    }
+
+    @Override
+    public List<OrderDto> findAllByUserId(Long id) {
+        log.info("Fetching all by user id");
+        return orderRepository.findAllByUserId(id).stream()
+                .map(orderMapper::toDTO)
+                .toList();
     }
 
     @Override

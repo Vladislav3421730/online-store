@@ -5,6 +5,7 @@ import com.example.webapp.dto.CreateProductDto;
 import com.example.webapp.dto.ProductDto;
 import com.example.webapp.exception.ProductNotFoundException;
 import com.example.webapp.mapper.ImageMapper;
+import com.example.webapp.mapper.MultipartFileMapper;
 import com.example.webapp.mapper.ProductMapper;
 import com.example.webapp.model.Image;
 import com.example.webapp.dto.ProductFilterDTO;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +37,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void save(CreateProductDto createProductDTO, List<CreateImageDto> imageDtos) {
+    public void save(CreateProductDto createProductDTO, List<MultipartFile> files) {
         log.info("Saving new product: {}", createProductDTO.getTitle());
+
         Product product = productMapper.toNewEntity(createProductDTO);
+        List<CreateImageDto> images = files.stream()
+                .map(MultipartFileMapper::map)
+                .toList();
+
         product.setImageList(new ArrayList<>());
-        for (CreateImageDto imageDto : imageDtos) {
+        for (CreateImageDto imageDto : images) {
             Image image = imageMapper.toNewEntity(imageDto);
             product.addImageToList(image);
         }

@@ -46,8 +46,8 @@ public class OrderController {
             Model model) {
         OrderDto order = orderService.findById(id);
         order.setStatus(status);
-
         orderService.update(order);
+
         UserDto user = userService.findById(order.getUserId());
         model.addAttribute("user", user);
         model.addAttribute("orderDto", order);
@@ -60,6 +60,13 @@ public class OrderController {
             return "redirect:/orders";
         }
         List<OrderDto> orders = orderService.findAllByUserEmail(email);
+        model.addAttribute("orders", orders);
+        return "orders";
+    }
+
+    @GetMapping("/user/{id}")
+    public String findAllUserOrders(@PathVariable Long id, Model model) {
+        List<OrderDto> orders = orderService.findAllByUserId(id);
         model.addAttribute("orders", orders);
         return "orders";
     }

@@ -32,7 +32,7 @@ public class AdminController {
     public String getAdminPage(Model model) {
         List<UserDto> users = userService.findAll();
         model.addAttribute("users", users);
-        return "adminPanel";
+        return "usersPanel";
     }
 
     @PostMapping("/bun/{id}")
@@ -74,6 +74,6 @@ public class AdminController {
             model.addAttribute("users", List.of(user.get()));
         }
         model.addAttribute("search", emailParam);
-        return "adminPanel";
+        return "usersPanel";
     }
 }
