@@ -20,7 +20,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="${pageContext.request.contextPath}/products/manager" method="get">
+                <form action="${pageContext.request.contextPath}/manager/products" method="get">
                     <div class="d-flex align-items-center mt-2">
                         <div class="mt-2" style="margin-right: 10px">
                             <label for="minPrice" class="form-label"><fmt:message key="filterModal.minPrice" bundle="${lang}" />:</label><br>
@@ -41,8 +41,5 @@
         </div>
     </div>
 </div>
-<script>
-    <%@include file="/WEB-INF/script/modalSelectValue.js"%>
-</script>
 </body>
 </html>

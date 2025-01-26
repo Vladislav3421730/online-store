@@ -3,6 +3,7 @@ package com.example.webapp.service.impl;
 import com.example.webapp.dto.*;
 import com.example.webapp.exception.UserNotFoundException;
 import com.example.webapp.mapper.*;
+import com.example.webapp.model.Address;
 import com.example.webapp.model.Cart;
 import com.example.webapp.model.Order;;
 import com.example.webapp.model.User;
@@ -67,16 +68,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findById(Long id) {
         log.info("Finding user by ID: {}", id);
-        User user = userRepository.findById(id).orElseThrow(() -> {
-            log.error("User with id {} not found", id);
-            return new UserNotFoundException("User with id " + id + " was not found");
-        });
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new UserNotFoundException("User with id " + id + " was not found"));
         return userMapper.toDTO(user);
     }
 
     @Override
     public List<UserDto> findAll() {
-        log.info("Fetching all users");
         return userRepository.findByOrderById().stream()
                 .map(userMapper::toDTO)
                 .toList();
@@ -111,8 +109,11 @@ public class UserServiceImpl implements UserService {
         orderDto.setStatus(Status.ACCEPTED.getDisplayName());
         User user = userMapper.toEntity(userDto);
         Order order = orderMapper.toEntity(orderDto);
-        log.info("address: {}",order.getAddress());
-        if (order.getAddress().getId() == null) {
+        log.info("address: {}", order.getAddress());
+
+        List<Address> addresses = user.getOrders().stream().map(Order::getAddress).toList();
+        if (!addresses.contains(order.getAddress())) {
+            order.getAddress().setId(null);
             addressRepository.save(order.getAddress());
         }
 

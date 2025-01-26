@@ -91,17 +91,17 @@
             </table>
             <div class="pagination">
                 <c:if test="${currentPage > 1}">
-                    <a href="${pageContext.request.contextPath}/products/manager?page=${currentPage - 1}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}">&laquo;
+                    <a href="${pageContext.request.contextPath}/manager/products?page=${currentPage - 1}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}">&laquo;
                         <fmt:message key="products.pagination.prev" bundle="${lang}"/></a>
                 </c:if>
                 <c:if test="${totalPages > 1}">
                     <c:forEach var="i" begin="1" end="${totalPages}">
-                        <a href="${pageContext.request.contextPath}/products/manager?page=${i}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}"
+                        <a href="${pageContext.request.contextPath}/manager/products?page=${i}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}"
                            class="${currentPage == i ? 'active' : ''}">${i}</a>
                     </c:forEach>
                 </c:if>
                 <c:if test="${currentPage < totalPages}">
-                    <a href="${pageContext.request.contextPath}/products/manager?page=${currentPage + 1}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}">
+                    <a href="${pageContext.request.contextPath}/manager/products?page=${currentPage + 1}&minPrice=${filter.getMinPrice()}&maxPrice=${filter.getMaxPrice()}">
                         <fmt:message key="products.pagination.next" bundle="${lang}"/> &raquo;</a>
                 </c:if>
             </div>

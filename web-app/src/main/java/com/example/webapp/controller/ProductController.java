@@ -1,30 +1,18 @@
 package com.example.webapp.controller;
 
 import com.example.webapp.dto.*;
-import com.example.webapp.exception.InvalidParamException;
-import com.example.webapp.mapper.MultipartFileMapper;
-import com.example.webapp.model.Product;
 import com.example.webapp.service.ProductService;
-import com.example.webapp.service.impl.ProductServiceImpl;
-import com.example.webapp.utils.Messages;
-import com.example.webapp.utils.ResourceBundleUtils;
-import com.example.webapp.utils.Validator;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.*;
 
 @Controller

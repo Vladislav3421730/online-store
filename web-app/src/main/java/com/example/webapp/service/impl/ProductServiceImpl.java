@@ -82,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> findAllBySearch(String title) {
         log.info("Searching products with title: {}", title);
-        return productRepository.findAllByTitleLike(title).stream()
+        return productRepository.findAllByTitleContainingIgnoreCase(title).stream()
                 .map(productMapper::toDTO)
                 .toList();
     }

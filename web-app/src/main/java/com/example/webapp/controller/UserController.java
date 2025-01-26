@@ -63,7 +63,7 @@ public class UserController {
         UserDto user = securityContextService.getUser();
         BigDecimal totalPrice = BigDecimal.valueOf(totalCoast);
         if (!OrderPayingValidator.validateOrderCoast(totalPrice)) {
-            model.addAttribute("error", Messages.FAILED_PAYMENT_MESSAGE);
+            model.addAttribute("error", Messages.ORDER_PAYMENT_FAILED);
             model.addAttribute("totalCoast", totalPrice);
             return getCartPage(model);
         }
@@ -73,7 +73,7 @@ public class UserController {
                 .build();
         UserDto updatedUser = userService.makeOrder(user, order);
         securityContextService.updateContext(updatedUser);
-        model.addAttribute("success", Messages.SUCCESS_MESSAGE);
+        model.addAttribute("success", Messages.ORDER_PAYMENT_SUCCESS);
         model.addAttribute("user", securityContextService.getUser());
         return "cart";
     }

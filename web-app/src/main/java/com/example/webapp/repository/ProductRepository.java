@@ -9,7 +9,5 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, CustomProductRepository {
 
-    List<Product> findAllByTitleLike(String title);
-
-
+    List<Product> findAllByTitleContainingIgnoreCase(String title);
 }
