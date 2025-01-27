@@ -26,12 +26,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public ImageDto findById(Long id) {
-        log.info("Fetching image by ID: {}", id);
-        Image image = imageRepository.findById(id).orElseThrow(() -> {
-            log.error("Image with id {} not found", id);
-            return new ImageNotFoundException("Image with id " + id + " was not found");
-        });
-        log.info("Found image with ID: {}", id);
+        Image image = imageRepository.findById(id).orElseThrow(() ->
+                new ImageNotFoundException("Image with id " + id + " was not found"));
         return imageMapper.toDTO(image);
     }
 }

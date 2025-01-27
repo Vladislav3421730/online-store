@@ -97,6 +97,5 @@
             submitButton.removeAttribute('disabled')
         }
     })
-    <%@include file="/WEB-INF/script/modalSelectValue.js"%>
 </script>
 </html>

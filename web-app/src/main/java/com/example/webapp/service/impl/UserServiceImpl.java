@@ -53,21 +53,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserDto> findByEmail(String email) {
-        log.info("Finding user by email: {}", email);
         Optional<User> user = userRepository.findByEmail(email);
         return user.map(userMapper::toDTO);
     }
 
     @Override
     public Optional<UserDto> findByPhoneNumber(String number) {
-        log.info("Finding user by phone number: {}", number);
         Optional<User> user = userRepository.findByPhoneNumber(number);
         return user.map(userMapper::toDTO);
     }
 
     @Override
     public UserDto findById(Long id) {
-        log.info("Finding user by ID: {}", id);
         User user = userRepository.findById(id).orElseThrow(() ->
                 new UserNotFoundException("User with id " + id + " was not found"));
         return userMapper.toDTO(user);

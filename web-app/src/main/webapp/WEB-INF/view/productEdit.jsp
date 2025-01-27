@@ -6,7 +6,7 @@
 <head>
     <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
     <fmt:setBundle basename="messages" var="lang"/>
-    <title><fmt:message key="editProduct.title" bundle="${lang}" /> ${requestScope.product.getTitle()}</title>
+    <title><fmt:message key="editProduct.title" bundle="${lang}"/> ${requestScope.product.getTitle()}</title>
     <style>
         <%@include file="/WEB-INF/css/addProducts.css"%>
         <%@include file="/WEB-INF/css/buttons.css"%>
@@ -15,27 +15,45 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="add-product">
-    <form action="${pageContext.request.contextPath}/manager/products/edit/${requestScope.product.getId()}" method="post" enctype="multipart/form-data">
+    <c:if test="${not empty errors}">
+        <div class="alert alert-danger">
+            <ul>
+                <c:forEach var="error" items="${errors}">
+                    <li>${error}</li>
+                </c:forEach>
+            </ul>
+        </div>
+    </c:if>
+    <form action="${pageContext.request.contextPath}/manager/products/edit/${requestScope.product.getId()}"
+          method="post" enctype="multipart/form-data">
         <input type="hidden" value="${requestScope.product.getId()}" name="id">
 
-        <label for="name" class="form-label"><fmt:message key="editProduct.name" bundle="${lang}" /></label>
-        <input class="form-control" value="${requestScope.product.getTitle()}" type="text" id="name" minlength="3" name="title" placeholder="<fmt:message key='editProduct.namePlaceholder' bundle='${lang}' />" required>
+        <label for="name" class="form-label"><fmt:message key="editProduct.name" bundle="${lang}"/></label>
+        <input class="form-control" value="${requestScope.product.getTitle()}" type="text" id="name" minlength="3"
+               name="title" placeholder="<fmt:message key='editProduct.namePlaceholder' bundle='${lang}' />" required>
 
-        <label for="category" class="form-label"><fmt:message key="editProduct.category" bundle="${lang}" /></label>
-        <input class="form-control"  value="${requestScope.product.getCategory()}" type="text" id="category"
-               minlength="3" name="category" placeholder="<fmt:message key='editProduct.categoryPlaceholder' bundle='${lang}' />" required>
+        <label for="category" class="form-label"><fmt:message key="editProduct.category" bundle="${lang}"/></label>
+        <input class="form-control" value="${requestScope.product.getCategory()}" type="text" id="category"
+               minlength="3" name="category"
+               placeholder="<fmt:message key='editProduct.categoryPlaceholder' bundle='${lang}' />" required>
 
-        <label for="description" class="form-label"><fmt:message key="editProduct.description" bundle="${lang}" /></label>
-        <textarea class="form-control"  id="description" minlength="10" name="description" required>${requestScope.product.getDescription()}</textarea>
+        <label for="description" class="form-label"><fmt:message key="editProduct.description"
+                                                                 bundle="${lang}"/></label>
+        <textarea class="form-control" id="description" minlength="10" name="description"
+                  required>${requestScope.product.getDescription()}</textarea>
 
-        <label for="amount" class="form-label"><fmt:message key="editProduct.amount" bundle="${lang}" /></label>
-        <input class="form-control" value="${requestScope.product.getAmount()}" id="amount" type="number" min="20" placeholder="<fmt:message key='editProduct.amountPlaceholder' bundle='${lang}' />" step="1" name="amount" required>
+        <label for="amount" class="form-label"><fmt:message key="editProduct.amount" bundle="${lang}"/></label>
+        <input class="form-control" value="${requestScope.product.getAmount()}" id="amount" type="number" min="20"
+               placeholder="<fmt:message key='editProduct.amountPlaceholder' bundle='${lang}' />" step="1" name="amount"
+               required>
 
-        <label for="coast" class="form-label"><fmt:message key="editProduct.coast" bundle="${lang}" /></label>
-        <input type="number" value="${requestScope.product.getCoast()}" class="form-control" id="coast" min="0.01" placeholder="<fmt:message key='editProduct.coastPlaceholder' bundle='${lang}' />" name="coast" step="0.01" required>
+        <label for="coast" class="form-label"><fmt:message key="editProduct.coast" bundle="${lang}"/></label>
+        <input type="number" value="${requestScope.product.getCoast()}" class="form-control" id="coast" min="0.01"
+               placeholder="<fmt:message key='editProduct.coastPlaceholder' bundle='${lang}' />" name="coast"
+               step="0.01" required>
 
-        <label for="file-input" class="form-label"><fmt:message key="editProduct.fileInput" bundle="${lang}" /></label>
-        <p><fmt:message key="editProduct.fileExplanation" bundle="${lang}" /></p>
+        <label for="file-input" class="form-label"><fmt:message key="editProduct.fileInput" bundle="${lang}"/></label>
+        <p><fmt:message key="editProduct.fileExplanation" bundle="${lang}"/></p>
 
         <div id="file-input">
             <div id="file-window">

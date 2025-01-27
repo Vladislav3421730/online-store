@@ -65,10 +65,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto findById(Long id) {
         log.info("Fetching product with id: {}", id);
-        Product product = productRepository.findById(id).orElseThrow(() -> {
-            log.error("Product with id {} not found", id);
-            return new ProductNotFoundException("Product with id " + id + " was not found");
-        });
+        Product product = productRepository.findById(id).orElseThrow(() ->
+                new ProductNotFoundException("Product with id " + id + " was not found"));
         return productMapper.toDTO(product);
     }
 

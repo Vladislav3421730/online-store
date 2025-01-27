@@ -1,19 +1,14 @@
 package com.example.webapp.dto;
 
 
-import lombok.Builder;
 import lombok.Data;
 
 
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Data
-@Builder
 public class CreateProductDto {
 
     @NotBlank(message = "Title is required")

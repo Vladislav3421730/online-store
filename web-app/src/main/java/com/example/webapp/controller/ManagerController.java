@@ -1,12 +1,9 @@
 package com.example.webapp.controller;
 
 import com.example.webapp.dto.*;
-import com.example.webapp.exception.InvalidParamException;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.utils.EditProductUtils;
 import com.example.webapp.utils.Messages;
-import com.example.webapp.utils.Validator;
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,10 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -67,8 +66,17 @@ public class ManagerController {
     @PostMapping("/edit/{id}")
     public String editProduct(
             @PathVariable Long id,
-            @ModelAttribute ProductDto product,
-            @RequestParam(value = "files", required = false) List<MultipartFile> files) throws IOException {
+            @Valid ProductDto product,
+            BindingResult bindingResult,
+            @RequestParam(value = "files", required = false) List<MultipartFile> files, Model model) throws IOException {
+        if (bindingResult.hasErrors()) {
+            List<String> errorMessages = bindingResult.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
+            model.addAttribute("errors", errorMessages);
+            model.addAttribute("product", product);
+            return "productEdit";
+        }
         ProductDto existingProduct = productService.findById(id);
         EditProductUtils.editProduct(product, existingProduct, files);
         productService.update(existingProduct);
@@ -83,14 +91,14 @@ public class ManagerController {
             return "redirect:/manager/products";
         }
         try {
-            Long productId = Validator.validateLong(id);
+            Long productId = Long.parseLong(id);
             Optional<ProductDto> product = productService.findByIdAsOptional(productId);
             if (product.isPresent()) {
                 model.addAttribute("products", List.of(product.get()));
             } else {
                 model.addAttribute("products", List.of());
             }
-        } catch (InvalidParamException e) {
+        } catch (NumberFormatException e) {
             model.addAttribute("products", List.of());
             model.addAttribute("error", Messages.ERROR_MESSAGE);
         }
@@ -104,7 +112,7 @@ public class ManagerController {
 
     @PostMapping("/add")
     public String addNewProduct(
-            @Valid @ModelAttribute CreateProductDto createProductDto,
+            @Valid CreateProductDto createProductDto,
             BindingResult bindingResult,
             @RequestParam(value = "files", required = false) List<MultipartFile> files,
             Model model) {

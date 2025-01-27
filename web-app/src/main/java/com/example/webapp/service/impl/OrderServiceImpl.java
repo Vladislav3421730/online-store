@@ -35,10 +35,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto findById(Long id) {
         log.info("Fetching order by ID: {}", id);
-        Order order = orderRepository.findById(id).orElseThrow(() -> {
-            log.error("Order with id {} not found", id);
-            return new OrderNotFoundException("Order with id " + id + " not found");
-        });
+        Order order = orderRepository.findById(id).orElseThrow(() ->
+           new OrderNotFoundException("Order with id " + id + " not found"));
         log.info("Found order with ID: {}", id);
         return orderMapper.toDTO(order);
     }

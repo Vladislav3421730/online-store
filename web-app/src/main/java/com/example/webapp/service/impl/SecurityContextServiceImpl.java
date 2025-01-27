@@ -33,9 +33,8 @@ public class SecurityContextServiceImpl implements SecurityContextService {
     }
 
     @Override
-    public UserDto updateContext(UserDto userDto) {
+    public void updateContext(UserDto userDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication != null && authentication.isAuthenticated()) {
             User user = userMapper.toEntity(userDto);
             Authentication newAuthentication = new UsernamePasswordAuthenticationToken(
@@ -44,9 +43,8 @@ public class SecurityContextServiceImpl implements SecurityContextService {
                     authentication.getAuthorities()
             );
             SecurityContextHolder.getContext().setAuthentication(newAuthentication);
-            return userMapper.toDTO(user);
+        } else {
+            throw new UserNotFoundException("User wasn't found in Context");
         }
-
-        throw new UserNotFoundException("User wasn't found in Context");
     }
 }

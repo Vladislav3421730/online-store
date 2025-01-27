@@ -21,7 +21,6 @@ public class ImageController {
     @GetMapping("/images/{id}")
     public ResponseEntity<?> findImageById(@PathVariable Long id) {
         ImageDto image = imageService.findById(id);
-
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(image.getContentType()))
                 .body(image.getBytes());

@@ -3,7 +3,6 @@ package com.example.webapp.controller;
 import com.example.webapp.dto.RegisterUserDto;
 import com.example.webapp.service.UserService;
 import com.example.webapp.utils.Messages;
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -23,11 +23,6 @@ import java.util.List;
 public class AuthController {
 
     UserService userService;
-
-    @GetMapping("/denied")
-    public String getDeniedPage() {
-        return "403";
-    }
 
     @GetMapping("/login")
     public String getLoginPage() {
@@ -66,7 +61,12 @@ public class AuthController {
         }
         userService.save(registerUserDto);
 
-        return "redirect:/login?success=true";
+        return "redirect:/login";
+    }
+
+    @GetMapping("/denied")
+    public String getDeniedPage() {
+        return "error403";
     }
 
 

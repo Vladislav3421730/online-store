@@ -5,6 +5,6 @@ import com.example.webapp.dto.UserDto;
 public interface SecurityContextService {
 
     UserDto getUser();
-    UserDto updateContext(UserDto userDto);
+    void updateContext(UserDto userDto);
 
 }

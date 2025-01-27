@@ -7,7 +7,7 @@
     <fmt:setBundle basename="messages" var="lang"/>
     <title>403 - Forbidden</title>
     <style>
-        <%@include file="/WEB-INF/css/403.css"%>
+        <%@include file="/WEB-INF/css/error.css"%>
     </style>
 </head>
 <body>
