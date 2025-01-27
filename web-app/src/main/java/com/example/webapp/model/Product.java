@@ -41,7 +41,7 @@ public class Product {
     @DecimalMin(value = "0.01", message = "Cost must be greater than or equal to 10.3")
     private BigDecimal coast;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "product", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product", orphanRemoval = true)
     @OrderBy("id ASC")
     private List<Image> imageList = new ArrayList<>();
 

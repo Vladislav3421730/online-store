@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> findAll() {
         log.info("Fetching all products");
-        return productRepository.findAll().stream()
+        return productRepository.findAllByOrderById().stream()
                 .map(productMapper::toDTO)
                 .toList();
     }
