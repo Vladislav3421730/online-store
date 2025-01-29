@@ -12,12 +12,12 @@ import com.example.webapp.model.enums.Status;
 import com.example.webapp.repository.AddressRepository;
 import com.example.webapp.repository.UserRepository;
 import com.example.webapp.service.UserService;
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +33,8 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     AddressRepository addressRepository;
 
+    PasswordEncoder passwordEncoder;
+
     OderItemCartMapper oderItemCartMapper;
     UserMapper userMapper;
     ProductMapper productMapper;
@@ -44,7 +46,7 @@ public class UserServiceImpl implements UserService {
         log.info("Registering a new user: {}", registerUserDto.getEmail());
 
         User user = userMapper.toNewEntity(registerUserDto);
-        user.setPassword(BCrypt.withDefaults().hashToString(12, user.getPassword().toCharArray()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoleSet(Set.of(Role.ROLE_USER));
         userRepository.save(user);
 
@@ -108,7 +110,10 @@ public class UserServiceImpl implements UserService {
         Order order = orderMapper.toEntity(orderDto);
         log.info("address: {}", order.getAddress());
 
-        List<Address> addresses = user.getOrders().stream().map(Order::getAddress).toList();
+        List<Address> addresses = user.getOrders().stream()
+                .map(Order::getAddress)
+                .toList();
+
         if (!addresses.contains(order.getAddress())) {
             order.getAddress().setId(null);
             addressRepository.save(order.getAddress());

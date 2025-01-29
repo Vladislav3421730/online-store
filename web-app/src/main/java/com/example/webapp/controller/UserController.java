@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class UserController {
     }
 
     @PostMapping("/cart/add/{id}")
-    public String addProductToCart(@PathVariable Long id, Model model) {
+    public String addProductToCart(@PathVariable Long id) {
         ProductDto productDto = productService.findById(id);
         if (productDto.getAmount() == 0) {
             log.info("Product's amount is 0");
@@ -108,7 +109,7 @@ public class UserController {
     }
 
     @PostMapping("/cart/decrement/{index}")
-    public String decrementAmountOfProduct(@PathVariable Integer index, Model model) {
+    public String decrementAmountOfProduct(@PathVariable Integer index) {
         UserDto user = securityContextService.getUser();
         cartService.decrementAmountOfCartInBasket(user.getCarts(), index);
         securityContextService.updateContext(user);
@@ -116,7 +117,7 @@ public class UserController {
     }
 
     @PostMapping("/cart/delete/{index}")
-    public String deleteProductFromCart(@PathVariable Integer index, Model model) {
+    public String deleteProductFromCart(@PathVariable Integer index) {
         UserDto user = securityContextService.getUser();
         cartService.deleteCartFromBasket(user.getCarts(), index);
         securityContextService.updateContext(user);

@@ -1,10 +1,8 @@
 package com.example.webapp.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-
-import javax.validation.constraints.NotBlank;
-
 
 @Entity
 @Table(name = "address")

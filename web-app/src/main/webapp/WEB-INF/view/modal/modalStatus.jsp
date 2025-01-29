@@ -35,4 +35,7 @@
     </div>
 </div>
 </body>
+<script>
+    <%@include file="/WEB-INF/script/viewStatusInSelect.js"%>
+</script>
 </html>

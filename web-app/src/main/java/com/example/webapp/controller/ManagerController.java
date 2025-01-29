@@ -4,6 +4,7 @@ import com.example.webapp.dto.*;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.utils.EditProductUtils;
 import com.example.webapp.utils.Messages;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -16,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -116,6 +116,7 @@ public class ManagerController {
             BindingResult bindingResult,
             @RequestParam(value = "files", required = false) List<MultipartFile> files,
             Model model) {
+        log.info("create product {}", createProductDto);
         if (bindingResult.hasErrors()) {
             List<String> errorMessages = bindingResult.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)

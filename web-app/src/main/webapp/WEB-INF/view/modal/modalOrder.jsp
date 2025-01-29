@@ -64,7 +64,7 @@
                         <input type="text" class="form-control mt-1" name="postalCode"
                                id="postalCode" placeholder="<fmt:message key='addressModal.enterPostalCode' bundle='${lang}' />">
                     </div>
-                    <input type="hidden" id="addressId" name="addressId">
+                    <input type="hidden" id="addressId" name="id">
                     <input type="hidden" name="totalCoast" value="${requestScope.totalCoast}"/>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal"><fmt:message key="addressModal.close" bundle="${lang}" /></button>

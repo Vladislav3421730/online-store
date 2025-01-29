@@ -18,21 +18,20 @@
         <javax.servlet.version>4.0.1</javax.servlet.version>
         <lombok.version>1.18.30</lombok.version>
         <hibernate.version>6.5.2.Final</hibernate.version>
-        <hibernate.validator.version>6.0.0.Final</hibernate.validator.version>
-        <javax.validation>2.0.1.Final</javax.validation>
+        <hibernate.validator.version>7.0.5.Final</hibernate.validator.version>
         <validation.api.version>2.0.1.Final</validation.api.version>
         <postgresql.version>42.7.3</postgresql.version>
+        <jakarta.validation>3.0.2</jakarta.validation>
         <jakarta.jsp.jstl.api.version>3.0.1</jakarta.jsp.jstl.api.version>
         <glassfish.jsp.jstl.version>3.0.1</glassfish.jsp.jstl.version>
         <slf4j.version>2.0.13</slf4j.version>
         <slf4j.simple.version>2.0.7</slf4j.simple.version>
-        <bcrypt.version>0.9.0</bcrypt.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <hikaricp.version>5.0.1</hikaricp.version>
         <h2database.vesrion>2.2.224</h2database.vesrion>
         <maven.war.plugin.version>3.11.0</maven.war.plugin.version>
         <org.springframework.version>6.2.0</org.springframework.version>
-        <org.springframework.test.version>6.2.0</org.springframework.test.version>
+        <org.springframework.test.version>5.3.32</org.springframework.test.version>
         <spring.secutiry>6.4.2</spring.secutiry>
         <spring.data.jpa.version>3.4.0</spring.data.jpa.version>
     </properties>
@@ -56,9 +55,9 @@
             <version>${hibernate.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>${javax.validation}</version>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -95,11 +94,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.simple.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>at.favre.lib</groupId>
-            <artifactId>bcrypt</artifactId>
-            <version>${bcrypt.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
