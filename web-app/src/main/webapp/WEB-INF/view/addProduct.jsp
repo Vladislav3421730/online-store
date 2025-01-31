@@ -28,7 +28,7 @@
 
     <form action="${pageContext.request.contextPath}/manager/products/add" method="post" enctype="multipart/form-data">
         <label for="name" class="form-label"><fmt:message key="product.adding.name" bundle="${lang}"/></label>
-        <input class="form-control" type="text" id="name" minlength="3" name="title"
+        <input class="form-control" type="text" id="name" minlength="5" name="title"
                placeholder="<fmt:message key='product.adding.name.placeholder' bundle='${lang}'/>" required>
 
         <label for="category" class="form-label"><fmt:message key="product.adding.category" bundle="${lang}"/></label>

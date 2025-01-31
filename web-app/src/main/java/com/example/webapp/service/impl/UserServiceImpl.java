@@ -115,6 +115,7 @@ public class UserServiceImpl implements UserService {
                 .toList();
 
         if (!addresses.contains(order.getAddress())) {
+            log.info("Added new address {} to DB", order.getAddress());
             order.getAddress().setId(null);
             addressRepository.save(order.getAddress());
         }

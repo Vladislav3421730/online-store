@@ -1,6 +1,5 @@
 package com.example.webapp.config;
 
-
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

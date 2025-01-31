@@ -1,4 +1,4 @@
-package RepoTests;
+package repositoryTests;
 
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;
@@ -89,7 +89,7 @@ public class ProductRepositoryTest {
         List<Product> products = productRepository.findAllByPriceFilter(filterDTO, 0);
         assertNotNull(products);
         assertEquals(1, products.size());
-        assertEquals(0,BigDecimal.valueOf(1000.0)
+        assertEquals(0, BigDecimal.valueOf(1000.0)
                 .compareTo(products.get(0).getCoast()));
     }
 

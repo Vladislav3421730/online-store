@@ -1,4 +1,4 @@
-package RepoTests;
+package repositoryTests;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

@@ -1,4 +1,4 @@
-package RepoTests;
+package repositoryTests;
 
 import com.example.webapp.model.User;
 import com.example.webapp.repository.UserRepository;

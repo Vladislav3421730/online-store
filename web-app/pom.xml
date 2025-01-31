@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
-        <junit.version>5.8.2</junit.version>
+        <junit.version>5.10.0</junit.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
         <lombok.version>1.18.30</lombok.version>
         <hibernate.version>6.5.2.Final</hibernate.version>
@@ -31,9 +31,11 @@
         <h2database.vesrion>2.2.224</h2database.vesrion>
         <maven.war.plugin.version>3.11.0</maven.war.plugin.version>
         <org.springframework.version>6.2.0</org.springframework.version>
-        <org.springframework.test.version>5.3.32</org.springframework.test.version>
+        <org.springframework.test.version>6.2.0</org.springframework.test.version>
+        <hamcrest.test>2.2</hamcrest.test>
         <spring.secutiry>6.4.2</spring.secutiry>
         <spring.data.jpa.version>3.4.0</spring.data.jpa.version>
+        <mockito.version>5.3.1</mockito.version>
     </properties>
 
     <dependencies>
@@ -48,6 +50,18 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -151,6 +165,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${org.springframework.test.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${hamcrest.test}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
