@@ -1,7 +1,6 @@
 package controllerTests;
 
 import com.example.webapp.controller.ManagerController;
-import com.example.webapp.controller.ProductController;
 import com.example.webapp.dto.CreateProductDto;
 import com.example.webapp.dto.ProductDto;
 import com.example.webapp.dto.ProductFilterDTO;
@@ -18,13 +17,13 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static factory.ProductTestDataFactory.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -56,6 +55,10 @@ public class ManagerControllerTest {
         firstProduct = createFirstProductDto();
         secondProduct = createSecondProductDto();
         thirdProduct = createThirdProductDto();
+        createProductDto = createProductDtoForSaving();
+
+        file1 = createFirstFile();
+        file2 = createSecondFile();
 
         MockitoAnnotations.openMocks(this);
         managerController = new ManagerController(productService);
@@ -68,7 +71,7 @@ public class ManagerControllerTest {
     void testGetProductsPage() throws Exception {
         ProductFilterDTO productFilterDTO = new ProductFilterDTO();
         productFilterDTO.setMinPrice(BigDecimal.valueOf(500.0));
-        List<ProductDto> products = List.of(firstProduct, secondProduct);
+        List<ProductDto> products = List.of(firstProduct, secondProduct,thirdProduct);
         Mockito.when(productService.findAllByPriceFilter(productFilterDTO, 1))
                 .thenReturn(products);
         Mockito.when(productService.getTotalAmount(productFilterDTO))
@@ -92,17 +95,8 @@ public class ManagerControllerTest {
 
     @Test
     @Order(2)
-    @DisplayName("Test add new product - successful")
+    @DisplayName("Test add new product")
     void testAddNewProductSuccess() throws Exception {
-        CreateProductDto createProductDto = new CreateProductDto();
-        createProductDto.setTitle("Laptop");
-        createProductDto.setDescription("A powerful laptop");
-        createProductDto.setCategory("Electronics");
-        createProductDto.setAmount(10);
-        createProductDto.setCoast(BigDecimal.valueOf(1000.0));
-
-        MockMultipartFile file1 = new MockMultipartFile("files", "image1.jpg", "image/jpeg", new byte[]{});
-        MockMultipartFile file2 = new MockMultipartFile("files", "image2.jpg", "image/jpeg", new byte[]{});
         Mockito.doNothing().when(productService).save(Mockito.any(CreateProductDto.class), Mockito.anyList());
         mock.perform(MockMvcRequestBuilders.multipart("/manager/products/add")
                         .file(file1)
@@ -112,6 +106,53 @@ public class ManagerControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/manager/products"));
         Mockito.verify(productService, Mockito.times(1)).save(Mockito.any(CreateProductDto.class), Mockito.anyList());
+    }
+
+    @Test
+    @DisplayName("Test search for product with empty id should redirect to product list")
+    void testSearchWithEmptyId() throws Exception {
+        mock.perform(MockMvcRequestBuilders.get("/manager/products/search")
+                        .param("id", ""))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/manager/products"));
+    }
+
+    @Test
+    @DisplayName("Test search for product with invalid id should show error message")
+    void testSearchWithInvalidId() throws Exception {
+        mock.perform(MockMvcRequestBuilders.get("/manager/products/search")
+                        .param("id", "invalid"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("products"))
+                .andExpect(model().attributeExists("error"))
+                .andExpect(view().name("managerProducts"));
+    }
+
+    @Test
+    @DisplayName("Test search for product with valid id and product found")
+    void testSearchWithValidIdFound() throws Exception {
+
+        firstProduct.setId(5L);
+        Mockito.when(productService.findByIdAsOptional(firstProduct.getId())).thenReturn(Optional.of(firstProduct));
+
+        mock.perform(MockMvcRequestBuilders.get("/manager/products/search")
+                        .param("id", firstProduct.getId().toString()))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("products", hasSize(1)))
+                .andExpect(view().name("managerProducts"));
+    }
+
+    @Test
+    @DisplayName("Test search for product with valid id but product not found")
+    void testSearchWithValidIdNotFound() throws Exception {
+
+        Mockito.when(productService.findByIdAsOptional(Long.MAX_VALUE)).thenReturn(Optional.empty());
+
+        mock.perform(MockMvcRequestBuilders.get("/manager/products/search")
+                        .param("id", String.valueOf(Long.MAX_VALUE)))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("products", hasSize(0)))
+                .andExpect(view().name("managerProducts"));
     }
 
 
