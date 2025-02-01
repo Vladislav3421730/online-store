@@ -25,7 +25,7 @@ public class JpaConfig {
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("org.postgresql.Driver");
-        hikariConfig.setJdbcUrl("jdbc:postgresql://localhost:5432/onlineshop");
+        hikariConfig.setJdbcUrl("jdbc:postgresql://postgres:5432/onlineshop");
         hikariConfig.setUsername("postgres");
         hikariConfig.setPassword("postgres");
 
