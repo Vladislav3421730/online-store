@@ -49,7 +49,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="user" items="${requestScope.users}" varStatus="status">
+                <c:forEach var="user" items="${users}" varStatus="status">
                     <tr>
                         <td>${status.index+1}</td>
                         <td>${user.getId()}</td>

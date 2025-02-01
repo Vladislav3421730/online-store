@@ -47,7 +47,7 @@ public class ProductController {
     public String searchProducts(
             @RequestParam(value = "search", required = false) String searchParameter,
             Model model) {
-        List<ProductDto> products = productService.findAllBySearch(searchParameter);
+        List<ProductDto> products = productService.findAllByTitle(searchParameter);
         model.addAttribute("products", products);
         model.addAttribute("search", searchParameter);
         return "index";

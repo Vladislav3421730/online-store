@@ -64,7 +64,6 @@ public class UserController {
         BigDecimal totalPrice = BigDecimal.valueOf(totalCoast);
         if (!OrderPayingValidator.validateOrderCoast(totalPrice)) {
             model.addAttribute("error", Messages.ORDER_PAYMENT_FAILED);
-            model.addAttribute("totalCoast", totalPrice);
             return getCartPage(model);
         }
         OrderDto order = OrderDto.builder()
@@ -94,12 +93,9 @@ public class UserController {
     @PostMapping("/cart/increment/{index}")
     public String incrementAmountOfProduct(
             @PathVariable Integer index,
-            @RequestParam("totalCoast") Double totalCoast,
             Model model) {
         UserDto user = securityContextService.getUser();
         if (!cartService.incrementAmountOfCartInBasket(user.getCarts(), index)) {
-            BigDecimal totalPrice = BigDecimal.valueOf(totalCoast);
-            model.addAttribute("totalCoast", totalPrice);
             model.addAttribute("error", Messages.ERROR_MESSAGE_INCREMENT);
             return getCartPage(model);
         }
@@ -122,6 +118,4 @@ public class UserController {
         securityContextService.updateContext(user);
         return "redirect:/user/cart";
     }
-
-
 }

@@ -2,6 +2,7 @@ package factory;
 
 import com.example.webapp.dto.CreateProductDto;
 import com.example.webapp.dto.ProductDto;
+import com.example.webapp.model.Product;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.math.BigDecimal;
@@ -14,6 +15,15 @@ public class ProductTestDataFactory {
                 .category(category)
                 .amount(amount)
                 .coast(coast)
+                .build();
+    }
+
+    public static Product createProduct() {
+        return Product.builder()
+                .title("Lego")
+                .category("Игрушки")
+                .amount(5)
+                .coast(BigDecimal.valueOf(200.0))
                 .build();
     }
 

@@ -34,10 +34,10 @@ public class User {
     private String password;
 
     @Column(unique = true)
-    @Email(message = "Filed email must contains @")
+    @Email(message = "Email must contains @")
     private String email;
     @Column(name = "is_bun")
-    private boolean isBun;
+    private boolean bun;
 
     @Column(name = "phone_number", unique = true)
     @Pattern(regexp = "^[+]375[0-9]{9}$", message = "Phone number must be in format +375XXXXXXXXX")
@@ -45,7 +45,7 @@ public class User {
 
     @PrePersist
     private void init() {
-        isBun = false;
+        bun = false;
     }
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

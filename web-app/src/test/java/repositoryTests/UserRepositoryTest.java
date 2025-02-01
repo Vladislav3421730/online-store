@@ -2,6 +2,7 @@ package repositoryTests;
 
 import com.example.webapp.model.User;
 import com.example.webapp.repository.UserRepository;
+import config.TestConfig;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -9,11 +10,13 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.List;
 import java.util.Optional;
 
+import static factory.UserControllerTestDataFactory.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringJUnitConfig(classes = TestJpaConfig.class)
+@SpringJUnitConfig(classes = TestConfig.class)
 public class UserRepositoryTest {
 
     @Autowired
@@ -24,14 +27,8 @@ public class UserRepositoryTest {
 
     @BeforeAll
     static void setUp() {
-        firstUser = User.builder()
-                .email("test1@example.com")
-                .phoneNumber("1111111111")
-                .build();
-        secondUser = User.builder()
-                .email("test2@example.com")
-                .phoneNumber("2222222222")
-                .build();
+        firstUser = createFirstUser();
+        secondUser = createSecondUser();
     }
 
     @Test
@@ -42,7 +39,6 @@ public class UserRepositoryTest {
         userRepository.save(secondUser);
         assertNotNull(firstUser.getId());
         assertNotNull(secondUser.getId());
-
     }
 
     @Test

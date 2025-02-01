@@ -1,9 +1,10 @@
-package repositoryTests;
+package config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -18,7 +19,8 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.example.webapp.repository")
-public class TestJpaConfig {
+@ComponentScan(basePackages = "com.example.webapp")
+public class TestConfig {
 
     @Bean
     public DataSource dataSource() {

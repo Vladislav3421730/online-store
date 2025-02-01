@@ -3,6 +3,7 @@ package repositoryTests;
 import com.example.webapp.dto.ProductFilterDTO;
 import com.example.webapp.model.Product;
 import com.example.webapp.repository.ProductRepository;
+import config.TestConfig;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringJUnitConfig(classes = TestJpaConfig.class)
+@SpringJUnitConfig(classes = TestConfig.class)
 public class ProductRepositoryTest {
 
     @Autowired

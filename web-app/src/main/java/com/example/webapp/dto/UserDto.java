@@ -18,7 +18,7 @@ public class UserDto {
     private String username;
     private String password;
     private String email;
-    private boolean isBun;
+    private boolean bun;
     private String phoneNumber;
     private Set<String> roleSet;
     private List<CartDto> carts;

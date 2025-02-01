@@ -2,7 +2,6 @@ package com.example.webapp.service.impl;
 
 import com.example.webapp.dto.UserDto;
 import com.example.webapp.mapper.UserMapper;
-import com.example.webapp.mapper.UserMapperImpl;
 import com.example.webapp.model.User;
 import com.example.webapp.model.enums.Role;
 import com.example.webapp.repository.UserRepository;
@@ -13,7 +12,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

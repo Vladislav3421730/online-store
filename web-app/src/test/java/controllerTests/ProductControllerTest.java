@@ -111,7 +111,7 @@ public class ProductControllerTest {
     void testFindProductsByTitle() throws Exception {
         String title = "Laptop";
         List<ProductDto> products = List.of(firstProduct, secondProduct);
-        Mockito.when(productService.findAllBySearch(title)).thenReturn(products);
+        Mockito.when(productService.findAllByTitle(title)).thenReturn(products);
         mock.perform(get("/products/search")
                         .param("search", title))
                 .andDo(print())
@@ -121,7 +121,7 @@ public class ProductControllerTest {
                 .andExpect(model().attribute("products",products))
                 .andExpect(model().attribute("search", title));
 
-        Mockito.verify(productService, Mockito.times(1)).findAllBySearch(title);
+        Mockito.verify(productService, Mockito.times(1)).findAllByTitle(title);
 
     }
 

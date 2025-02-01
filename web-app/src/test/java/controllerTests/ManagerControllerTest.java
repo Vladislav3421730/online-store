@@ -109,6 +109,7 @@ public class ManagerControllerTest {
     }
 
     @Test
+    @Order(3)
     @DisplayName("Test search for product with empty id should redirect to product list")
     void testSearchWithEmptyId() throws Exception {
         mock.perform(MockMvcRequestBuilders.get("/manager/products/search")
@@ -118,6 +119,7 @@ public class ManagerControllerTest {
     }
 
     @Test
+    @Order(4)
     @DisplayName("Test search for product with invalid id should show error message")
     void testSearchWithInvalidId() throws Exception {
         mock.perform(MockMvcRequestBuilders.get("/manager/products/search")
@@ -129,11 +131,13 @@ public class ManagerControllerTest {
     }
 
     @Test
+    @Order(5)
     @DisplayName("Test search for product with valid id and product found")
     void testSearchWithValidIdFound() throws Exception {
 
         firstProduct.setId(5L);
-        Mockito.when(productService.findByIdAsOptional(firstProduct.getId())).thenReturn(Optional.of(firstProduct));
+        Mockito.when(productService.findByIdAsOptional(firstProduct.getId()))
+                .thenReturn(Optional.of(firstProduct));
 
         mock.perform(MockMvcRequestBuilders.get("/manager/products/search")
                         .param("id", firstProduct.getId().toString()))
@@ -143,6 +147,7 @@ public class ManagerControllerTest {
     }
 
     @Test
+    @Order(6)
     @DisplayName("Test search for product with valid id but product not found")
     void testSearchWithValidIdNotFound() throws Exception {
 

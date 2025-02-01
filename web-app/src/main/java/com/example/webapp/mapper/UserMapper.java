@@ -25,16 +25,17 @@ public interface UserMapper {
 
     User toEntity(UserDto userDto);
 
-    default List<CartDto> mapCartsToCartDtos(List<Cart> carts){
-        if(carts==null){
+    default List<CartDto> mapCartsToCartDtos(List<Cart> carts) {
+        if (carts == null) {
             return null;
         }
         return carts.stream()
                 .map(cartMapper::toDTO)
                 .collect(Collectors.toList());
     }
-    default List<OrderDto> mapOrdersToOrderDtos(List<Order> orders){
-        if(orders==null){
+
+    default List<OrderDto> mapOrdersToOrderDtos(List<Order> orders) {
+        if (orders == null) {
             return null;
         }
         return orders.stream()
@@ -42,16 +43,17 @@ public interface UserMapper {
                 .collect(Collectors.toList());
     }
 
-    default List<Cart> mapCartsDtosToCart(List<CartDto> carts){
-        if(carts==null){
+    default List<Cart> mapCartsDtosToCart(List<CartDto> carts) {
+        if (carts == null) {
             return null;
         }
         return carts.stream()
                 .map(cartMapper::toEntity)
                 .collect(Collectors.toList());
     }
-    default List<Order> mapOrdersDtosToOrders(List<OrderDto> orders){
-        if(orders==null){
+
+    default List<Order> mapOrdersDtosToOrders(List<OrderDto> orders) {
+        if (orders == null) {
             return null;
         }
         return orders.stream()

@@ -1,10 +1,8 @@
 package com.example.webapp.service;
 
-import com.example.webapp.dto.CreateImageDto;
 import com.example.webapp.dto.CreateProductDto;
 import com.example.webapp.dto.ProductDto;
 import com.example.webapp.dto.ProductFilterDTO;
-import com.example.webapp.model.Product;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -21,7 +19,7 @@ public interface ProductService {
 
     Optional<ProductDto> findByIdAsOptional(Long id);
 
-    List<ProductDto> findAllBySearch(String word);
+    List<ProductDto> findAllByTitle(String word);
 
     List<ProductDto> findAllByFilter(ProductFilterDTO productFilterDTO);
 
