@@ -15,17 +15,19 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="add-product">
-    <c:if test="${not empty errors}">
-        <div class="alert alert-danger">
-            <ul>
-                <c:forEach var="error" items="${errors}">
-                    <li>${error}</li>
-                </c:forEach>
-            </ul>
-        </div>
-    </c:if>
     <form action="${pageContext.request.contextPath}/manager/products/edit/${requestScope.product.getId()}"
           method="post" enctype="multipart/form-data">
+
+        <c:if test="${not empty errors}">
+            <div class="alert alert-danger mb-2 mt-2">
+                <ul>
+                    <c:forEach var="error" items="${errors}">
+                        <li>${error}</li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:if>
+
         <input type="hidden" value="${requestScope.product.getId()}" name="id">
 
         <label for="name" class="form-label"><fmt:message key="editProduct.name" bundle="${lang}"/></label>

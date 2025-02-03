@@ -3,19 +3,19 @@ package com.example.webapp.controller;
 import com.example.webapp.dto.RegisterUserDto;
 import com.example.webapp.service.UserService;
 import com.example.webapp.utils.Messages;
-import jakarta.validation.Valid;
+import com.example.webapp.utils.ValidatorUtils;
+import jakarta.validation.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,13 +35,13 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public String userRegistration(@Valid @ModelAttribute("registerUserDto") RegisterUserDto registerUserDto,
-                                   BindingResult bindingResult,
+    public String userRegistration(@ModelAttribute("registerUserDto") RegisterUserDto registerUserDto,
                                    Model model) {
         model.addAttribute("registerUserDto", registerUserDto);
-        if (bindingResult.hasErrors()) {
-            List<String> errorMessages = bindingResult.getAllErrors().stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+        Set<ConstraintViolation<RegisterUserDto>> violations = ValidatorUtils.getValidator().validate(registerUserDto);
+        if (!violations.isEmpty()) {
+            List<String> errorMessages = violations.stream()
+                    .map(ConstraintViolation::getMessage)
                     .toList();
             model.addAttribute("errors", errorMessages);
             return "registration";

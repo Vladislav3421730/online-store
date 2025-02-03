@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <fmt:setLocale value="${sessionScope.locale != null ? sessionScope.locale : 'ru'}"/>
@@ -16,36 +17,37 @@
 <body>
 <%@ include file="header.jsp" %>
 <div class="add-product">
-    <c:if test="${not empty errors}">
-        <div class="alert alert-danger">
-            <ul>
-                <c:forEach var="error" items="${errors}">
-                    <li>${error}</li>
-                </c:forEach>
-            </ul>
-        </div>
-    </c:if>
-
     <form action="${pageContext.request.contextPath}/manager/products/add" method="post" enctype="multipart/form-data">
-        <label for="name" class="form-label"><fmt:message key="product.adding.name" bundle="${lang}"/></label>
-        <input class="form-control" type="text" id="name" minlength="5" name="title"
-               placeholder="<fmt:message key='product.adding.name.placeholder' bundle='${lang}'/>" required>
 
+        <c:if test="${not empty errors}">
+            <div class="alert alert-danger mt-2 mb-2">
+                <ul>
+                    <c:forEach var="error" items="${errors}">
+                        <li>${error}</li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:if>
+
+        <label for="name" class="form-label"><fmt:message key="product.adding.name" bundle="${lang}"/></label>
+        <input class="form-control" type="text" id="name" name="title" value="${product.title}" minlength="5"
+               placeholder="<fmt:message key='product.adding.name.placeholder' bundle='${lang}'/>" required>
         <label for="category" class="form-label"><fmt:message key="product.adding.category" bundle="${lang}"/></label>
-        <input class="form-control" type="text" id="category" minlength="3" name="category"
+        <input class="form-control" type="text" id="category" minlength="3" name="category" value="${product.category}"
                placeholder="<fmt:message key='product.adding.category.placeholder' bundle='${lang}'/>" required>
 
         <label for="description" class="form-label"><fmt:message key="product.adding.description"
                                                                  bundle="${lang}"/></label>
-        <textarea class="form-control" id="description" minlength="10" name="description" required></textarea>
+        <textarea class="form-control" id="description" minlength="10" name="description"
+                  required>${product.description}</textarea>
 
         <label for="amount" class="form-label"><fmt:message key="product.adding.amount" bundle="${lang}"/></label>
-        <input class="form-control" id="amount" type="number" min="20"
+        <input class="form-control" id="amount" type="number" min="20" value="${product.amount}"
                placeholder="<fmt:message key='product.adding.amount.placeholder' bundle='${lang}'/>" step="1"
                name="amount" required>
 
         <label for="coast" class="form-label"><fmt:message key="product.adding.coast" bundle="${lang}"/></label>
-        <input type="number" class="form-control" id="coast" min="0.01"
+        <input type="number" class="form-control" id="coast" min="0.01" value="${product.coast}"
                placeholder="<fmt:message key='product.adding.coast.placeholder' bundle='${lang}'/>" name="coast"
                step="0.01" required>
 

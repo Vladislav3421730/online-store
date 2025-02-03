@@ -41,14 +41,17 @@ public class ProductServiceImpl implements ProductService {
         log.info("Saving new product: {}", createProductDTO.getTitle());
 
         Product product = productMapper.toNewEntity(createProductDTO);
-        List<CreateImageDto> images = files.stream()
-                .map(MultipartFileMapper::map)
-                .toList();
+        if (files != null) {
+            List<CreateImageDto> images = files.stream()
+                    .filter(file -> !file.isEmpty())
+                    .map(MultipartFileMapper::map)
+                    .toList();
 
-        product.setImageList(new ArrayList<>());
-        for (CreateImageDto imageDto : images) {
-            Image image = imageMapper.toNewEntity(imageDto);
-            product.addImageToList(image);
+            product.setImageList(new ArrayList<>());
+            for (CreateImageDto imageDto : images) {
+                Image image = imageMapper.toNewEntity(imageDto);
+                product.addImageToList(image);
+            }
         }
         productRepository.save(product);
         log.info("Product saved successfully: {}", createProductDTO.getTitle());

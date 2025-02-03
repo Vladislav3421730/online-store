@@ -4,22 +4,21 @@ import com.example.webapp.dto.*;
 import com.example.webapp.service.ProductService;
 import com.example.webapp.utils.EditProductUtils;
 import com.example.webapp.utils.Messages;
-import jakarta.validation.Valid;
+import com.example.webapp.utils.ValidatorUtils;
+import jakarta.validation.ConstraintViolation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @Slf4j
@@ -66,12 +65,12 @@ public class ManagerController {
     @PostMapping("/edit/{id}")
     public String editProduct(
             @PathVariable Long id,
-            @Valid ProductDto product,
-            BindingResult bindingResult,
+            ProductDto product,
             @RequestParam(value = "files", required = false) List<MultipartFile> files, Model model) throws IOException {
-        if (bindingResult.hasErrors()) {
-            List<String> errorMessages = bindingResult.getAllErrors().stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+        Set<ConstraintViolation<ProductDto>> violations = ValidatorUtils.getValidator().validate(product);
+        if (!violations.isEmpty()) {
+            List<String> errorMessages = violations.stream()
+                    .map(ConstraintViolation::getMessage)
                     .toList();
             model.addAttribute("errors", errorMessages);
             model.addAttribute("product", product);
@@ -112,15 +111,16 @@ public class ManagerController {
 
     @PostMapping("/add")
     public String addNewProduct(
-            @Valid CreateProductDto createProductDto,
-            BindingResult bindingResult,
+            CreateProductDto createProductDto,
             @RequestParam(value = "files", required = false) List<MultipartFile> files,
             Model model) {
         log.info("create product {}", createProductDto);
-        if (bindingResult.hasErrors()) {
-            List<String> errorMessages = bindingResult.getAllErrors().stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+        Set<ConstraintViolation<CreateProductDto>> violations = ValidatorUtils.getValidator().validate(createProductDto);
+        if (!violations.isEmpty()) {
+            List<String> errorMessages = violations.stream()
+                    .map(ConstraintViolation::getMessage)
                     .toList();
+            model.addAttribute("product", createProductDto);
             model.addAttribute("errors", errorMessages);
             return "addProduct";
         }
