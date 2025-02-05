@@ -39,11 +39,10 @@ public class AdminServiceImpl implements AdminService {
         if (!user.getRoleSet().add(Role.ROLE_MANAGER)) {
             log.info("User {} already has ROLE_MANAGER. Removing the role.", user.getUsername());
             user.getRoleSet().remove(Role.ROLE_MANAGER);
-            userRepository.save(user);
         } else {
-            userRepository.save(user);
             log.info("Adding ROLE_MANAGER to user {}.", user.getUsername());
         }
+        userRepository.save(user);
         log.info("User {} has been updated successfully.", user.getUsername());
 
     }
