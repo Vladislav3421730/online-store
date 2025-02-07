@@ -130,7 +130,6 @@ public class UserServiceImpl implements UserService {
         return update(user);
     }
 
-    @Transactional
     private UserDto update(User user) {
         log.info("Updating user with id: {}", user.getId());
         User updatedUser = userRepository.save(user);
